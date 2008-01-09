@@ -1,0 +1,2 @@
+db_module=pyndorama.model
+history_dir=$base/pyndorama/sqlobject-history
