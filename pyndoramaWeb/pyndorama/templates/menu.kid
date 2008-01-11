@@ -5,13 +5,17 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Bem-vindo ao Pyndorama!</title>
+    <style type="text/css" media="screen">
+	@import "${tg.url('/static/css/principal.css')}";
+	</style>
 </head>
 
 <body>
-  <div id="book">
-         <PRE id="fabletext">
-          <div py:content="form()"/>
-         </PRE>
-  </div>
+    <div id="book">
+    	<pre id="fabletext" py:content="form()">
+		Formul&aacute;rio de sele&ccedil;&atilde;o de aventura
+        </pre>
+    </div>
 </body>
+
 </html>

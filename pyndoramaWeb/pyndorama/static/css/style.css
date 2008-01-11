@@ -1,37 +1,13 @@
-#book {
-    background: url('../images/book.jpg');
-    padding: 20px 2% 20px 2%;
-    margin: 10px 150px 10px 10px;
-    border: 3px solid #eee;
-    width: 750px;
-    height: 400px;
-}
-#fabletext {
-    float: left;
-            /* top right bottom left */
-    padding: 50px 10px 10px 10px ;
-    margin: 50px 0px 10px 50px ;
-    border: 0px solid #eee;
-    width: 300px;
-    height: 200px;
-}
-#fableview {
-    float: left;
-    padding: 50px 10px 10px 10px ;
-    margin: 50px 0px 10px 20px ;
-    border: 0px solid #eee;
-    width: 250px;
-    height: 200px;
-}
-#fableaction {
-    float: left;
-    background: transparent;
-    padding: 30px 10px 10px 90px ;
-    margin: 10px 60px 10px 50px ;
-    border: 0px solid #eee;
-    height: 20px;
-}
+/* CSS Document for KID template master.kid */
 
+#pageLogin {
+	font-size: 10px;
+	font-family: verdana;
+	text-align: right;
+}	
+#main_content {
+	position: relative;
+}
 
 /*
  * Quick mash-up of CSS for the TG quick start page.
@@ -143,7 +119,7 @@ h2 {
 span.code {
   font-weight: bold;
   background: #eee;
-}
+}*/
 
 #status_block {
   margin: 0 auto 0.5em auto;
@@ -166,4 +142,4 @@ span.code {
 .fielderror {
     color: red;
     font-weight: bold;
-}*/
+}
