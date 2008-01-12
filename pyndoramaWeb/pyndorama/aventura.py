@@ -1,5 +1,5 @@
-#! /usr/bin/env python
-# -*- coding: UTF8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Pyndorama: An adventure trip around the world.
 Pyndorama: Uma viagem de aventura ao redor do mundo
@@ -409,7 +409,7 @@ for t in range (ord('A'),ord('Z')):
   if chr(t) not in g.keys():
     g[chr(t)] = type(chr(t), (Thing,), {})
   
-def load(aventura='ave.yaml'):
+def load(aventura):
   return load_yaml(yaml.load(open(aventura, 'r'))[0])
 
 def load_yaml(thing):

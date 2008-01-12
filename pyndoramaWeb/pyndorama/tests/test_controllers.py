@@ -2,11 +2,6 @@ import unittest
 import turbogears
 from turbogears import testutil
 
-# Add 'pyndorama' module to PYTHONPATH so that it can be imported
-import sys
-sys.path.insert(0, '../../')
-# ***************************************************************
-
 from pyndorama.controllers import Root
 import cherrypy
 

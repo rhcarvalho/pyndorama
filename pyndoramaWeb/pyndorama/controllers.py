@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 import aventura
-import cherrypy
+from cherrypy import session, request
 from turbogears import controllers, expose, flash, redirect
 from turbogears.widgets.forms import SingleSelectField, TableForm
 # from model import *
 import logging
 log = logging.getLogger("pyndorama.controllers")
 
+from util import getFullPath
 
 def makeForm(campos):
     aventura = SingleSelectField("adventure", options=campos)
@@ -26,14 +28,15 @@ class Root(controllers.RootController):
 
     @expose(template="pyndorama.templates.principal")
     def iniciar(self, adventure):
-        # Session variable initialization (or recall if exists)
-        pyndorama = aventura.load('pyndorama/static/aventura/%s' % adventure)
-        cherrypy.session['pyndorama'] = pyndorama
+        # Session variable initialization
+        path = getFullPath(__name__, 'static/aventura/%s' % adventure)
+        pyndorama = aventura.load(path)
+        session['pyndorama'] = pyndorama
         pyndorama.finalizer = lambda self=self: self.finalizer()
         pyndorama.editor = lambda self=self: self.editor()
         # Variable assignment
         
-        log.debug("Happy TurboGears Controller Responding For Duty")
+        log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
         
         actions = self.getActions(pyndorama)
         
@@ -44,49 +47,41 @@ class Root(controllers.RootController):
                     local_actions=actions.get('local_actions'))
 
     @expose(template="pyndorama.templates.principal")
-    def acao(self,query):
-        pyndorama = cherrypy.session.get('pyndorama')
+    def acao(self, query):
+        pyndorama = session.get('pyndorama')
         if not pyndorama:
-            flash("Para jogar o Pyndorama voce deve habilitar os cookies de seu navegador.")
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de seu navegador.")
             raise redirect('/')
-        
-        self.current_action = "acao"
+
         actions = self.getActions(pyndorama)
-        
+
         return dict(text=pyndorama.processaQuery(query),
                     image=pyndorama.getImage(),
-                    action=self.current_action,
+                    action='acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'))
 
     @expose(template="pyndorama.templates.edit")
-    def edit(self,query):
-        pyndorama = cherrypy.session.get('pyndorama')
-        if not pyndorama:
-            flash("Para jogar o Pyndorama voce deve habilitar os cookies de seu navegador.")
-            raise redirect('/')
-        
-        self.current_action = "acao"
-        
-        return dict(text=pyndorama.processaQuery(query),
-                    image=pyndorama.getImage(),
-                    action=self.current_action)
+    def edit(self):
+        flash(u"A funcionalidade de edição ainda não foi implementada.")
+        previous_url = request.headers.get("Referer", "/")
+        raise redirect(previous_url)
 
     def finalizer(self, action='menu'):
-        self.current_action = "menu"
+        self.current_action = action
 
     def editor(self):
-        self.current_action = "edit"
+        self.current_action = 'edit'
         
     def getActions(self, Z):
-        global_actions = Z.actions.keys() # Todas as acoes de "Z"
+        global_actions = Z.actions.keys() # Todas as ações de "Z"
         local_actions = []
-        for obj in Z.currentPlace.contents.values(): # todas as acoes de cada obj no local atual
+        for obj in Z.currentPlace.contents.values(): # todas as ações de cada obj no local atual
             local_actions.extend(obj.contents.keys())
-        # Metodo nao eficiente de remover duplicatas!
+        # Método não eficiente de remover duplicatas!
         return dict(global_actions=global_actions, local_actions=sorted(list(set(local_actions))))
 
     @expose()
     def default(self, url):
-        flash('URL invalida: \"%s\".' % url)
+        flash(u'URL inválida: \"%s\".' % url)
         raise redirect('/')
