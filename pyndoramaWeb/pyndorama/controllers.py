@@ -9,22 +9,22 @@ log = logging.getLogger("pyndorama.controllers")
 
 from util import getFullPath
 
-def makeForm(campos):
-    aventura = SingleSelectField("adventure", options=campos)
-    return TableForm(fields=[aventura],
-                     submit_text="Selecionar Aventura",
-                     action="iniciar")
+def make_select_form(options):
+    select = SingleSelectField('adventure', options=options)
+    return TableForm(fields=[select],
+                     submit_text='Selecionar Aventura',
+                     action='iniciar')
 
 
 class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
     def index(self):
-        aventuras = [('ave.yaml', 'A gralha e o jarro'),
-                     ('labirinto.yaml', 'Labirinto'),
-                     ('hominideo.yaml', 'Hominideos')]
-        enviair_form = makeForm(aventuras)
+        adventures = [('ave.yaml', 'A gralha e o jarro'),
+                      ('labirinto.yaml', 'Labirinto'),
+                      ('hominideo.yaml', 'Hominideos')]
+        adv_selection_form = make_select_form(adventures)
         log.debug("Happy TurboGears Controller Responding For Duty")
-        return dict(form=enviair_form)
+        return dict(form=adv_selection_form)
 
     @expose(template="pyndorama.templates.principal")
     def iniciar(self, adventure):
@@ -32,8 +32,8 @@ class Root(controllers.RootController):
         path = getFullPath(__name__, 'static/aventura/%s' % adventure)
         pyndorama = aventura.load(path)
         session['pyndorama'] = pyndorama
-        pyndorama.finalizer = lambda self=self: self.finalizer()
-        pyndorama.editor = lambda self=self: self.editor()
+        pyndorama.finalizer = lambda self = self: self.finalizer()
+        pyndorama.editor = lambda self = self: self.editor()
         # Variable assignment
         
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
@@ -50,7 +50,8 @@ class Root(controllers.RootController):
     def acao(self, query):
         pyndorama = session.get('pyndorama')
         if not pyndorama:
-            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de seu navegador.")
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
+                  u"seu navegador.")
             raise redirect('/')
 
         actions = self.getActions(pyndorama)
@@ -64,7 +65,7 @@ class Root(controllers.RootController):
     @expose(template="pyndorama.templates.edit")
     def edit(self):
         flash(u"A funcionalidade de edição ainda não foi implementada.")
-        previous_url = request.headers.get("Referer", "/")
+        previous_url = request.headers.get('Referer', '/')
         raise redirect(previous_url)
 
     def finalizer(self, action='menu'):
@@ -76,10 +77,12 @@ class Root(controllers.RootController):
     def getActions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
         local_actions = []
-        for obj in Z.currentPlace.contents.values(): # todas as ações de cada obj no local atual
+        for obj in Z.currentPlace.contents.values():
+            # todas as ações de cada obj no local atual
             local_actions.extend(obj.contents.keys())
         # Método não eficiente de remover duplicatas!
-        return dict(global_actions=global_actions, local_actions=sorted(list(set(local_actions))))
+        local_actions = sorted(list(set(local_actions)))
+        return dict(global_actions=global_actions, local_actions=local_actions)
 
     @expose()
     def default(self, url):
