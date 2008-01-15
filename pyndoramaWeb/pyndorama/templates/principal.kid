@@ -8,6 +8,7 @@
     <style type="text/css" media="screen">
 	@import "${tg.url('/static/css/principal.css')}";
 	</style>
+    <script type="text/javascript" src="${tg.url('/static/javascript/principal.js')}"></script>
 </head>
 
 <body>
