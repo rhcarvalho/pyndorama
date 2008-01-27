@@ -39,12 +39,14 @@ class Root(controllers.RootController):
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
         
         actions = self.getActions(pyndorama)
+        place = pyndorama.currentPlace
         
         return dict(text=pyndorama.perform(''),
                     image=pyndorama.getImage(),
                     action='acao',
                     global_actions=actions.get('global_actions'),
-                    local_actions=actions.get('local_actions'))
+                    local_actions=actions.get('local_actions'),
+                    place=place)
 
     @expose(template="pyndorama.templates.principal")
     def acao(self, query):
@@ -54,13 +56,35 @@ class Root(controllers.RootController):
                   u"seu navegador.")
             raise redirect('/')
 
+        text = pyndorama.processaQuery(query)
         actions = self.getActions(pyndorama)
 
-        return dict(text=pyndorama.processaQuery(query),
+        place = pyndorama.currentPlace
+        
+        
+        IN_DEBUG_MODE = 0
+        if IN_DEBUG_MODE:
+            from xml.sax.saxutils import escape
+            def meandmyattr(obj, attr):
+                return escape("%10s | %s" % (attr, getattr(place, attr, '')))
+            debug = '\n'.join(meandmyattr(place, attr) for attr in dir(place) \
+                              if not attr.startswith('__'))
+        else:
+            debug = ''
+                          
+        if aventura.YOU_CAN_SEE not in text:
+            notice = text
+        else:
+            notice = ''
+
+        return dict(text=text,
                     image=pyndorama.getImage(),
                     action='acao',
                     global_actions=actions.get('global_actions'),
-                    local_actions=actions.get('local_actions'))
+                    local_actions=actions.get('local_actions'),
+                    place=place,
+                    debug=debug,
+                    notice=notice)
 
     @expose(template="pyndorama.templates.edit")
     def edit(self):

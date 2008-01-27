@@ -11,8 +11,23 @@ body {
 	width: 228px;
 	height: 250px;
 	font: small "Courier New", Courier, monospace;
-	white-space: pre;
 	padding: 2px 0 0 3px;
+}
+
+#place_description h2 {
+	font: bold medium Verdana, Arial, Helvetica, sans-serif;
+}
+
+#place_description p {
+	text-align: justify;
+}
+
+.notice {
+  margin: 0.5em auto 0.5em auto;
+  padding: 15px 10px 15px 55px;
+  /*width: 450px;*/
+  background: #eef URL('../images/info.png') left center no-repeat;
+  border: 1px solid #cce;
 }
 
 #place_img {
