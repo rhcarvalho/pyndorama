@@ -1,10 +1,48 @@
 /* CSS Document for KID template principal.kid */
 
+body {
+	/*background: #000000;*/
+}
+
+#place_description {
+	position: absolute;
+	top: 94px;
+	left: 141px;
+	width: 228px;
+	height: 250px;
+	font: small "Courier New", Courier, monospace;
+	white-space: pre;
+	padding: 2px 0 0 3px;
+}
+
+#place_img {
+	position: absolute;
+	top: 94px;
+	left: 424px;
+	width: 218px;
+	height: 250px;
+}
+
+#command_prompt {
+	position: absolute;
+	top: 350px;
+	left: 151px;
+	width: 218px;
+	height: 68px;
+	overflow: auto;
+}
+
+#all_actions {
+	color: #999999;
+	padding-top: 3px;
+	font: x-small Verdana, Arial, Helvetica, sans-serif;
+}
+
 #book {
     background: url('../images/book.jpg');
     padding: 20px 2% 20px 2%;
     margin: 10px 150px 10px 10px;
-    border: 3px solid #eee;
+    /*border: 3px solid #eee;*/
     width: 750px;
     height: 400px;
 }
@@ -32,9 +70,4 @@
     margin: 10px 60px 10px 50px ;
     border: 0px solid #eee;
     height: 20px;
-}
-#all_actions {
-	position: absolute;
-	top: 2px;
-	left: 820px;
 }

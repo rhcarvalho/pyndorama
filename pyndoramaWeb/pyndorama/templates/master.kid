@@ -21,7 +21,11 @@
             <a href="${tg.url('/logout')}">Logout</a>
         </span>
     </div>
-    <div id="header">&nbsp;</div>
+    <div id="header">
+    	<a href="/">Home</a>
+        <a href="http://labase.nce.ufrj.br/pyndorama/">Labase</a>
+        <a href="http://code.google.com/p/pyndorama/">Repositório no Google Code</a>
+    </div>
     <div id="main_content">
         <div id="status_block" class="flash" py:if="value_of('tg_flash', None)" py:content="tg_flash"></div>
         <div py:replace="[item.text]+item[:]"/>
