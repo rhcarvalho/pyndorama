@@ -10,7 +10,7 @@ log = logging.getLogger("pyndorama.controllers")
 from util import getFullPath
 
 def make_select_form(options):
-    select = SingleSelectField('adventure', options=options)
+    select = SingleSelectField('adventure', 'Aventura:', options=options)
     return TableForm(fields=[select],
                      submit_text='Selecionar Aventura',
                      action='iniciar')
@@ -43,13 +43,16 @@ class Root(controllers.RootController):
         
         return dict(text=pyndorama.perform(''),
                     image=pyndorama.getImage(),
-                    action='acao',
+                    action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
                     place=place)
 
     @expose(template="pyndorama.templates.principal")
     def acao(self, query):
+        if query.lower() == 'xyzz':
+            raise redirect('/edit')
+        
         pyndorama = session.get('pyndorama')
         if not pyndorama:
             flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
@@ -79,7 +82,7 @@ class Root(controllers.RootController):
 
         return dict(text=text,
                     image=pyndorama.getImage(),
-                    action='acao',
+                    action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
                     place=place,
@@ -88,9 +91,21 @@ class Root(controllers.RootController):
 
     @expose(template="pyndorama.templates.edit")
     def edit(self):
-        flash(u"A funcionalidade de edição ainda não foi implementada.")
-        previous_url = request.headers.get('Referer', '/')
-        raise redirect(previous_url)
+        flash(u"A funcionalidade de edição ainda está sendo implementada.")
+        pyndorama = session.get('pyndorama')
+        if not pyndorama:
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
+                  u"seu navegador.")
+            raise redirect('/')
+
+        actions = self.getActions(pyndorama)
+        place = pyndorama.currentPlace
+
+        return dict(image=pyndorama.getImage(),
+                    action='/acao',
+                    global_actions=actions.get('global_actions'),
+                    local_actions=actions.get('local_actions'),
+                    place=place,)
 
     def finalizer(self, action='menu'):
         self.current_action = action

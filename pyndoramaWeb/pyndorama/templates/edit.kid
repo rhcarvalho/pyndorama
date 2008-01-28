@@ -4,24 +4,41 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Bem-vindo ao Pyndorama!</title>
+    <title>Pyndorama :: Editando aventura '???'</title>
+    <style type="text/css" media="screen">
+	@import "${tg.url('/static/css/principal.css')}";
+	</style>
 </head>
 
 <body>
-  <div id="book">
-         
-        <APPLET CODE="freemind.main.FreeMindApplet.class" ARCHIVE="static/freemindbrowser.jar" WIDTH="100%" HEIGHT="80%">
-	<PARAM NAME="type" VALUE="application/x-java-applet;version=1.4"/>
-	<PARAM NAME="scriptable" VALUE="false"/>
-	<PARAM NAME="toolbarVisible" VALUE="true"/>
-	
-	<PARAM NAME="modes" VALUE="freemind.modes.browsemode.BrowseMode"/>
-	<PARAM NAME="browsemode_initial_map" VALUE="http://localhost:8080/static/ave.mm"/>
-	
-	<param NAME="initial_mode" VALUE="Browse"/>
-	<param NAME="selection_method" VALUE="selection_method_direct"/>
-	</APPLET>
-        
-  </div>
+    <div id="place_description">
+        <span py:replace="''">Descrição do local</span>
+        <textarea id="placedesc" name="placedesc" py:content="place.value" />
+        <?python
+        	objects = [(key, place.contents[key].value) for key in place.contents.keys() if place.contents[key].value]
+        ?>
+        <div py:if="objects" py:strip="">
+            <br />Voc&ecirc; pode ver:
+            <ul>
+                <li py:for="key, value in objects">
+                	<label for="${key}" py:content="'[%s]' % key" /><br />
+                    <input type="text" id="${key}" name="${key}" value="${value}" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="place_img" py:if="image">
+    	<img src="${image}" alt="Lugar atual" />
+    </div>
+    <div id="command_prompt">
+        <form action='${action}' method="post">
+            <input type="text" name="query" id="query" value="" disabled="disabled" />
+            <input type="submit" value="Ação!!!" disabled="disabled" />
+        </form>
+        <div id="all_actions" py:if="global_actions or local_actions">
+            <span>Ações:</span>
+            <span py:content="', '.join(global_actions + local_actions)">globais, locais.</span>
+        </div>
+    </div>
 </body>
 </html>

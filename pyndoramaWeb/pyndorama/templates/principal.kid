@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Bem-vindo ao Pyndorama!</title>
+    <title>Pyndorama :: Aventura '???'</title>
     <style type="text/css" media="screen">
 	@import "${tg.url('/static/css/principal.css')}";
 	</style>
@@ -23,14 +23,17 @@
     </pre>
 
     <div id="place_description">
-        <h2 py:content="'--' if not defined('place') else place.key">Nome do local</h2>
-        <p>
-        	<span py:content="'--' if not defined('place') else place.value">Descrição do local</span>
-        	<br />Voc&ecirc; pode ver:
-        </p>
-        <ul py:if="defined('place')">
-            <li py:for="obj in place.contents.values()" py:content="obj.value" py:if="obj.value">Lista de itens no local atual</li>
-        </ul>
+        <!--<h2 py:content="place.key">Nome do local</h2>-->
+        <span py:content="place.value">Descrição do local</span>
+        <?python
+        	objects = [obj.value for obj in place.contents.values() if obj.value]
+        ?>
+        <div py:if="objects" py:strip="">
+            <br />Voc&ecirc; pode ver:
+            <ul>
+                <li py:for="obj in objects" py:content="obj">Lista de itens no local atual</li>
+            </ul>
+        </div>
         <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
     </div>
     <div id="place_img" py:if="image">

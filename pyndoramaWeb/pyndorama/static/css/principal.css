@@ -18,10 +18,6 @@ body {
 	font: bold medium Verdana, Arial, Helvetica, sans-serif;
 }
 
-#place_description p {
-	text-align: justify;
-}
-
 .notice {
   margin: 0.5em auto 0.5em auto;
   padding: 15px 10px 15px 55px;

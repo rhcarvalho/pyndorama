@@ -11,10 +11,10 @@
 </head>
 
 <body>
-    <div id="book">
-    	<pre id="fabletext" py:content="form()">
-		Formul&aacute;rio de sele&ccedil;&atilde;o de aventura
-        </pre>
+    <div id="place_description">
+    	<h2>Pyndorama</h2>
+    	<p>Bem vindo ao Pyndorama! Selecione uma aventura abaixo.</p>
+		<span py:content="form()" py:strip="">Formul&aacute;rio de sele&ccedil;&atilde;o de aventura</span>
     </div>
 </body>
 
