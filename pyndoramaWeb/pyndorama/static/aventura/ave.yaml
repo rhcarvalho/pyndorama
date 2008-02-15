@@ -9,15 +9,15 @@
         - A:
           - [PEDRINHAS]
         - S:
-          - [AGUA]        
+          - [AGUA]
         - P:
-          - [PEDR, VOCE PEGA AS PEDRINHAS]        
+          - [PEDR, VOCE PEGA AS PEDRINHAS]
       - V:
         - [SOLT]
         - A:
-          - [PEDRINHAS]        
+          - [PEDRINHAS]
         - S:
-          - [AGUA]                
+          - [AGUA]
         - T:
           - [PEDR, VOCE SOLTOU AS PEDRINHAS]
     - O:
@@ -39,7 +39,7 @@
         - F:
           - [x,'VOCE CONSEGUIU BEBER A AGUA!']
         - S:
-          - [PEDR, A AGUA ESTA NO FUNDO DA JARRA.]   
+          - [PEDR, A AGUA ESTA NO FUNDO DA JARRA.]
     - O:
       - [VALE,VALE]
       - V:

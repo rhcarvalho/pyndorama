@@ -18,7 +18,7 @@ addLoadEvent = function (func) {
 /* Focar caixa de texto ao carregar a página  */
 addLoadEvent(function () {
     var fields = document.getElementsByTagName('input');
-    
+
     for (var i = 0; i <= fields.length; i++)
     {
         var field = fields[i];

@@ -5,7 +5,7 @@ Dedalus - a Platform for P2P distributed computing.
 ===================================================
 
 Copyright (c) 2002-2004
-Carlo E.T. Oliveira et all 
+Carlo E.T. Oliveira et all
 (see U{http://labase.nce.ufrj.br/info/equipe.html})
 
 This software is licensed as described in the file LICENSE.txt,
@@ -33,7 +33,7 @@ loaded_adventure=  Z( ['zz', 'www'],
        V( ['OLHE', 'XI! SAO DA MAMAE!'] ),
        V( ['MOSTR'],
         M( ['APAR', 'SUA MAE FICOU DE FORA.. VAMOS!'] ),
-        N( ['PAI', 'NINGUEM SE INTERESSOU POR ELAS'] ) ) ) 
+        N( ['PAI', 'NINGUEM SE INTERESSOU POR ELAS'] ) ) )
      )
  )
 
@@ -56,7 +56,7 @@ class TestAventura(unittest.TestCase):
       key ,"zz"
       ,"Did not return the locus but "+'%s'%key)
     self.assertTrue(
-      value.has_key('APAR') 
+      value.has_key('APAR')
       ,"Did not return the container but "+'%s'%value)
 
   def test_adventureLocator(self):
@@ -64,11 +64,11 @@ class TestAventura(unittest.TestCase):
     loc=MAPA_MUNDI
     value = loc['APAR'].find('CHAV').value
     self.assertTrue(
-      value.startswith('UM MOLHO') 
+      value.startswith('UM MOLHO')
       ,"Did not return the container but "+'%s'%value)
     value = loc['APAR'].value
     self.assertTrue(
-      value.startswith('VOCE ESTA') 
+      value.startswith('VOCE ESTA')
       ,"Did not return the container but "+'%s'%value)
 
   def test_locusShow(self):
@@ -78,7 +78,7 @@ class TestAventura(unittest.TestCase):
     value = loc['APAR'].show()
     value = self.z.perform([])
     self.assertTrue(
-      value.endswith('UM MOLHO DE CHAVES') 
+      value.endswith('UM MOLHO DE CHAVES')
       ,"Did not return the container but "+'%s'%value)
     value = loc['APAR'].value
 
@@ -86,7 +86,7 @@ class TestAventura(unittest.TestCase):
     """if query and forSituation works"""
     value = self.z.forSituation()
     self.assertTrue(
-      value.endswith('O que devo fazer agora?\n') 
+      value.endswith('O que devo fazer agora?\n')
       ,"Did not return the container but "+'%s'%value)
 
   def no_test_failVerb(self):
@@ -95,7 +95,7 @@ class TestAventura(unittest.TestCase):
     verbs = loc['APAR'].find('CHAV')
     value =     verbs.perform(['PEG','CHOV'])
     self.assertTrue(
-      value.endswith('essa de PEG CHOV .') 
+      value.endswith('essa de PEG CHOV .')
       ,"Did not return the verb value but "+'%s'%value)
 
   def test_manageInventary(self):
@@ -107,29 +107,29 @@ class TestAventura(unittest.TestCase):
     value = inventario.show()
     value = self.z.perform(['inve'])
     self.assertTrue(
-      value.endswith('UM MOLHO DE CHAVES') 
+      value.endswith('UM MOLHO DE CHAVES')
       ,"Did not return chave in inventory but "+'%s'%value)
     inventario.pop(obj)
     value = inventario.show()
     self.assertTrue(
-      value.endswith('NADA AQUI') 
+      value.endswith('NADA AQUI')
       ,"Did not return empty inventory but "+'%s'%value)
     value = self.z.perform(['PEGU','CHAV'])
     value = inventario.show()
     self.assertTrue(
-      value.endswith('UM MOLHO DE CHAVES') 
+      value.endswith('UM MOLHO DE CHAVES')
       ,"Did not put chave in inventory but "+'%s'%value)
     value = self.z.perform(['LARG','CHAV'])
     self.assertTrue(
-      value.startswith('A CHAVE FICA LARGADA POR AI') 
+      value.startswith('A CHAVE FICA LARGADA POR AI')
       ,"Did not remove chave from inventory but "+'%s'%value)
     value = inventario.show()
     self.assertTrue(
-      value.endswith('NADA AQUI') 
+      value.endswith('NADA AQUI')
       ,"Did not remove chave from inventory but "+'%s'%value)
     value = self.z.perform([''])
     self.assertTrue(
-      value.endswith('UM MOLHO DE CHAVES') 
+      value.endswith('UM MOLHO DE CHAVES')
       ,"Did not put chave in inventory but "+'%s'%value)
 
   def test_performVerb(self):
@@ -139,39 +139,39 @@ class TestAventura(unittest.TestCase):
     #value = response_text_returned_from_action
     value =     verbs.perform(['PEGU','CHAV'],self.z)
     self.assertTrue(
-      value.startswith('OK PEGUEI') 
+      value.startswith('OK PEGUEI')
       ,"Did not return the verb value but "+'%s'%value)
     value =  loc.perform(['PEGU','CHOV'],self.z)
     self.assertTrue(
-      value.startswith('Nao vejo necas de CHOV') 
+      value.startswith('Nao vejo necas de CHOV')
       ,"Did not fail the verb for location value but said"+'%s'%value)
     value = loc.find('chav').perform(['largue','chaves'],self.z)
     self.assertTrue(
-      value.startswith('A CHAVE FICA LARGADA') 
+      value.startswith('A CHAVE FICA LARGADA')
       ,"Did not return the verb value but "+'%s'%value)
     value = self.z.perform(['pegue','chaves'])
     self.assertTrue(
-      value.startswith('OK PEGUEI') 
+      value.startswith('OK PEGUEI')
       ,"Did not return the verb for location value but "+'%s'%value)
-    
+
   def test_InitialScreen(self):
         resposta = self.z.perform('olhe'.split(' '))
         self.assertTrue(
           resposta.startswith('VOCE ESTA EM SEU'),
         "Did not returned "+'%s'%resposta)
-        
+
   def no_test_PublicaRSS(self):
       query='olhe'
       rss = self.z.publicaRSSQuery(query)
-      self.assertTrue(rss.items[0].title.startswith('xxx'),'não retornou '+'%s'%rss)        
+      self.assertTrue(rss.items[0].title.startswith('xxx'),'não retornou '+'%s'%rss)
 
   def test_Wrap_long_text(self):
       text = "ESTE TEXTO E EXTREMAMENTE LONGO E DEVERIA SER QUEBRADO EM MAIS DE UMA LINHA "
       wrap_text = Thing(['a', 'b']).wrap_long_text_to_fixed_width(text).split('\n')
-      self.assertTrue(text[:33].startswith(wrap_text[0]), 
-      'não quebrou como %s mas com %s'%(text[:33],wrap_text))        
+      self.assertTrue(text[:33].startswith(wrap_text[0]),
+      'não quebrou como %s mas com %s'%(text[:33],wrap_text))
 if __name__ == '__main__':
   unittest.main()
   #runner = unittest.TextTestRunner()
   #runner.run(getTestSuite())
-#ESTE TEXTO É EXTREMAMENTE LONGO 
+#ESTE TEXTO É EXTREMAMENTE LONGO

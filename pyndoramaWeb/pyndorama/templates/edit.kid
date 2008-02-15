@@ -15,7 +15,7 @@
         <span py:replace="''">Descrição do local</span>
         <textarea id="placedesc" name="placedesc" py:content="place.value" />
         <?python
-        	objects = [(key, place.contents[key].value) for key in place.contents.keys() if place.contents[key].value]
+        	objects = [(key, place.contents[key].value) for key in place.contents.keys()]
         ?>
         <div py:if="objects" py:strip="">
             <br />Voc&ecirc; pode ver:

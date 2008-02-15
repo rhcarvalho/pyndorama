@@ -29,7 +29,7 @@ class TestGlobalFunctions(unittest.TestCase):
 
     def testgetFullPath(self):
         self.assertRaises(IOError, getFullPath, 'someDummyModule', 'some/dir/adventure.yaml')
-        
+
         path = getFullPath(__name__, 'some/dir/adventure.yaml')
         self.assertTrue(path.endswith(os.path.normpath('some/dir/adventure.yaml')))
 
@@ -44,7 +44,7 @@ class TestGlobalFunctions(unittest.TestCase):
                    'Guido van Rossum is the Benevolent Dictator for Life of Python'),
                  (LATIN1_TO_ASCII, u'João é ágil. Luz, câmera e AÇÃO!',
                    'Joao e agil. Luz, camera e ACAO!')]
-                       
+
         for mapping, text, answer in tests:
             self.assertEqual(answer, magicTranslate(text, mapping))
 
@@ -57,7 +57,7 @@ class TestGlobalFunctions(unittest.TestCase):
         # generic unicode chars (non Latin-1)
         non_latin1 = ''.join(unichr(i) for i in xrange(0x0100, 0xfffe, 1000))
         self.assertEqual('', latin1_to_ascii(non_latin1))
-        
+
         mixed_text = u'ĀHeālĂăĄląĆćoĈĉ WĊoċČrlčĎďd'
         self.assertEqual('Hello World', latin1_to_ascii(mixed_text))
 

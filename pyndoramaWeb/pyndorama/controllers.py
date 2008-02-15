@@ -35,12 +35,12 @@ class Root(controllers.RootController):
         pyndorama.finalizer = lambda self = self: self.finalizer()
         pyndorama.editor = lambda self = self: self.editor()
         # Variable assignment
-        
+
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
-        
+
         actions = self.getActions(pyndorama)
         place = pyndorama.currentPlace
-        
+
         return dict(text=pyndorama.perform(''),
                     image=pyndorama.getImage(),
                     action='/acao',
@@ -52,7 +52,7 @@ class Root(controllers.RootController):
     def acao(self, query):
         if query.lower() == 'xyzz':
             raise redirect('/edit')
-        
+
         pyndorama = session.get('pyndorama')
         if not pyndorama:
             flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
@@ -63,8 +63,8 @@ class Root(controllers.RootController):
         actions = self.getActions(pyndorama)
 
         place = pyndorama.currentPlace
-        
-        
+
+
         IN_DEBUG_MODE = 0
         if IN_DEBUG_MODE:
             from xml.sax.saxutils import escape
@@ -74,7 +74,7 @@ class Root(controllers.RootController):
                               if not attr.startswith('__'))
         else:
             debug = ''
-                          
+
         if aventura.YOU_CAN_SEE not in text:
             notice = text
         else:
@@ -112,7 +112,7 @@ class Root(controllers.RootController):
 
     def editor(self):
         self.current_action = 'edit'
-        
+
     def getActions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
         local_actions = []

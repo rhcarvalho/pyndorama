@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 import os, sys
 
 LATIN1_TO_ASCII = {u'¡': '!', u'¢': ''  , u'£': '' , u'¤': ''  , u'¥': '' , u'¦': '|',
