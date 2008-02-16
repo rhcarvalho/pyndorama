@@ -3,6 +3,7 @@ import unittest
 import re
 from pyndorama.util import *
 
+
 class TestGlobalFunctions(unittest.TestCase):
 
     def setUp(self):
@@ -65,6 +66,7 @@ class TestGlobalFunctions(unittest.TestCase):
         text = u'<html><body>&#169; Pyndorama não é difícil.&nbsp;Alô! ©</body></html>'
         answer = '<html><body>&#169; Pyndorama n&#227;o &#233; dif&#237;cil.&nbsp;Al&#244;! &#169;</body></html>'
         self.assertEqual(answer, encode_to_xml_entities(text))
+
 
 if __name__ == '__main__':
     unittest.main()

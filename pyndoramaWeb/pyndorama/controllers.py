@@ -20,6 +20,7 @@ class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
     def index(self):
         adventures = [('ave.yaml', 'A gralha e o jarro'),
+                      ('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
                       ('labirinto.yaml', 'Labirinto'),
                       ('hominideo.yaml', 'Hominideos')]
         adv_selection_form = make_select_form(adventures)
@@ -30,7 +31,7 @@ class Root(controllers.RootController):
     def iniciar(self, adventure):
         # Session variable initialization
         path = getFullPath(__name__, 'static/aventura/%s' % adventure)
-        pyndorama = aventura.load(path)
+        pyndorama = aventura.Adventure(path).load()
         session['pyndorama'] = pyndorama
         pyndorama.finalizer = lambda self = self: self.finalizer()
         pyndorama.editor = lambda self = self: self.editor()
@@ -39,10 +40,10 @@ class Root(controllers.RootController):
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
         actions = self.getActions(pyndorama)
-        place = pyndorama.currentPlace
+        place = pyndorama.current_place
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.getImage(),
+                    image=pyndorama.get_image(),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -55,14 +56,14 @@ class Root(controllers.RootController):
 
         pyndorama = session.get('pyndorama')
         if not pyndorama:
-            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
                   u"seu navegador.")
             raise redirect('/')
 
-        text = pyndorama.processaQuery(query)
+        text = pyndorama.perform(query.split(' '))
         actions = self.getActions(pyndorama)
 
-        place = pyndorama.currentPlace
+        place = pyndorama.current_place
 
 
         IN_DEBUG_MODE = 0
@@ -70,18 +71,18 @@ class Root(controllers.RootController):
             from xml.sax.saxutils import escape
             def meandmyattr(obj, attr):
                 return escape("%10s | %s" % (attr, getattr(place, attr, '')))
-            debug = '\n'.join(meandmyattr(place, attr) for attr in dir(place) \
+            debug = '\n'.join(meandmyattr(place, attr) for attr in dir(place)
                               if not attr.startswith('__'))
         else:
             debug = ''
 
-        if aventura.YOU_CAN_SEE not in text:
+        if aventura.YOU_CAN_SEE not in text or u'inventário' in text:
             notice = text
         else:
             notice = ''
 
         return dict(text=text,
-                    image=pyndorama.getImage(),
+                    image=pyndorama.get_image(),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -94,14 +95,14 @@ class Root(controllers.RootController):
         flash(u"A funcionalidade de edição ainda está sendo implementada.")
         pyndorama = session.get('pyndorama')
         if not pyndorama:
-            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "\
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
                   u"seu navegador.")
             raise redirect('/')
 
         actions = self.getActions(pyndorama)
-        place = pyndorama.currentPlace
+        place = pyndorama.current_place
 
-        return dict(image=pyndorama.getImage(),
+        return dict(image=pyndorama.get_image(),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -116,7 +117,7 @@ class Root(controllers.RootController):
     def getActions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
         local_actions = []
-        for obj in Z.currentPlace.contents.values():
+        for obj in Z.current_place.contents.values():
             # todas as ações de cada obj no local atual
             local_actions.extend(obj.contents.keys())
         # Método não eficiente de remover duplicatas!
