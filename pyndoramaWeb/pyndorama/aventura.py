@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """\
 Pyndorama: An adventure trip around the world.
@@ -16,20 +16,24 @@ This software is licensed as described in the file LICENSE.txt,
 which you should have received as part of this distribution.
 """
 
-import util
+import sys
+from codecs import open
+
 import yaml
-#import PyRSS2Gen
-import datetime
+
+import util
 
 __author__  = "Carlo E. T. Oliveira (cetoli@yahoo.com.br) $Author: carlo $"
 __version__ = "1.0 $Revision: 1.18 $"[10:-1]
 __date__    = "2006/04/24 $Date: 30/06/2006 16:18:46 $"
 
+ENCODING = 'utf-8'
+FIRST_PLACE = -1
 MAPA_MUNDI = {}
-CANNOT_FIND_OBJECT = 'Nao vejo necas de %s aqui'
-CANNOT_PERFORM_ACTION = 'Nao deu certo essa de %s'
-ACTION_IS_USELESS = 'Nada acontece caso voce %s'
-YOU_CAN_SEE = '\nVoce pode ver:'
+CANNOT_FIND_OBJECT = u'Não vejo necas de %s aqui!'
+CANNOT_PERFORM_ACTION = u'Não deu certo essa de %s!'
+ACTION_IS_USELESS = u'Nada acontece caso você %s.'
+YOU_CAN_SEE = u'Você pode ver:'
 
 
 class UselessAction(Exception):
@@ -41,13 +45,13 @@ class Thing(object):
     def __init__(self, value, *args):
         if len(value) < 2:
             value.append('')
-        self.key = value[0] and str(value[0])[:4] or value[0]
-        self.value = self.wrap_long_text_to_fixed_width(value[-1])
+        self.key = value[0] and self.normalize(value[0]) or value[0]
+        self.value = value[-1]
         self.following = None
         self.finalizer = lambda: None
         self.editor = lambda: None
 
-    def setNext(self, next):
+    def set_next(self, next):
         self.following = next
 
     def additself(self, target):
@@ -64,23 +68,6 @@ class Thing(object):
     def normalize(self, key):
         """converte unicode, limita tamanho e muda para caixa alta."""
         return util.latin1_to_ascii(key[:4].upper())
-
-    def wrap_long_text_to_fixed_width(self, description):
-        """Quebra texto longo em linhas menores"""
-        words = description.split(' ')
-        self.count = 0
-
-        def break_when_past_end(self, word):
-            wordcount = sum([letter.isupper() and 3 or 2 for letter in word]) + 2
-            self.count += wordcount
-            if self.count > 100:
-                self.count = wordcount
-                return '\n' + word
-            return word
-
-        wrap_text = ' '.join([break_when_past_end(self, word) for word in words])
-        #Strip blanks from the end of lines:
-        return '\n'.join([line.strip() for line in wrap_text.split('\n')])
 
 
 class Things(Thing):
@@ -132,15 +119,6 @@ class Things(Thing):
         return self.value
 
 
-class ChainEnd(Thing):
-    """Objeto nulo para fechar o fim da chain"""
-    def perform(self, statement, place=None):
-        return ''
-
-
-CHAIN_END = ChainEnd(['END'])
-
-
 class Chain(Thing):
     """O conteudo eh uma Chain of Responsibility."""
     def __init__(self, value, *args):
@@ -151,6 +129,15 @@ class Chain(Thing):
         self.contents = CHAIN_END
         for item in arguments:
             self.contents, self.contents.following = item, self.contents
+
+
+class ChainEnd(Thing):
+    """Objeto nulo para fechar o fim da chain"""
+    def perform(self, statement, place=None):
+        return ''
+
+
+CHAIN_END = ChainEnd(['END'])
 
 
 class Local(Things):
@@ -164,13 +151,14 @@ class Local(Things):
 
     def show(self):
         """mostra o conteudo da localizacao"""
-        response = self.value + YOU_CAN_SEE
-        for item in self.contents.values():
-            if item.value:
-                response += '\n\t' + item.value
-        if not self.contents.values():
-            response += '\n\tNADA AQUI'
-        return response
+        response = [self.value, YOU_CAN_SEE]
+        if self.contents.values():
+            response.extend('\t' + item.value
+                            for item in self.contents.itervalues()
+                            if item.value)
+        else:
+            response.append('\tnada aqui')
+        return '\n'.join(response)
 
 
 class I(Thing):
@@ -219,7 +207,7 @@ class L(Local):
         return self.contents[self.normalize(key)]
 
 
-inventario = Local(['INVE', 'Voce examina o seu inventario.'])
+inventario = Local(['inventario', u'Você examina o seu inventário.'])
 playadventure = True
 
 
@@ -227,17 +215,17 @@ class Z(Things):
     """Representa o mundo."""
     def __init__(self, value, *args):
         Things.__init__(self, value, args)
-        self.currentPlace = self.args[-1] # the last place is the beginning
-        #print self.currentPlace
+        self.current_place = self.args[FIRST_PLACE]
+        #print self.current_place
         self.response = self.perform([])
         self.can = True
         self.prompt = '\nO que devo fazer agora?\n'
         self.actions = {'QUIT': lambda self = self: self.dismiss(),
                         'INVE': lambda self = self: self.report(),
                         'OLHE': lambda self = self: self.show(),
-                        'XYZZ': lambda self = self: self.editAdventure()}
+                        'XYZZ': lambda self = self: self.edit_adventure()}
 
-    def editAdventure(self):
+    def edit_adventure(self):
         """finaliza aventura"""
         global playadventure
         playadventure = False
@@ -249,39 +237,23 @@ class Z(Things):
         """Continua a aventura enquanto pode."""
         #print 'Aventura'
         while playadventure:
-            self.perform(self.question(self.forSituation()))
+            self.perform(self.question(self.for_situation()))
         print self.response
 
-    def forSituation(self):
+    def for_situation(self):
         """Concatena a resposta com uma nova pergunta"""
         return self.response + self.prompt
 
     def question(self, query):
         """Imprime a resposta e pede o novo comando"""
-##        query = util.latin1_to_ascii(query)
-##        query = query.encode('latin1')
-        query = query.encode('utf8')
-##        return util.latin1_to_ascii(raw_input(query)).split(' ')
-##        return raw_input(query).split(' ')
-        return raw_input(query).decode('utf8').split(' ')
+        try:
+            query = query.encode(sys.stdout.encoding, 'replace')
+        except AttributeError:
+            pass
+        return raw_input(query).split(' ')
 
-    def processaQuery(self, query):
-        query = query.encode('utf8').split(' ')
-        return self.perform(query).decode('utf8')
-
-    def getImage(self):
-        return '/static/images/' + self.currentPlace.key + '.gif'
-
-##    def publicaRSSQuery(self, query):
-##        rss = PyRSS2Gen.RSS2(title = 'Pyndorama RSS',
-##                             link = '',
-##                             description = 'Comandos do jogador da aventura',
-##                             lastBuildDate = datetime.datetime.now(),
-##                             items = [PyRSS2Gen.RSSItem(title = 'RSS comando',
-##                                                        link = '',
-##                                                        description = query)])
-##        rss.write_xml(open('pyrss2gen.xml', 'w'))
-##        return rss
+    def get_image(self):
+        return '/static/images/' + self.current_place.key + '.gif'
 
     def dismiss(self):
         """finaliza aventura"""
@@ -295,11 +267,11 @@ class Z(Things):
         return inventario.show()
 
     def show(self):
-        self.response = self.currentPlace.show()
+        self.response = self.current_place.show()
         return self.response
 
     def perform(self, statement, place=None):
-        here = self.currentPlace
+        here = self.current_place
         self.response = self.parse(statement, self)
         if not self.response:
             self.response = here.perform(statement, self)
@@ -309,25 +281,26 @@ class Z(Things):
         verb = ''
         if not (statement[0:] and statement[0]):
             return self.show()
-        verb = statement[0]
+        verb = self.normalize(statement[0])
         if statement[1:]:
             return None
-        if not self.actions.has_key(verb[:4].upper()):
+        try:
+            return self.actions[verb]()
+        except KeyError:
             return None
-        return self.actions[verb[:4].upper()]()
 
     def pop(self, athing):
         """remove da colecao"""
         if not inventario.has(athing.key):
             return
-        self.currentPlace.append(athing)
+        self.current_place.append(athing)
         inventario.pop(athing)
 
     def push(self, athing):
         """remove da colecao"""
-        if not self.currentPlace.has(athing.key):
+        if not self.current_place.has(athing.key):
             return
-        self.currentPlace.pop(athing)
+        self.current_place.pop(athing)
         inventario.append(athing)
 
     def finish(self):
@@ -336,15 +309,15 @@ class Z(Things):
 
     def goto(self, place):
         """move para um lugar"""
-        location = MAPA_MUNDI[place[:4].upper()]
-        self.currentPlace = location
-        return self.currentPlace
+        location = MAPA_MUNDI[self.normalize(place)]
+        self.current_place = location
+        return self.current_place
 
     def find(self, key):
         """procura na colecao"""
         if inventario.has(key):
             return inventario.find(key)
-        return self.currentPlace.find(key)
+        return self.current_place.find(key)
 
 
 class O(Things):
@@ -466,9 +439,8 @@ class R(Thing):
 class M(Thing):
     """Move para o lugar"""
     def perform(self, statement, place=None):
-        return self.value + '\n' + place.goto(self.key).show() \
-                          + '\n' + self.following.perform(statement, place)
-##    def perform(self, statement, place=None):
+        return (self.value + '\n' + place.goto(self.key).show()
+                + '\n' + self.following.perform(statement, place))
 ##        return self.value + '\n' + place.goto(self.key).show()
 
 
@@ -478,25 +450,66 @@ class F(Thing):
         return self.value + '\n' + place.dismiss()
 
 
-g = globals()
-for t in range(ord('A'), ord('Z')):
-    if chr(t) not in g.keys():
-        g[chr(t)] = type(chr(t), (Thing,), {})
+class Adventure(object):
+    g = globals()
+    for t in range(ord('A'), ord('Z')):
+        if chr(t) not in g.keys():
+            g[chr(t)] = type(chr(t), (Thing,), {})
 
+    def __init__(self, filename):
+        adventure_file = open(filename, 'rb', ENCODING, 'ignore')
+        self.world_mapping = yaml.load(adventure_file)
+        adventure_file.close()
 
-def load(aventura):
-    return load_yaml(yaml.load(open(aventura, 'r'))[0])
+    def load(self):
+        try:
+            return self.load_letters_and_lists(self.world_mapping[0])
+        except KeyError:
+            global FIRST_PLACE
+            FIRST_PLACE = 0
+            return self.load_nested_mappings()
 
-def load_yaml(thing):
-    thing_name = thing.keys()[0]
-    thing_definition = thing.pop(thing_name)
-    thing_value = thing_definition[0]
-    thing_contents = [load_yaml(athing) for athing in thing_definition[1:]]
-    #print thing_name, ' > ' ,thing_contents
-    if thing_contents:
-        return g[thing_name](thing_value, thing_contents)
-    else:
-        return g[thing_name](thing_value)
+    def load_nested_mappings(self, mapping=None, level=0):
+        if mapping is None:
+            mapping = self.world_mapping
+##        print '-' * 80
+##        print level, mapping
+        classes = [Z, L, O, V]
+        try:
+            theclass = classes[level]
+            thename = mapping.get('nome', '')
+            thecontent = [self.load_nested_mappings(sibiling, level + 1)
+                          for sibiling in mapping.get('conteudo', [])]
+        except IndexError:
+            theclass = Adventure.g[mapping.get('nome')]
+            try:
+                thename = mapping.get('conteudo', [])[0].get('nome', '')
+            except IndexError:
+                thename = ''
+            thecontent = []
+        thedescription = mapping.get('descricao', '')
+        if thecontent:
+            return theclass([thename, thedescription], thecontent)
+        else:
+            return theclass([thename, thedescription])
+
+    def load_letters_and_lists(self, thing):
+        thing_name = thing.keys()[0]
+        thing_definition = thing.pop(thing_name)
+        thing_value = thing_definition[0]
+        thing_contents = [self.load_letters_and_lists(athing)
+                          for athing in thing_definition[1:]]
+##        print thing_name, ' > ', thing_contents
+        if thing_contents:
+            return Adventure.g[thing_name](thing_value, thing_contents)
+        else:
+            return Adventure.g[thing_name](thing_value)
+
 
 if __name__ == '__main__':
-    load().play()
+    try:
+        Adventure('static/aventura/a_gralha_e_o_jarro.yaml').load().play()
+##        Adventure('static/aventura/ave.yaml').load().play()
+    except Exception:
+        import traceback
+        traceback.print_exc()
