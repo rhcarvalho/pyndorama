@@ -1,21 +1,21 @@
 /* CSS Document for KID template principal.kid */
 
 body {
-	/*background: #000000;*/
+    /*background: #000000;*/
 }
 
 #place_description {
-	position: absolute;
-	top: 94px;
-	left: 141px;
-	width: 228px;
-	height: 250px;
-	font: small "Courier New", Courier, monospace;
-	padding: 2px 0 0 3px;
+    position: absolute;
+    top: 94px;
+    left: 141px;
+    width: 228px;
+    height: 250px;
+    font: small "Courier New", Courier, monospace;
+    padding: 2px 0 0 3px;
 }
 
 #place_description h2 {
-	font: bold medium Verdana, Arial, Helvetica, sans-serif;
+    font: bold medium Verdana, Arial, Helvetica, sans-serif;
 }
 
 .notice {
@@ -27,26 +27,26 @@ body {
 }
 
 #place_img {
-	position: absolute;
-	top: 94px;
-	left: 424px;
-	width: 218px;
-	height: 250px;
+    position: absolute;
+    top: 94px;
+    left: 424px;
+    width: 218px;
+    height: 250px;
 }
 
 #command_prompt {
-	position: absolute;
-	top: 350px;
-	left: 151px;
-	width: 218px;
-	height: 68px;
-	overflow: auto;
+    position: absolute;
+    top: 350px;
+    left: 151px;
+    width: 218px;
+    height: 68px;
+    overflow: auto;
 }
 
 #all_actions {
-	color: #999999;
-	padding-top: 3px;
-	font: x-small Verdana, Arial, Helvetica, sans-serif;
+    color: #999999;
+    padding-top: 3px;
+    font: x-small Verdana, Arial, Helvetica, sans-serif;
 }
 
 #book {

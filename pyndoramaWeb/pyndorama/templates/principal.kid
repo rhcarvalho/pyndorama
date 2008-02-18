@@ -6,16 +6,16 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Pyndorama :: Aventura '???'</title>
     <style type="text/css" media="screen">
-	@import "${tg.url('/static/css/principal.css')}";
-	</style>
+    @import "${tg.url('/static/css/principal.css')}";
+    </style>
     <script type="text/javascript" src="${tg.url('/static/javascript/principal.js')}"></script>
 </head>
 
 <body>
-	<pre style="position: absolute; top: -15px; right: 10px; width: 400px; background: #EEEEEE;" py:if="defined('debug') and debug">
-		<!-- DEBUG INFO -->
+    <pre style="position: absolute; top: -15px; right: 10px; width: 400px; background: #EEEEEE;" py:if="defined('debug') and debug">
+        <!-- DEBUG INFO -->
         <div py:content="XML(debug)">
-        	Informações sobre métodos e propriedades de 'place'
+            Informações sobre métodos e propriedades de 'place'
         </div>
         <div py:content="text">
             Texto relativo &agrave; aventura
@@ -26,7 +26,7 @@
         <!--<h2 py:content="place.key">Nome do local</h2>-->
         <span py:content="place.value">Descrição do local</span>
         <?python
-        	objects = [obj.value for obj in place.contents.values() if obj.value]
+            objects = [obj.value for obj in place.contents.values() if obj.value]
         ?>
         <div py:if="objects" py:strip="">
             <br />Voc&ecirc; pode ver:
@@ -37,7 +37,7 @@
         <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
     </div>
     <div id="place_img" py:if="image">
-    	<img src="${image}" alt="Lugar atual" />
+        <img src="${image}" alt="Lugar atual" />
     </div>
     <div id="command_prompt">
         <form action='${action}' method="post">

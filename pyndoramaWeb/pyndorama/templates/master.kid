@@ -7,8 +7,8 @@
     <title py:replace="''">Your title goes here</title>
     <meta py:replace="item[:]"/>
     <style type="text/css" media="screen">
-	@import "${tg.url('/static/css/style.css')}";
-	</style>
+    @import "${tg.url('/static/css/style.css')}";
+    </style>
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
@@ -22,7 +22,7 @@
         </span>
     </div>
     <div id="header">
-    	<a href="/">Home</a>
+        <a href="/">Home</a>
         <a href="http://labase.nce.ufrj.br/pyndorama/">Labase</a>
         <a href="http://code.google.com/p/pyndorama/">Repositório no Google Code</a>
     </div>
@@ -32,7 +32,7 @@
     <!-- End of main_content -->
     </div>
     <div id="footer">
-    	<img src="${tg.url('/static/images/labase.gif')}" alt="Labase" />
+        <img src="${tg.url('/static/images/labase.gif')}" alt="Labase" />
     </div>
 </body>
 

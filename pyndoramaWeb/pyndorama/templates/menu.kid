@@ -6,15 +6,15 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Bem-vindo ao Pyndorama!</title>
     <style type="text/css" media="screen">
-	@import "${tg.url('/static/css/principal.css')}";
-	</style>
+    @import "${tg.url('/static/css/principal.css')}";
+    </style>
 </head>
 
 <body>
     <div id="place_description">
-    	<h2>Pyndorama</h2>
-    	<p>Bem vindo ao Pyndorama! Selecione uma aventura abaixo.</p>
-		<span py:content="form()" py:strip="">Formul&aacute;rio de sele&ccedil;&atilde;o de aventura</span>
+        <h2>Pyndorama</h2>
+        <p>Bem vindo ao Pyndorama! Selecione uma aventura abaixo.</p>
+        <span py:content="form()" py:strip="">Formul&aacute;rio de sele&ccedil;&atilde;o de aventura</span>
     </div>
 </body>
 
