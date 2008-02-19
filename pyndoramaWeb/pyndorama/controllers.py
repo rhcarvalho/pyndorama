@@ -9,6 +9,7 @@ log = logging.getLogger("pyndorama.controllers")
 
 from util import getFullPath
 
+
 def make_select_form(options):
     select = SingleSelectField('adventure', 'Aventura:', options=options)
     return TableForm(fields=[select],
@@ -39,7 +40,7 @@ class Root(controllers.RootController):
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
-        actions = self.getActions(pyndorama)
+        actions = self.get_actions(pyndorama)
         place = pyndorama.current_place
 
         return dict(text=pyndorama.perform(''),
@@ -62,7 +63,7 @@ class Root(controllers.RootController):
             raise redirect('/')
 
         text = pyndorama.perform(query.split(' '))
-        actions = self.getActions(pyndorama)
+        actions = self.get_actions(pyndorama)
 
         place = pyndorama.current_place
 
@@ -100,7 +101,7 @@ class Root(controllers.RootController):
                   u"seu navegador.")
             raise redirect('/')
 
-        actions = self.getActions(pyndorama)
+        actions = self.get_actions(pyndorama)
         place = pyndorama.current_place
         
         if placedesc is not None:
@@ -125,7 +126,7 @@ class Root(controllers.RootController):
     def editor(self):
         self.current_action = 'edit'
 
-    def getActions(self, Z):
+    def get_actions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
         local_actions = []
         for obj in Z.current_place.contents.values():

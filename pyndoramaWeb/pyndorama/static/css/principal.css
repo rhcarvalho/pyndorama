@@ -19,10 +19,10 @@ body {
 }
 
 .notice {
-  margin: 0.5em auto 0.5em auto;
-  padding: 15px 10px 15px 55px;
-  /*width: 450px;*/
-  background: #eef URL('../images/info.png') left center no-repeat;
+  margin: 0 auto 0.5em auto;
+  padding: 10px;
+  width: 450px;
+  background: #eef;
   border: 1px solid #cce;
 }
 

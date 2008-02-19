@@ -22,6 +22,7 @@
         </div>
     </pre>
 
+    <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
     <div id="place_description">
         <span py:content="place.value">Descrição do local</span>
         <?python
@@ -33,7 +34,6 @@
                 <li py:for="obj in objects" py:content="obj.value">Lista de itens no local atual</li>
             </ul>
         </div>
-        <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
     </div>
     <div id="place_img" py:if="image">
         <img src="${image}" alt="Lugar atual" />
