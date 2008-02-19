@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Pyndorama :: Aventura '???'</title>
+    <title>Pyndorama :: Aventura '${title}'</title>
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/principal.css')}";
     </style>
@@ -18,20 +18,19 @@
             Informações sobre métodos e propriedades de 'place'
         </div>
         <div py:content="text">
-            Texto relativo &agrave; aventura
+            Texto relativo à aventura
         </div>
     </pre>
 
     <div id="place_description">
-        <!--<h2 py:content="place.key">Nome do local</h2>-->
         <span py:content="place.value">Descrição do local</span>
         <?python
-            objects = [obj.value for obj in place.contents.values() if obj.value]
+            objects = place.contents.values()
         ?>
         <div py:if="objects" py:strip="">
-            <br />Voc&ecirc; pode ver:
+            <br />Você pode ver:
             <ul>
-                <li py:for="obj in objects" py:content="obj">Lista de itens no local atual</li>
+                <li py:for="obj in objects" py:content="obj.value">Lista de itens no local atual</li>
             </ul>
         </div>
         <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>

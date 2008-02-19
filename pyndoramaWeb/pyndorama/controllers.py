@@ -19,8 +19,8 @@ def make_select_form(options):
 class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
     def index(self):
-        adventures = [('ave.yaml', 'A gralha e o jarro'),
-                      ('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
+        adventures = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
+                      ('ave.yaml', 'A gralha e o jarro'),
                       ('labirinto.yaml', 'Labirinto'),
                       ('hominideo.yaml', 'Hominideos')]
         adv_selection_form = make_select_form(adventures)
@@ -47,10 +47,11 @@ class Root(controllers.RootController):
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
+                    title=pyndorama.key,
                     place=place)
 
     @expose(template="pyndorama.templates.principal")
-    def acao(self, query):
+    def acao(self, query=''):
         if query.lower() == 'xyzz':
             raise redirect('/edit')
 
@@ -88,11 +89,11 @@ class Root(controllers.RootController):
                     local_actions=actions.get('local_actions'),
                     place=place,
                     debug=debug,
+                    title=pyndorama.key,
                     notice=notice)
 
     @expose(template="pyndorama.templates.edit")
-    def edit(self):
-        flash(u"A funcionalidade de edição ainda está sendo implementada.")
+    def edit(self, placedesc=None, **kwargs):
         pyndorama = session.get('pyndorama')
         if not pyndorama:
             flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
@@ -101,12 +102,22 @@ class Root(controllers.RootController):
 
         actions = self.getActions(pyndorama)
         place = pyndorama.current_place
+        
+        if placedesc is not None:
+            place.value = placedesc
+            for obj, desc in kwargs.iteritems():
+                try:
+                    place.contents[obj].value = desc
+                except KeyError:
+                    pass
+            raise redirect('/acao')
 
         return dict(image=pyndorama.get_image(),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
-                    place=place,)
+                    title=pyndorama.key,
+                    place=place)
 
     def finalizer(self, action='menu'):
         self.current_action = action

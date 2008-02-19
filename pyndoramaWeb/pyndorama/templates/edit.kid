@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Pyndorama :: Editando aventura '???'</title>
+    <title>Pyndorama :: Editando aventura '${title}'</title>
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/principal.css')}";
     </style>
@@ -12,20 +12,23 @@
 
 <body>
     <div id="place_description">
-        <span py:replace="''">Descrição do local</span>
-        <textarea id="placedesc" name="placedesc" py:content="place.value" />
-        <?python
-            objects = [(key, place.contents[key].value) for key in place.contents.keys()]
-        ?>
-        <div py:if="objects" py:strip="">
-            <br />Voc&ecirc; pode ver:
-            <ul>
-                <li py:for="key, value in objects">
-                    <label for="${key}" py:content="'[%s]' % key" /><br />
-                    <input type="text" id="${key}" name="${key}" value="${value}" />
-                </li>
-            </ul>
-        </div>
+        <form action="" method="post">
+            <span py:replace="''">Descrição do local</span>
+            <textarea id="placedesc" name="placedesc" py:content="place.value" />
+            <?python
+                objects = place.contents.values()
+            ?>
+            <div py:if="objects" py:strip="">
+                <br />Você pode ver:
+                <ul>
+                    <li py:for="obj in objects">
+                        <label for="${obj.key}" py:content="'[%s]' % obj.key" />
+                        <input type="text" id="${obj.key}" name="${obj.key}" value="${obj.value}" />
+                    </li>
+                </ul>
+            </div>
+            <input type="submit" value="Salvar" />
+        </form>
     </div>
     <div id="place_img" py:if="image">
         <img src="${image}" alt="Lugar atual" />
