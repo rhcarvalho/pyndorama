@@ -3,7 +3,7 @@
     py:extends="'master.kid'">
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
     <title>Pyndorama :: Aventura '${title}'</title>
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/principal.css')}";
@@ -26,7 +26,7 @@
     <div id="place_description">
         <span py:content="place.value">Descrição do local</span>
         <?python
-            objects = place.contents.values()
+            objects = [obj for obj in place.contents.values() if obj.value]
         ?>
         <div py:if="objects" py:strip="">
             <br />Você pode ver:
