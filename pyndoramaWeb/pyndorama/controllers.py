@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from codecs import open
 import aventura
 from cherrypy import session, request
 from turbogears import controllers, expose, flash, redirect
-from turbogears.widgets.forms import SingleSelectField, TableForm
 # from model import *
 import logging
 log = logging.getLogger("pyndorama.controllers")
@@ -10,23 +10,15 @@ log = logging.getLogger("pyndorama.controllers")
 from util import getFullPath
 
 
-def make_select_form(options):
-    select = SingleSelectField('adventure', 'Aventura:', options=options)
-    return TableForm(fields=[select],
-                     submit_text='Selecionar Aventura',
-                     action='iniciar')
-
-
 class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
     def index(self):
-        adventures = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
-                      ('ave.yaml', 'A gralha e o jarro'),
-                      ('labirinto.yaml', 'Labirinto'),
-                      ('hominideo.yaml', 'Hominideos')]
-        adv_selection_form = make_select_form(adventures)
+        aventuras = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
+                     ('ave.yaml', 'A gralha e o jarro'),
+                     ('labirinto.yaml', 'Labirinto'),
+                     ('hominideo.yaml', 'Hominideos')]
         log.debug("Happy TurboGears Controller Responding For Duty")
-        return dict(form=adv_selection_form)
+        return dict(aventuras=aventuras)
 
     @expose(template="pyndorama.templates.principal")
     def iniciar(self, adventure):
@@ -103,7 +95,7 @@ class Root(controllers.RootController):
 
         actions = self.get_actions(pyndorama)
         place = pyndorama.current_place
-        
+
         if placedesc is not None:
             place.value = placedesc
             for obj, desc in kwargs.iteritems():
@@ -119,6 +111,23 @@ class Root(controllers.RootController):
                     local_actions=actions.get('local_actions'),
                     title=pyndorama.key,
                     place=place)
+
+    @expose(template="pyndorama.templates.edityaml")
+    def edityaml(self, adventure='', aventurayaml=None):
+        if aventurayaml is not None:
+            pyndorama = aventura.Adventure(content=aventurayaml).load()
+            session['pyndorama'] = pyndorama
+            flash(u"Você editou a aventura, agora é hora de jogar! ")
+            raise redirect('/acao')
+
+        # Session variable initialization
+        path = getFullPath(__name__, 'static/aventura/%s' % adventure)
+        pyndorama = aventura.Adventure(path).load()
+        yamlfile = open(path, 'rb', aventura.ENCODING, 'ignore')
+        text = yamlfile.read()
+        yamlfile.close()
+
+        return dict(adventure=adventure, text=text, title=pyndorama.key)
 
     def finalizer(self, action='menu'):
         self.current_action = action

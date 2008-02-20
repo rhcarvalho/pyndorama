@@ -28,7 +28,7 @@ __version__ = "1.0 $Revision: 1.18 $"[10:-1]
 __date__    = "2006/04/24 $Date: 30/06/2006 16:18:46 $"
 
 ENCODING = 'utf-8'
-FIRST_PLACE = -1
+FIRST_PLACE = 0
 MAPA_MUNDI = {}
 CANNOT_FIND_OBJECT = u'Não vejo necas de %s aqui!'
 CANNOT_PERFORM_ACTION = u'Não deu certo essa de %s!'
@@ -456,13 +456,21 @@ class Adventure(object):
         if chr(t) not in g.keys():
             g[chr(t)] = type(chr(t), (Thing,), {})
 
-    def __init__(self, filename):
-        adventure_file = open(filename, 'rb', ENCODING, 'ignore')
-        self.world_mapping = yaml.load(adventure_file)
-        adventure_file.close()
+    def __init__(self, filename=None, content=None):
+        if filename is not None:
+            adventure_file = open(filename, 'rb', ENCODING, 'ignore')
+            self.world_mapping = yaml.load(adventure_file)
+            adventure_file.close()
+        elif content is not None:
+            self.world_mapping = yaml.load(content)
+        else:
+            # Should never happen!
+            raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
         try:
+            global FIRST_PLACE
+            FIRST_PLACE = -1
             return self.load_letters_and_lists(self.world_mapping[0])
         except KeyError:
             global FIRST_PLACE

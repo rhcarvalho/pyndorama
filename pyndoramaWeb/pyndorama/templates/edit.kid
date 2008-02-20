@@ -3,7 +3,7 @@
     py:extends="'master.kid'">
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
     <title>Pyndorama :: Editando aventura '${title}'</title>
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/principal.css')}";
