@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from pyndorama.aventura import (Thing, Things, Chain, ChainEnd, Local,
-                                I, D, L, Z, O, V, P, T, A, B, E, U, S,
+                                I, D, L, Z, O, V, Action, P, T, A, B, E, U, S,
                                 R, M, F)
 from pyndorama.util import latin1_to_ascii
 
@@ -17,7 +17,7 @@ class TestThing(unittest.TestCase):
 
     def test__init__(self):
         self.assertEqual(self.thing.key,
-                         latin1_to_ascii(self.baselist[0][:4].upper()),
+                         latin1_to_ascii(self.baselist[0]),
                          'Nome incorreto')
         self.assertEqual(self.thing.value, self.baselist[1],
                          'Descrição incorreta')
@@ -42,6 +42,12 @@ class TestThing(unittest.TestCase):
     def testnormalize(self):
         pass
 
+    def testto_primitive_type(self):
+        self.assertEqual(self.thing.to_primitive_type(),
+                         dict(nome=self.baselist[0],
+                              descricao=self.baselist[1]),
+                         'Tipo primitivo errado')
+
 class TestThings(unittest.TestCase):
 
     def setUp(self):
@@ -55,7 +61,7 @@ class TestThings(unittest.TestCase):
 
     def test__init__(self):
         self.assertEqual(self.things.key,
-                         latin1_to_ascii(self.baselist[0][0][:4].upper()),
+                         latin1_to_ascii(self.baselist[0][0]),
                          'Nome incorreto')
         self.assertEqual(self.things.value, self.baselist[0][1],
                          'Descrição incorreta')
@@ -88,6 +94,14 @@ class TestThings(unittest.TestCase):
 
     def testshow(self):
         pass
+
+    def testto_primitive_type(self):
+        self.assertEqual(self.things.to_primitive_type(),
+                         dict(nome=self.baselist[0][0],
+                              descricao=self.baselist[0][1],
+                              conteudo=[item.to_primitive_type()
+                                        for item in self.baselist[1]]),
+                         'Tipo primitivo errado')
 
 class TestChain(unittest.TestCase):
 
@@ -254,10 +268,33 @@ class TestV(unittest.TestCase):
     def testperform(self):
         pass
 
+
+class TestActions(unittest.TestCase):
+
+    def setUp(self):
+        self.baselist = ['cachorro', u'Você pegou o cachorrinho!']
+        self.action = Action(self.baselist)
+        self.p = P(self.baselist)
+
+    def tearDown(self):
+        self.action = None
+
+    def _assertion(self, obj, nome):
+        self.assertEqual(obj.to_primitive_type(),
+                         dict(nome=nome, descricao=self.baselist[1],
+                              conteudo=dict(nome=self.baselist[0])),
+                         'Tipo primitivo errado')
+
+    def testto_primitive_type(self):
+        self._assertion(self.action, 'Action')
+        self._assertion(self.p, 'P')
+
+
 class TestP(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.baselist = ['cachorro', u'Você pegou o cachorrinho!']
+        self.p = P(self.baselist)
 
     def tearDown(self):
         pass
@@ -267,6 +304,12 @@ class TestP(unittest.TestCase):
 
     def testperform(self):
         pass
+
+    def testto_primitive_type(self):
+        self.assertEqual(self.p.to_primitive_type(),
+                         dict(nome='P', descricao=self.baselist[1],
+                              conteudo=dict(nome=self.baselist[0])),
+                         'Tipo primitivo errado')
 
 class TestT(unittest.TestCase):
 

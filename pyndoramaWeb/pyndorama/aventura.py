@@ -67,7 +67,10 @@ class Thing(object):
 
     def normalize(self, key):
         """converte unicode, limita tamanho e muda para caixa alta."""
-        return util.latin1_to_ascii(key[:4].upper())
+        return util.latin1_to_ascii(key)
+
+    def to_primitive_type(self):
+        return dict(nome=self.key, descricao=self.value)
 
 
 class Things(Thing):
@@ -118,6 +121,14 @@ class Things(Thing):
         """mostra o conteudo da localizacao"""
         return self.value
 
+    # TODO conteúdo é um dicionário, e portanto não podemos garantir a ordem
+    # em que os itens serão retornados.
+    def to_primitive_type(self):
+        return dict(nome=self.key,
+                    descricao=self.value,
+                    conteudo=[item.to_primitive_type()
+                              for item in self.contents.itervalues()])
+
 
 class Chain(Thing):
     """O conteudo eh uma Chain of Responsibility."""
@@ -161,12 +172,14 @@ class Local(Things):
         return '\n'.join(response)
 
 
+# TODO deprecated
 class I(Thing):
     """Descreve a tela inicial."""
     def __init__(self, value):
         self.key = value[0]
 
 
+# TODO deprecated
 class D(Thing):
     """Descreve uma coisa."""
     def __init__(self, value):
@@ -348,7 +361,14 @@ class V(Chain):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class P(Thing):
+class Action(Thing):
+    def to_primitive_type(self):
+        return dict(nome=self.__class__.__name__,
+                    descricao=self.value,
+                    conteudo=dict(nome=self.key))
+
+
+class P(Action):
     """Pega objeto e poe no inventario"""
     def __init__(self, value, *args):
         Thing.__init__(self, value, args)
@@ -362,7 +382,7 @@ class P(Thing):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class T(Thing):
+class T(Action):
     """Pega objeto e tira do inventario"""
     def __init__(self, value, *args):
         Thing.__init__(self, value, args)
@@ -376,7 +396,7 @@ class T(Thing):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class A(Thing):
+class A(Action):
     """Ativa objeto"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -384,7 +404,7 @@ class A(Thing):
         return self.value + '\n' + self.following.perform(statement, place)
 
 
-class B(Thing):
+class B(Action):
     """Bloqueia objeto"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -392,7 +412,7 @@ class B(Thing):
         return self.value + '\n' + self.following.perform(statement, place)
 
 
-class E(Thing):
+class E(Action):
     """Ativa objeto, trocando a sua descricao"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -401,7 +421,7 @@ class E(Thing):
         return self.following.perform(statement, place)
 
 
-class U(Thing):
+class U(Action):
     """Bloqueia objeto, trocando a sua descricao"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -410,7 +430,7 @@ class U(Thing):
         return self.following.perform(statement, place)
 
 
-class S(Thing):
+class S(Action):
     """testa se objeto estah ativo"""
     def perform(self, statement, place=None):
         try:
@@ -423,7 +443,7 @@ class S(Thing):
             return self.value
 
 
-class R(Thing):
+class R(Action):
     """testa se objeto estah bloqueado"""
     def perform(self, statement, place=None):
         try:
@@ -436,7 +456,7 @@ class R(Thing):
             return self.value
 
 
-class M(Thing):
+class M(Action):
     """Move para o lugar"""
     def perform(self, statement, place=None):
         return (self.value + '\n' + place.goto(self.key).show()
@@ -444,7 +464,7 @@ class M(Thing):
 ##        return self.value + '\n' + place.goto(self.key).show()
 
 
-class F(Thing):
+class F(Action):
     """Finaliza a aventura"""
     def perform(self, statement, place=None):
         return self.value + '\n' + place.dismiss()
