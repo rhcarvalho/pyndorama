@@ -1,35 +1,37 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import unittest
 from pyndorama.aventura import (Thing, Things, Chain, ChainEnd, Local,
                                 I, D, L, Z, O, V, P, T, A, B, E, U, S,
                                 R, M, F)
+from pyndorama.util import latin1_to_ascii
 
 
 class TestThing(unittest.TestCase):
 
     def setUp(self):
-##        self.mapping = dict(nome='Coisa qualquer',
-##                            descricao='Coisa para teste',
-##                            conteudo=[])
-##        self.thing = Thing(self.mapping)
-        pass
+        self.baselist = ['Coisa qualquer', 'Coisa para teste']
+        self.thing = Thing(self.baselist)
 
     def tearDown(self):
-##        self.mapping = self.thing = None
-        pass
+        self.baselist = self.thing = None
 
     def test__init__(self):
-##        self.assertEqual(self.thing.key, self.mapping['nome'],
-##                         'Nome incorreto')
-##        self.assertEqual(self.thing.value, self.mapping['descricao'],
-##                         'Descrição incorreta')
-        pass
+        self.assertEqual(self.thing.key,
+                         latin1_to_ascii(self.baselist[0][:4].upper()),
+                         'Nome incorreto')
+        self.assertEqual(self.thing.value, self.baselist[1],
+                         'Descrição incorreta')
 
     def testset_next(self):
-        pass
+        nextthing = Thing(['Outra coisa', 'Coisa diferente'])
+        self.thing.set_next(nextthing)
+        self.assertEqual(self.thing.following, nextthing,
+                         'Erro ao definir proxima coisa')
 
-    def testadditself(self):
-        pass
+    def testadditself(self): # TODO Look this up on wikipedia: Visitor Pattern
+        thethings = Things(['Grupo 1', 'Um bando de coisas'], [])
+        self.thing.additself(thethings)
+        self.assertEqual(thethings.contents[self.thing.key], self.thing)
 
     def testperform(self):
         pass
@@ -43,30 +45,43 @@ class TestThing(unittest.TestCase):
 class TestThings(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.baselist = [['Grupo 1', 'Um bando de coisas'],
+                         [Thing(['1 Coisa', 'Uma coisa 1']),
+                         Thing(['2 Coisa', 'Uma coisa 2'])]]
+        self.things = Things(*self.baselist)
 
     def tearDown(self):
-        pass
+        self.baselist = self.thing = None
 
     def test__init__(self):
-        pass
-##        self.assertEqual(self.thing.conteudo, self.mapping['conteudo'],
-##                         'Conteúdo incorreto')
+        self.assertEqual(self.things.key,
+                         latin1_to_ascii(self.baselist[0][0][:4].upper()),
+                         'Nome incorreto')
+        self.assertEqual(self.things.value, self.baselist[0][1],
+                         'Descrição incorreta')
+        self.assertEqual(len(self.things.contents), 2,
+                         'Conteúdo incorreto')
 
-    def testappend(self):
-        pass
+    def testappend(self): # FIXME Check whether both flows are ever executed in the if branch
+        thething = Thing(['3 Coisa', 'Uma coisa 3'])
+        self.things.append(thething)
+        self.assertEqual(len(self.things.contents), 3,
+                         'Número errado de coisas')
 
     def testpop(self):
-        pass
+        self.things.pop(self.baselist[1][0])
+        self.assertEqual(len(self.things.contents), 1,
+                         'Número errado de coisas')
 
     def testfind(self):
-        pass
+        self.assertEqual(self.things.find('2 Coisa'), self.baselist[1][1],
+                         'Coisa errada')
 
     def testhas(self):
-        pass
-
-    def test__repr__(self):
-        pass
+        self.assertTrue(self.things.has('2 Coisa'),
+                        'Tem coisa 2')
+        self.assertFalse(self.things.has('3 Coisa'),
+                         'Não tem coisa 3')
 
     def testparse(self):
         pass

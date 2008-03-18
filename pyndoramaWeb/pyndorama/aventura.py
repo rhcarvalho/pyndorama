@@ -468,12 +468,11 @@ class Adventure(object):
             raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
+        global FIRST_PLACE
         try:
-            global FIRST_PLACE
             FIRST_PLACE = -1
             return self.load_letters_and_lists(self.world_mapping[0])
         except KeyError:
-            global FIRST_PLACE
             FIRST_PLACE = 0
             return self.load_nested_mappings()
 
