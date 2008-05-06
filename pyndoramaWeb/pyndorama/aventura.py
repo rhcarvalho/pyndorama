@@ -532,6 +532,9 @@ class Adventure(object):
         else:
             return Adventure.g[thing_name](thing_value)
 
+    def save(self):
+        pass
+
 
 if __name__ == '__main__':
     try:
