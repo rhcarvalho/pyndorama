@@ -17,7 +17,8 @@ class Root(controllers.RootController):
                      ('ave.yaml', 'A gralha e o jarro'),
                      ('labirinto.yaml', 'Labirinto'),
                      ('hominideo.yaml', u'Hominídeos'),
-                     ('matematica.yaml', u'Matemática')]
+                     ('matematica.yaml', u'Matemática'),
+                     ('aventuramix.yaml', 'Perdido numa cidade desconhecida')]
         log.debug("Happy TurboGears Controller Responding For Duty")
         return dict(aventuras=aventuras)
 

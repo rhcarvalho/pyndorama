@@ -1,0 +1,156 @@
+nome: Desafio
+descricao: Esta é uma aventura cheia de desafios
+conteudo:
+    - nome: cidade
+      descricao: 'Você mergulhou num sono profundo e num sonho você está numa cidade
+      estranha. Muitas pessoas passando e você tenta pedir ajuda para sair dali.
+      Uma velhinha muito simpática te diz "A pessoa que irá te ajudar é o sujeito da frase a seguir: " O PROFESSOR ESTAVA CANSADO DE FALAR SEM SER OUVIDO.'
+      conteudo:
+        - nome: professor
+          descricao:
+          conteudo:
+            - nome: procurar
+              conteudo:
+                - nome: M
+                  conteudo:
+                    - nome: casa_do_professor
+    - nome: casa_do_professor
+      descricao: 'Você foi então até a casa do professor. Era jovem, sábio e 
+      gostava de se comunicar por meio de enigmas. Ele disse que te ajudaria sim,
+      se você fosse capaz de completar este trava-língua "UM TIGRE, DOIS TIGRES ..."'
+      conteudo:
+        - nome: TIGRES
+          descricao:
+          conteudo:
+            - nome: TRÊS
+              conteudo:
+                - nome: M
+                  conteudo:
+                    - nome: desafio
+    - nome: desafio
+      descricao: 'O professor gostava de falar bonito, enfeitava sua fala com
+      várias figuras de linguagem. Ele lançou então um novo desafio! Você 
+      precisava dizer qual a figura usada nesta frase "Rios te correrão dos olhos, se chorares!"'
+      conteudo:
+        - nome: hiperbole
+          descricao:
+          conteudo:
+            - nome: dizer
+              conteudo:
+                - nome: M
+                  descricao: Você conseguiu!
+                  conteudo:
+                    - nome: local1
+    - nome: local1
+      descricao: 'Hipérbole!!! Isso aí! E você estava hiperbolicamene faminto: 
+      morrendo de fome mesmo! Mas para matar toda esta fome, só uma refeição
+      balanceada, com todos os nutrientes de que seu corpo precisa.
+      Qual dos pratos você quer comer?'
+      conteudo:
+        - nome: prato1
+          descricao: "prato1: Um prato com arroz, feijão, carne e espinafre."
+          conteudo:
+            - nome: comer
+              conteudo:
+                - nome: M
+                  descricao: Excelente escolha!
+                  conteudo:
+                    - nome: local2
+        - nome: prato2
+          descricao: "prato2: Uma montanha de batata frita"
+          conteudo:
+            - nome: comer
+              conteudo:
+                - nome: M
+                  descricao: Um tanto gorduroso este seu prato...
+                  conteudo:
+                    - nome: dieta
+        - nome: prato3
+          descricao: "prato3: Vários sanduíches e um milk shake"
+          conteudo:
+            - nome: comer
+              conteudo:
+                - nome: M
+                  descricao: Humm... Gostoso, porém onde estão as fibras?
+                  conteudo:
+                    - nome: dieta
+    - nome: dieta
+      descricao: É... você não se alimentou bem. Sua saúde ficou prejudicada e
+        você precisa recuperar esse dano.
+      conteudo:
+        - nome: bicicleta
+          descricao: uma bicicleta
+          conteudo:
+            - nome: andar
+              conteudo:
+                - nome: M
+                  descricao: Umas pedaladas melhoram seu preparo físico! Agora 
+                    você tem disposição de sobra para continuar a busca pelo
+                    caminho de volta.
+                  conteudo:
+                    - nome: local2
+        - nome: televisão
+          descricao: uma televisão
+          conteudo:
+            - nome: assistir
+              conteudo:
+                - nome: B
+                  descricao: Assistindo televisão você não está fazendo nada pela
+                    sua saúde física. Você precisa se exercitar!
+                  conteudo:
+                    - nome: televisão
+        - nome: videogame
+          descricao: um videogame
+          conteudo:
+            - nome: jogar
+              conteudo:
+                - nome: B
+                  descricao: Jogando videogame você não está fazendo nada pela
+                    sua saúde física. Você precisa se exercitar!
+                  conteudo:
+                    - nome: videogame
+    - nome: local2
+      descricao: 'Agora que cuidou bem da sua saúde, você pode continuar sua 
+      busca pelo caminho de volta para casa. Para te ajudar, o professor te dá 
+      um mapa que mostra o caminho de volta. Ele te entrega o mapa enrolado 
+      dentro de um copo de vidro. Mas de repente, o mapa começa a pegar fogo.'
+      conteudo:
+        - nome: tampa
+          descricao: uma tampa de metal
+        - nome: leque
+          descricao: um leque de papel
+        - nome: copo
+          descricao: o copo com o mapa pegando fogo
+          conteudo:
+            - nome: abanar
+              conteudo:
+                - nome: B
+                  descricao: Se você abanar o fogo, ele irá aumentar e queimar
+                    todo o seu mapa!!
+                  conteudo:
+                    - nome: leque
+            - nome: soprar
+              conteudo:
+                - nome: B
+                  descricao: Se você soprar o fogo, vai fornecer mais oxigênio e 
+                    o fogo irá aumentar!
+                  conteudo:
+                    - nome: leque
+            - nome: tampar
+              conteudo:
+                - nome: M
+                  descricao: Você consguiu salvar seu mapa, pois tampando o copo
+                    deixou de ter oxigênio para alimentar a queima do papel!
+                  conteudo:
+                    - nome: local3
+    - nome: local3
+      descricao: Ufa! Seu mapa quase não foi queimado. Você consegue ver que o 
+        professor indicou no papel a direção da saída. 
+      conteudo:
+        - nome: nordeste
+          descricao:
+          conteudo:
+            - nome: ir
+              conteudo:
+                - nome: F
+                  descricao: 'Você conseguiu acordar do seu sonho e voltar pra casa!'
