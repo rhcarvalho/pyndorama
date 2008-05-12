@@ -1,68 +1,90 @@
-- Z:
-  - [Hominideos]
-  - L:
-    - [cave, 'A noite voce esta numa caverna e tem a grande ideia de criar outras
-        ferramentas iguais as que fez antes. Dessa vez, voce atira a pedra na parede
-        de pedra da caverna e sai faiscas laranjas.']
-    - O:
-      - [ped]
-      - V:
-        - [esfr, 'sairam faiscas laranjas da pedra e voce descobriu o fogo.Parabens,
-            voce evoluiu.']
-        - M:
-          - ['entrada ']
-    - O:
-      - [frut]
-      - V:
-        - [come, Ate agora nao ha nenhuma novidade.Seja mais inteligente.]
-    - O:
-      - [entr]
-  - L:
-    - [entr, 'Voce esta na entrada da caverna.Esta escurecendo e voce esta ficando
-        com frio. Mantendo-se ao lado do fogo, percebe que ele te esquenta.']
-    - O:
-      - [Frut, uma fruta]
-      - V:
-        - [quei, Voce percebe que as frutas ficam gostosas queimadas]
-    - O:
-      - [flor, algumas flores]
-      - V:
-        - [quei, As flores viraram po!]
-  - L:
-    - [bosq, !!python/str "voce e um homo erectus e esta com fome e encontra uma\
-        \ arvore com varias frutas.Porem estas frutas estao dificeis de alcancar e\
-        \ pensa  na pedra que utilizou.Voce nao acha a pedra e tenta pega-las com\
-        \ as maos e nao consegue ficando furioso, pega uma pedra no chao e a atira\
-        \ no tronco da arvore quebrando um peda\xE7o dela."]
-    - O:
-      - ['ped ', uma pedra]
-      - V:
-        - [atir, 'Sua pedra fica num formato pontiagudo, acaba descobrindo que pode
-            transformar pedras em ferramentas uteis.']
-        - M:
-          - [cave]
-    - O:
-      - [flor, algumas flores]
-      - V:
-        - [come, Isso nao mata sua fome]
-    - O:
-      - [cave]
-  - L:
-    - [selv, 'Voce e um australopithecus e esta andando pela selva, encontra um grande animal
-        selvagem e nao tem como se defender.Resolve fugir mas espeta o seu pe.']
-    - O:
-      - [ped, ' uma pedra com formato esquisito']
-      - V:
-        - [usar, Voce feriu o animal selvagem e a partir de agora voce e um homo erectus]
-        - M:
-          - [bosq]
-    - O:
-      - [folh, algumas folhas]
-      - V:
-        - [usar, 'Desde quando uma folha fere alguem?']
-    - O:
-      - [galh, galhos secos]
-      - V:
-        - [usar, Ainda nao foi suficiente]
-    - O:
-      - [bosq]
+nome: Hominídeos
+descricao: Esta é uma viagem ao tempo dos homems das cavernas.
+conteudo:
+    - nome: selva
+      descricao: Você é um australopithecus e está andando pela selva quando encontra
+                 um grande animal selvagem do qual não tem como se defender. Você
+                 resolve fugir, mas espeta o seu pé.
+      conteudo:
+        - nome: folha
+          descricao: algumas folhas
+          conteudo:
+            - nome: usar
+              descricao: Desde quando uma folha fere alguém?
+        - nome: galho
+          descricao: galhos secos
+          conteudo:
+            - nome: usar
+              descricao: Ainda não foi suficiente
+        - nome: pedra
+          descricao: uma pedra com formato esquisito
+          conteudo:
+            - nome: usar
+              descricao: Você feriu o animal selvagem e a partir de agora você
+                         é um homo erectus!
+              conteudo:
+                - nome: M
+                  conteudo:
+                    - nome: bosque
+    - nome: bosque
+      descricao: Você é um homo erectus e está com fome. Encontra uma árvore
+                 com várias frutas, porém estas frutas estão difíceis de
+                 alcançar e você pensa na pedra que já utilizou. Você atira a
+                 pedra contra as frutas, mas não consegue acertá-las. Tenta
+                 pegá-las com as mãos e acaba ficando furioso por não conseguir.
+                 Então você atira a pedra contra o tronco da árvore, quebrando
+                 um pedaço dela.
+      conteudo:
+        - nome: pedra
+          descricao: uma pedra
+          conteudo:
+          - nome: atirar
+            descricao: Sua pedra fica num formato pontiagudo, e com isso você
+                       descobre que pode transformar pedras em ferramentas
+                       úteis.
+            conteudo:
+                - nome: M
+                  conteudo:
+                    - nome: caverna
+        - nome: flor
+          descricao: algumas flores
+          conteudo:
+             - nome: comer
+               descricao: Isso não mata sua fome!
+    - nome: caverna
+      descricao: É noite e você está numa caverna. De repente você tem a grande
+                 idéia de criar outras ferramentas como as que fez antes. Dessa
+                 vez, você atira a pedra na parede da caverna e saem faíscas
+                 alaranjadas.
+      conteudo:
+        - nome: pedra
+          descricao: uma pedra
+          conteudo:
+            - nome: esfregar
+              descricao: Saíram faíscas laranjas da pedra e você descobriu o
+                         fogo. Parabéns, você evoluiu!
+              conteudo:
+                - nome: M
+                  conteudo:
+                    - nome: entrada
+        - nome: fruta
+          descricao: uma fruta
+          conteudo:
+            - nome: comer
+              descricao: Até agora não há nenhuma novidade. Seja mais
+                         inteligente!
+    - nome: entrada
+      descricao: Você está na entrada da caverna. Está escurecendo e você está
+                 ficando com frio. Mantendo-se ao lado do fogo, percebe que ele
+                 te aquece.
+      conteudo:
+        - nome: fruta
+          descricao: uma fruta
+          conteudo:
+            - nome: queimar
+              descricao: Você percebe que as frutas ficam gostosas queimadas!
+        - nome: flor
+          descricao: algumas flores
+          conteudo:
+            - nome: queimar
+              descricao: A flor virou pó!
