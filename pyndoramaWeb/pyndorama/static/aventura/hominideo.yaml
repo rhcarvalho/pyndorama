@@ -82,7 +82,11 @@ conteudo:
           descricao: uma fruta
           conteudo:
             - nome: queimar
-              descricao: Você percebe que as frutas ficam gostosas queimadas!
+              descricao: 'Você percebe que as frutas ficam gostosas queimadas!'
+              conteudo:
+                - nome: F
+                  conteudo:
+                    - nome: fim
         - nome: flor
           descricao: algumas flores
           conteudo:
