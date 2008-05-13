@@ -68,8 +68,7 @@ conteudo:
                   conteudo:
                     - nome: limbo
     - nome: limbo
-      descricao: Isso mesmo! Como prêmio você ganha uma lanterna.
-                 Mas ainda está tudo escuro...
+      descricao: Mas ainda está tudo escuro...
       conteudo:
         - nome: nada
           descricao: Você não vê nada! Está tudo escuro!

@@ -57,7 +57,7 @@ class Root(controllers.RootController):
                   u"seu navegador.")
             raise redirect('/')
 
-        text = pyndorama.perform(query.split(' '))
+        text = pyndorama.perform(query.split(' ')).strip()
         actions = self.get_actions(pyndorama)
 
         place = pyndorama.current_place
@@ -73,10 +73,13 @@ class Root(controllers.RootController):
         else:
             debug = ''
 
-        if aventura.YOU_CAN_SEE not in text or u'inventário' in text:
+        pos = text.find(place.value)
+        if pos == -1:
             notice = text
-        else:
+        elif pos == 0:
             notice = ''
+        else:
+            notice = text[:pos]
 
         return dict(text=text,
                     image=pyndorama.get_image(),
