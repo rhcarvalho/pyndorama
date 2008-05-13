@@ -8,10 +8,11 @@ body {
     position: absolute;
     top: 94px;
     left: 141px;
-    width: 228px;
+    width: 250px;
     height: 250px;
     font: small "Courier New", Courier, monospace;
     padding: 2px 0 0 3px;
+    overflow: auto;
 }
 
 #place_description h2 {
@@ -19,11 +20,11 @@ body {
 }
 
 .notice {
-  margin: 0 auto 0.5em auto;
-  padding: 10px;
-  width: 450px;
-  background: #eef;
-  border: 1px solid #cce;
+    margin: 0 auto 0.5em auto;
+    padding: 10px;
+    width: 450px;
+    background: #eef;
+    border: 1px solid #cce;
 }
 
 #place_img {
