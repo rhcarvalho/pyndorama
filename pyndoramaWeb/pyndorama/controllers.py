@@ -35,15 +35,16 @@ class Root(controllers.RootController):
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
         actions = self.get_actions(pyndorama)
-        place = pyndorama.current_place
+        place = pyndorama
 
         return dict(text=pyndorama.perform(''),
                     image=pyndorama.get_image(),
                     action='/acao',
-                    global_actions=actions.get('global_actions'),
-                    local_actions=actions.get('local_actions'),
+                    global_actions=[],
+                    local_actions=[],
                     title=pyndorama.key,
-                    place=place)
+                    place=place,
+                    show=False)
 
     @expose(template="pyndorama.templates.principal")
     def acao(self, query=''):
