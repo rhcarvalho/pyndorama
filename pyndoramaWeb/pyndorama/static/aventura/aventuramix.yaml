@@ -17,12 +17,12 @@ conteudo:
     - nome: casa_do_professor
       descricao: 'Você foi então até a casa do professor. Era jovem, sábio e 
       gostava de se comunicar por meio de enigmas. Ele disse que te ajudaria sim,
-      se você fosse capaz de completar este trava-língua "UM TIGRE, DOIS TIGRES ..."'
+      se você fosse capaz de completar este trava-língua "Um tigre, dois tigres, ..."'
       conteudo:
-        - nome: TIGRES
+        - nome: tigres
           descricao:
           conteudo:
-            - nome: TRÊS
+            - nome: três
               conteudo:
                 - nome: M
                   conteudo:
@@ -30,7 +30,7 @@ conteudo:
     - nome: desafio
       descricao: 'O professor gostava de falar bonito, enfeitava sua fala com
       várias figuras de linguagem. Ele lançou então um novo desafio! Você 
-      precisava dizer qual a figura usada nesta frase "Rios te correrão dos olhos, se chorares!"'
+      precisava dizer qual a figura de linguagem usada nesta frase "Rios te correrão dos olhos, se chorares!"'
       conteudo:
         - nome: hiperbole
           descricao:
