@@ -38,7 +38,7 @@ class Root(controllers.RootController):
         place = pyndorama
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(),
+                    image=pyndorama.get_image(pyndorama),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],
