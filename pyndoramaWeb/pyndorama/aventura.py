@@ -491,7 +491,8 @@ class Adventure(object):
             raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
-        global FIRST_PLACE
+        global FIRST_PLACE, playadventure
+        playadventure = True
         try:
             FIRST_PLACE = -1
             return self.load_letters_and_lists(self.world_mapping[0])
