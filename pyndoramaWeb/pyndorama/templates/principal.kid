@@ -28,10 +28,11 @@
         <?python
             objects = [obj for obj in place.contents.values() if obj.value]
         ?>
-        <div py:if="(not defined('show') or show) and objects" py:strip="">
+        <div py:if="(not defined('show') or show) and objects or defined('inve') and inve" py:strip="">
             <br />Você pode ver:
             <ul>
                 <li py:for="obj in objects" py:content="obj.value">Lista de itens no local atual</li>
+                <li py:if="not objects">nada aqui</li>
             </ul>
         </div>
     </div>

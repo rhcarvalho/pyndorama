@@ -34,6 +34,7 @@ CANNOT_FIND_OBJECT = u'Não vejo necas de %s aqui!'
 CANNOT_PERFORM_ACTION = u'Não deu certo essa de %s!'
 ACTION_IS_USELESS = u'Nada acontece caso você %s.'
 YOU_CAN_SEE = u'Você pode ver:'
+YOU_CHECK_YOUR_INVENTORY = u'Você examina o seu inventário.'
 
 
 class UselessAction(Exception):
@@ -220,7 +221,7 @@ class L(Local):
         return self.contents[self.normalize(key)]
 
 
-inventario = Local(['inventario', u'Você examina o seu inventário.'])
+inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
 playadventure = True
 
 
@@ -233,10 +234,10 @@ class Z(Things):
         self.response = self.perform([])
         self.can = True
         self.prompt = '\nO que devo fazer agora?\n'
-        self.actions = {'QUIT': lambda self = self: self.dismiss(),
-                        'INVE': lambda self = self: self.report(),
-                        'OLHE': lambda self = self: self.show(),
-                        'XYZZ': lambda self = self: self.edit_adventure()}
+        self.actions = {'QUIT': lambda self=self: self.dismiss(),
+                        'INVE': lambda self=self: self.report(),
+                        'OLHE': lambda self=self: self.show(),
+                        'XYZZ': lambda self=self: self.edit_adventure()}
 
     def edit_adventure(self):
         """finaliza aventura"""

@@ -12,7 +12,7 @@ from util import getFullPath
 
 class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
-    def index(self):
+    def index(self, *args, **kwargs):
         aventuras = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
                      ('ave.yaml', 'A gralha e o jarro'),
                      ('labirinto.yaml', 'Labirinto'),
@@ -28,8 +28,8 @@ class Root(controllers.RootController):
         path = getFullPath(__name__, 'static/aventura/%s' % adventure)
         pyndorama = aventura.Adventure(path).load()
         session['pyndorama'] = pyndorama
-        pyndorama.finalizer = lambda self = self: self.finalizer()
-        pyndorama.editor = lambda self = self: self.editor()
+        pyndorama.finalizer = lambda self=self: self.finalizer()
+        pyndorama.editor = lambda self=self: self.editor()
         # Variable assignment
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
@@ -62,6 +62,11 @@ class Root(controllers.RootController):
 
         place = pyndorama.current_place
 
+        if aventura.YOU_CHECK_YOUR_INVENTORY in text:
+            place = aventura.inventario
+            inve = True
+        else:
+            inve = False
 
         IN_DEBUG_MODE = 0
         if IN_DEBUG_MODE:
@@ -74,22 +79,28 @@ class Root(controllers.RootController):
             debug = ''
 
         pos = text.find(place.value)
-        if pos == -1:
-            notice = text
-        elif pos == 0:
+        if pos == 0:
             notice = ''
+        elif pos == -1:
+            notice = text
         else:
             notice = text[:pos]
 
+        if aventura.playadventure:
+            action = '/acao'
+        else:
+            action = '/'
+
         return dict(text=text,
                     image=pyndorama.get_image(),
-                    action='/acao',
+                    action=action,
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
                     place=place,
                     debug=debug,
                     title=pyndorama.key,
-                    notice=notice)
+                    notice=notice,
+                    inve=inve)
 
     @expose(template="pyndorama.templates.edit")
     def edit(self, placedesc=None, **kwargs):
@@ -135,11 +146,11 @@ class Root(controllers.RootController):
 
         return dict(adventure=adventure, text=text, title=pyndorama.key)
 
-    def finalizer(self, action='menu'):
-        self.current_action = action
+    def finalizer(self):
+        pass
 
     def editor(self):
-        self.current_action = 'edit'
+        pass
 
     def get_actions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
