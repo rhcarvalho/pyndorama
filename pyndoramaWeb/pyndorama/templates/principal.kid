@@ -46,7 +46,7 @@
             <input type="submit" value="Ação!!!" />
         </form>
         <div id="all_actions" py:if="global_actions or local_actions">
-            <span>Ações:</span>
+            <span>Comandos disponíveis:</span>
             <span py:content="', '.join(global_actions + local_actions)">globais, locais.</span>
         </div>
     </div>
