@@ -1,5 +1,5 @@
-nome: Desafio
-descricao: Esta é uma aventura cheia de desafios
+nome: Perdido na cidade
+descricao: Esta é uma aventura cheia de desafios. Você encontra-se perdido numa cidade estranha e precisa encontrar a saída.
 conteudo:
     - nome: cidade
       descricao: 'Você mergulhou num sono profundo e num sonho você está numa cidade
