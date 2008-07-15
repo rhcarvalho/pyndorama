@@ -10,7 +10,15 @@ log = logging.getLogger("pyndorama.controllers")
 from util import getFullPath
 
 
+class Editor(controllers.Controller):
+    @expose(template="pyndorama.templates.editor")
+    def index(self, *args, **kwargs):
+        return dict(title="Untitled")
+
+
 class Root(controllers.RootController):
+    editor = Editor()
+
     @expose(template="pyndorama.templates.menu")
     def index(self, *args, **kwargs):
         aventuras = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro'),
@@ -146,11 +154,11 @@ class Root(controllers.RootController):
 
         return dict(adventure=adventure, text=text, title=pyndorama.key)
 
-    def finalizer(self):
-        pass
-
-    def editor(self):
-        pass
+##    def finalizer(self):
+##        pass
+##
+##    def editor(self):
+##        pass
 
     def get_actions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
