@@ -13,7 +13,7 @@ from util import getFullPath
 class Root(controllers.RootController):
     @expose(template="pyndorama.templates.menu")
     def index(self, *args, **kwargs):
-        aventuras = [##('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro (v2)'),
+        aventuras = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro'),
                      ##('ave.yaml', 'A gralha e o jarro'),
                      ('labirinto.yaml', 'Labirinto'),
                      ('hominideo.yaml', u'Hominídeos'),
