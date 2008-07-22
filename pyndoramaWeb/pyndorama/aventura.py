@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """\
 Pyndorama: An adventure trip around the world.
@@ -39,6 +39,40 @@ YOU_CHECK_YOUR_INVENTORY = u'Você examina o seu inventário.'
 
 class UselessAction(Exception):
     pass
+
+class PyndoramaError(Exception):
+    """Base class for exceptions in Pyndorama."""
+    def __init__(self, value):
+        self.value = value
+class CannotFindObjectError(PyndoramaError):
+    def __str__(self):
+        return u'Não vejo necas de %s aqui!' % self.value
+class CannotPerformActionError(PyndoramaError):
+    def __str__(self):
+        return u'Não deu certo essa de %s!' % self.value
+
+
+class ThingTmp(object):
+    """Base class"""
+    def __init__(self, name, description, contents=None):
+        self.name = name
+        self.description = description
+        if contents is None:
+            self.contents = []
+        else:
+            self.contents = contents
+
+    def additself(self, target):
+        target.append(self)
+
+    def removeitself(self, target):
+        target.remove(self)
+
+    def append(self, thing):
+        self.contents.append(thing)
+
+    def remove(self, thing):
+        self.contents.remove(thing)
 
 
 class Thing(object):
@@ -364,14 +398,14 @@ class V(Chain):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class Action(Thing):
+class Action_(Thing):
     def to_primitive_type(self):
         return dict(nome=self.__class__.__name__,
                     descricao=self.value,
                     conteudo=dict(nome=self.key))
 
 
-class P(Action):
+class P(Action_):
     """Pega objeto e poe no inventario"""
     def __init__(self, value, *args):
         Thing.__init__(self, value, args)
@@ -385,7 +419,7 @@ class P(Action):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class T(Action):
+class T(Action_):
     """Pega objeto e tira do inventario"""
     def __init__(self, value, *args):
         Thing.__init__(self, value, args)
@@ -399,7 +433,7 @@ class T(Action):
             return CANNOT_PERFORM_ACTION % (' '.join(statement)) + ' ...'
 
 
-class A(Action):
+class A(Action_):
     """Ativa objeto"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -407,7 +441,7 @@ class A(Action):
         return self.value + '\n' + self.following.perform(statement, place)
 
 
-class B(Action):
+class B(Action_):
     """Bloqueia objeto"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -415,7 +449,7 @@ class B(Action):
         return self.value + '\n' + self.following.perform(statement, place)
 
 
-class E(Action):
+class E(Action_):
     """Ativa objeto, trocando a sua descricao"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -424,7 +458,7 @@ class E(Action):
         return self.following.perform(statement, place)
 
 
-class U(Action):
+class U(Action_):
     """Bloqueia objeto, trocando a sua descricao"""
     def perform(self, statement, place=None):
         obj = place.find(self.key)
@@ -433,7 +467,7 @@ class U(Action):
         return self.following.perform(statement, place)
 
 
-class S(Action):
+class S(Action_):
     """testa se objeto estah ativo"""
     def perform(self, statement, place=None):
         try:
@@ -446,7 +480,7 @@ class S(Action):
             return self.value
 
 
-class R(Action):
+class R(Action_):
     """testa se objeto estah bloqueado"""
     def perform(self, statement, place=None):
         try:
@@ -459,7 +493,7 @@ class R(Action):
             return self.value
 
 
-class M(Action):
+class M(Action_):
     """Move para o lugar"""
     def perform(self, statement, place=None):
         return (self.value + '\n' + place.goto(self.key).show()
@@ -467,7 +501,7 @@ class M(Action):
 ##        return self.value + '\n' + place.goto(self.key).show()
 
 
-class F(Action):
+class F(Action_):
     """Finaliza a aventura"""
     def perform(self, statement, place=None):
         return self.value + '\n' + place.dismiss()
@@ -538,6 +572,30 @@ class Adventure(object):
 
     def save(self):
         pass
+
+
+
+
+class World(ThingTmp):
+    pass
+
+
+class Place(ThingTmp):
+    pass
+
+
+class Object(ThingTmp):
+    pass
+
+
+class Verb(ThingTmp):
+    def __init__(self, name, description="", contents=None):
+        super(Verb, self).__init__(name, description, contents)
+
+
+class Action(ThingTmp):
+    def __init__(self, name, description="", contents=None):
+        super(Action, self).__init__(name, description, contents)
 
 
 if __name__ == '__main__':
