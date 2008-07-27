@@ -74,6 +74,17 @@ class ThingTmp(object):
     def remove(self, thing):
         self.contents.remove(thing)
 
+    def to_primitive_type(self):
+        primitive = dict()
+        contents = [item.to_primitive_type() for item in self.contents]
+        if self.name is not None:
+            primitive.update(nome=self.name)
+        if self.description is not None:
+            primitive.update(descricao=self.description)
+        if contents is not None:
+            primitive.update(conteudo=contents)
+        return primitive
+
 
 class Thing(object):
     """Anything whatsoever - Uma coisa qualquer."""
@@ -95,6 +106,8 @@ class Thing(object):
         target.append(self)
 
     def perform(self, statement, place=None):
+        from datetime import datetime
+        print "%s -- %s performing" % (datetime.now(), self)
         return self.value + '\n' + self.following.perform(statement, place)
 
     def invoke_finalizer_hook_from_outer_application(self):
@@ -589,13 +602,14 @@ class Object(ThingTmp):
 
 
 class Verb(ThingTmp):
-    def __init__(self, name, description="", contents=None):
+    def __init__(self, name, description=None, contents=None):
         super(Verb, self).__init__(name, description, contents)
 
 
 class Action(ThingTmp):
-    def __init__(self, name, description="", contents=None):
-        super(Action, self).__init__(name, description, contents)
+    def __init__(self, name, description=None, target=None):
+        super(Action, self).__init__(name, description)
+        self.target = target
 
 
 if __name__ == '__main__':

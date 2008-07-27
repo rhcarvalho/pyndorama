@@ -47,6 +47,18 @@ class TestCreateThings(unittest.TestCase):
         self.assertEqual(action.name, "type")
         self.assertEqual(action.description, "return text")
 
+    def testCreateActionWithTarget(self):
+        action = Action("type", target="target")
+        self.assertEqual(action.name, "type")
+        self.assertEqual(action.target, "target")
+
+    def testCreateActionWithReturnTextAndTarget(self):
+        action = Action("type", "return text", "target")
+        self.assertEqual(action.name, "type")
+        self.assertEqual(action.description, "return text")
+        self.assertEqual(action.target, "target")
+
+
 
 class TestCreateThingsWithContents(unittest.TestCase):
     def testCreateWorldWithContents(self):
@@ -125,6 +137,55 @@ class TestRemoveThings(unittest.TestCase):
         verb = Verb("name", "desc", [action])
         action.removeitself(verb)
         self.assertEqual(verb.contents, [])
+
+
+#class TestToPrimitiveTypeSimple(unittest.TestCase):
+#    def testWorldToPrimitive(self):
+#        world = World("name", "desc")
+#        self.assertEqual(world.to_primitive_type(),
+#                         dict(nome="name", descricao="desc"))
+#
+#    def testPlaceToPrimitive(self):
+#        place = Place("name", "desc")
+#        self.assertEqual(place.to_primitive_type(),
+#                         dict(nome="name", descricao="desc"))
+#
+#    def testObjectToPrimitive(self):
+#        object = Object("name", "desc")
+#        self.assertEqual(object.to_primitive_type(),
+#                         dict(nome="name", descricao="desc"))
+#
+#    def testVerbToPrimitive(self):
+#        verb = Verb("name", "desc")
+#        self.assertEqual(verb.to_primitive_type(),
+#                         dict(nome="name", descricao="desc"))
+#
+#    def testActionToPrimitive(self):
+#        action = Action("type", "return text")
+#        self.assertEqual(action.to_primitive_type(),
+#                         dict(nome="type", descricao="return text"))
+#
+#
+#class TestToPrimitiveTypeCompound(unittest.TestCase):
+#    def testWorldPlaceObjectVerbActionToPrimitive(self):
+#        world = World("name", "desc")
+#        place = Place("name", "desc")
+#        object = Object("name", "desc")
+#        verb = Verb("name", "desc")
+#        action = Action("type", "return text", "target")
+#
+#        action.additself(verb)
+#        verb.additself(object)
+#        object.additself(place)
+#        place.additself(world)
+#
+#        self.assertEqual(world.to_primitive_type(),
+#         dict(nome="name", descricao="desc", conteudo=
+#            dict(nome="name", descricao="desc", conteudo=
+#                dict(nome="name", descricao="desc", conteudo=
+#                    dict(nome="name", descricao="desc", conteudo=
+#                        dict(nome="type", descricao="return text", conteudo=
+#                            dict(conteudo="target")))))))
 
 
 if __name__ == '__main__':
