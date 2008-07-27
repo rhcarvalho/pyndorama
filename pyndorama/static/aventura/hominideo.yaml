@@ -1,0 +1,68 @@
+- Z:
+  - [Hominideos]
+  - L:
+    - [cave, 'A noite voce esta numa caverna e tem a grande ideia de criar outras
+        ferramentas iguais as que fez antes. Dessa vez, voce atira a pedra na parede
+        de pedra da caverna e sai faiscas laranjas.']
+    - O:
+      - [ped]
+      - V:
+        - [esfr, 'sairam faiscas laranjas da pedra e voce descobriu o fogo.Parabens,
+            voce evoluiu.']
+        - M:
+          - ['entrada ']
+    - O:
+      - [frut]
+      - V:
+        - [come, Ate agora nao ha nenhuma novidade.Seja mais inteligente.]
+    - O:
+      - [entr]
+  - L:
+    - [entr, 'Voce esta na entrada da caverna.Esta escurecendo e voce esta ficando
+        com frio. Mantendo-se ao lado do fogo, percebe que ele te esquenta.']
+    - O:
+      - [Frut, uma fruta]
+      - V:
+        - [quei, Voce percebe que as frutas ficam gostosas queimadas]
+    - O:
+      - [flor, algumas flores]
+      - V:
+        - [quei, As flores viraram po!]
+  - L:
+    - [bosq, !!python/str "voce e um homo erectus e esta com fome e encontra uma\
+        \ arvore com varias frutas.Porem estas frutas estao dificeis de alcancar e\
+        \ pensa  na pedra que utilizou.Voce nao acha a pedra e tenta pega-las com\
+        \ as maos e nao consegue ficando furioso, pega uma pedra no chao e a atira\
+        \ no tronco da arvore quebrando um peda\xE7o dela."]
+    - O:
+      - ['ped ', uma pedra]
+      - V:
+        - [atir, 'Sua pedra fica num formato pontiagudo, acaba descobrindo que pode
+            transformar pedras em ferramentas uteis.']
+        - M:
+          - [cave]
+    - O:
+      - [flor, algumas flores]
+      - V:
+        - [come, Isso nao mata sua fome]
+    - O:
+      - [cave]
+  - L:
+    - [selv, 'Voce e um australopithecus e esta andando pela selva, encontra um grande animal
+        selvagem e nao tem como se defender.Resolve fugir mas espeta o seu pe.']
+    - O:
+      - [ped, ' uma pedra com formato esquisito']
+      - V:
+        - [usar, Voce feriu o animal selvagem e a partir de agora voce e um homo erectus]
+        - M:
+          - [bosq]
+    - O:
+      - [folh, algumas folhas]
+      - V:
+        - [usar, 'Desde quando uma folha fere alguem?']
+    - O:
+      - [galh, galhos secos]
+      - V:
+        - [usar, Ainda nao foi suficiente]
+    - O:
+      - [bosq]
