@@ -8,6 +8,7 @@ import logging
 log = logging.getLogger("pyndorama.controllers")
 
 from util import getFullPath
+from util import cria_lista_arquivos
 
 
 class Editor(controllers.Controller):
@@ -18,22 +19,16 @@ class Editor(controllers.Controller):
 
 class Root(controllers.RootController):
     editor = Editor()
-
     @expose(template="pyndorama.templates.menu")
     def index(self, *args, **kwargs):
-        aventuras = [('a_gralha_e_o_jarro.yaml', 'A gralha e o jarro'),
-                     ##('ave.yaml', 'A gralha e o jarro'),
-                     ('labirinto.yaml', 'Labirinto'),
-                     ('hominideo.yaml', u'Hominídeos'),
-                     ('matematica.yaml', u'Matemática'),
-                     ('aventuramix.yaml', 'Perdido numa cidade desconhecida')]
+        aventuras = cria_lista_arquivos()
         log.debug("Happy TurboGears Controller Responding For Duty")
         return dict(aventuras=aventuras)
 
     @expose(template="pyndorama.templates.principal")
     def iniciar(self, adventure):
         # Session variable initialization
-        path = getFullPath(__name__, 'static/aventura/%s' % adventure)
+        path = adventure
         pyndorama = aventura.Adventure(path).load()
         session['pyndorama'] = pyndorama
         pyndorama.finalizer = lambda self=self: self.finalizer()

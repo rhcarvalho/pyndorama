@@ -3,6 +3,54 @@ import unittest
 import re
 from pyndorama.util import *
 
+class MeuArquivo:
+    def __init__(self, name, content):
+        self.name = name
+        self.content = content
+        
+    def read(self, *args, **kwargs):
+        return self.content
+    
+    def close(self, *args, **kwargs):
+        pass
+
+
+class TestListaDeAventuras(unittest.TestCase):
+    def setUp(self):
+        self.l = ListaDeAventuras()
+     
+    def testLeNome(self):
+        self.assertEqual(self.l._le_nome(dict(nome='Aventura 1')), 'Aventura 1')
+
+    def testListarNenhumArquivo(self):
+        arquivos = []
+        self.assertEqual(self.l(arquivos), [])
+        
+    def testListarDoisArquivosValidos(self):
+        arquivos = [MeuArquivo('static/aventura/ave1.yaml',
+                                'nome: Minha aventura 1\n'
+                                'conteudo: Nada'),
+                    MeuArquivo('static/aventura/ave2.yaml',
+                                'nome: Minha aventura 2\n'
+                                'conteudo: Nada')]
+        lista = [('static/aventura/ave1.yaml', 'Minha aventura 1'), 
+                 ('static/aventura/ave2.yaml', 'Minha aventura 2')]
+        self.assertEqual(self.l(arquivos), lista)
+        
+    def testListarArquivoInvalido(self):
+        arquivos = [MeuArquivo('static/aventura/ave1.yaml',
+                                u'não é uma aventura válida!\n')]
+        lista = []
+        self.assertEqual(self.l(arquivos), lista)
+        
+    def testListarArquivosValidoEInvalido(self):
+        arquivos = [MeuArquivo('static/aventura/ave1.yaml',
+                                'nome: Minha aventura 1\n'
+                                'conteudo: Nada'),
+                    MeuArquivo('static/aventura/ave1.yaml',
+                                u'não é uma aventura válida!\n')]
+        lista = [('static/aventura/ave1.yaml', 'Minha aventura 1')]
+        self.assertEqual(self.l(arquivos), lista)
 
 class TestGlobalFunctions(unittest.TestCase):
 
@@ -10,7 +58,8 @@ class TestGlobalFunctions(unittest.TestCase):
         pass
 
     def tearDown(self):
-        pass
+        pass        
+
 
     def testgetAbsParent(self):
         self.assertEqual(getAbsParent('/home/joe/pyndorama/pyndorama/controllers.py'),

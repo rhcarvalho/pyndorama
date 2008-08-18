@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import os, sys
+import yaml
 
 LATIN1_TO_ASCII = {u'¡': '!', u'¢': ''  , u'£': '' , u'¤': ''  , u'¥': '' , u'¦': '|',
                    u'§': '' , u'¨': ''  , u'©': '' , u'ª': ''  , u'«': '' , u'¬': '-',
@@ -81,6 +82,42 @@ def encode_to_xml_entities(text):
     return text.encode('ascii', 'xmlcharrefreplace')
 
 
+def cria_lista_arquivos(path='./pyndorama/static/aventura/'):
+    """Lê a pasta aventura e popula uma lista com os arquivos de aventuras e 
+    seus respectivos nomes. Utiliza a classe ListaDeAventuras para filtrar as 
+    aventuras que contenham nome"""
+    arquivos = os.listdir(path)
+    lista = []
+    for arquivo in arquivos:
+        if arquivo.endswith('.yaml'):
+            try:
+                arquivo_aberto = open(path + arquivo, 'r')
+            except IOError:
+                continue
+            lista.append(arquivo_aberto)
+    lista_aventuras = ListaDeAventuras()
+    return lista_aventuras(lista)
+
+
+class ListaDeAventuras:
+    def _le_nome(self, dic):
+        return dic['nome']
+
+    def __call__(self, arquivos):
+        lista = []
+        
+        for a in arquivos:
+            caminho = a.name
+            try:
+                nome = self._le_nome(yaml.load(a.read()))
+            except TypeError:
+                continue
+            finally:
+                a.close()
+            lista.append((caminho, nome))
+        return lista
+
+
 if __name__ == '__main__':
     from timeit import Timer
 
@@ -96,3 +133,6 @@ if __name__ == '__main__':
     print '\n'.join(('%-60s%10.5f\n%-70s\n%-70s\n%s',)*2) % \
           ('Latin-1 string'    , time_latin1_str   , latin1_str   , latin1_to_ascii(latin1_str)   , '-'*70,
            'Non-Latin 1 string', time_nonlatin1_str, nonlatin1_str, latin1_to_ascii(nonlatin1_str), '')
+
+
+
