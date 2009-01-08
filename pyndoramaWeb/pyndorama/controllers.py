@@ -12,8 +12,27 @@ from util import cria_lista_arquivos
 
 
 class Editor(controllers.Controller):
+    @expose(template="pyndorama.templates.editor.full")
+    def index(self, adventure=None):
+        if adventure is not None:
+            session['pyndo_editor'] = aventura.Adventure(adventure).world_mapping
+        mundo = session.get('pyndo_editor')
+        if not mundo:
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
+                  u"seu navegador.")
+            raise redirect('/')
+        return dict(mundo=mundo)
+    
+    @expose(template="pyndorama.templates.editor.item")
+    def item(self, nome, descricao):
+        return dict(nome=nome, descricao=descricao)
+    
+    def salvar(self):
+        pass
+        
+    
     @expose(template="pyndorama.templates.editor")
-    def index(self, *args, **kwargs):
+    def concept(self, *args, **kwargs):
         return dict(title="Untitled")
 
 
@@ -166,6 +185,7 @@ class Root(controllers.RootController):
         return dict(global_actions=global_actions, local_actions=local_actions)
 
     @expose()
-    def default(self, url):
+    def default(self, *args, **kwargs):
+        url = request.browser_url
         flash(u'URL inválida: \"%s\".' % url)
         raise redirect('/')

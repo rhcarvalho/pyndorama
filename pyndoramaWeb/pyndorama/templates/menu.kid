@@ -16,12 +16,13 @@
     <div id="place_description">
         <h2>Pyndorama</h2>
         <p>Bem vindo ao Pyndorama! Selecione uma aventura abaixo.</p>
-        <form action="${tg.url('/iniciar')}" method="post">
+        <form action="${tg.url('/iniciar')}" id="form_adv" method="post">
             <label for="adventure">Aventura:</label>
             <select id="adventure" name="adventure">
                 <option py:for="caminho, nome in aventuras" value="${caminho}" py:content="nome">Nome da Aventura</option>
             </select>
             <input type="button" id="btn_editar" value="Editar" />
+            <input type="button" id="btn_editar_yaml" value="Editar YAML" />
             <input type="submit" value="Jogar!" />
         </form>
     </div>
