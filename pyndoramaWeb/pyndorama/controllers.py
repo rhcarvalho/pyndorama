@@ -166,7 +166,7 @@ class Root(controllers.RootController):
                     place=place)
 
     @expose(template="pyndorama.templates.edityaml")
-    def edityaml(self, adventure='', aventurayaml=None):
+    def edityaml(self, adventure, aventurayaml=None):
         if aventurayaml is not None:
             pyndorama = aventura.Adventure(content=aventurayaml).load()
             session['pyndorama'] = pyndorama
@@ -174,7 +174,7 @@ class Root(controllers.RootController):
             raise redirect('/acao')
 
         # Session variable initialization
-        path = getFullPath(__name__, 'static/aventura/%s' % adventure)
+        path = adventure
         pyndorama = aventura.Adventure(path).load()
         yamlfile = open(path, 'rb', aventura.ENCODING, 'ignore')
         text = yamlfile.read()
