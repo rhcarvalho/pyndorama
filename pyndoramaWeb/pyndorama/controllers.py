@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from codecs import open
+from base64 import urlsafe_b64decode as b64decode
 import aventura
 from cherrypy import session, request
 from turbogears import controllers, expose, flash, redirect
@@ -16,16 +17,29 @@ class Editor(controllers.Controller):
     def index(self, adventure=None):
         if adventure is not None:
             session['pyndo_editor'] = aventura.Adventure(adventure).world_mapping
+            
         mundo = session.get('pyndo_editor')
         if not mundo:
             flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
                   u"seu navegador.")
             raise redirect('/')
+            
         return dict(mundo=mundo)
     
-    @expose(template="pyndorama.templates.editor.item")
-    def item(self, nome, descricao):
-        return dict(nome=nome, descricao=descricao)
+    @expose() #template="pyndorama.templates.editor.item")
+    def item(self, b64id):
+        mundo = session.get('pyndo_editor')
+        if not mundo:
+            flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
+                  u"seu navegador.")
+            raise redirect('/')
+        
+        indexes = (int(i) for i in b64decode(b64id).split('.'))
+        element = mundo
+        indexes.next()
+        for i in indexes:
+            element = element['conteudo'][i]
+        return str(element)
     
     def salvar(self):
         pass

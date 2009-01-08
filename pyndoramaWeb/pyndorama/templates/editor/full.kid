@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?python
+from base64 import urlsafe_b64encode as b64encode
+?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
 <head>
 <title>Pyndorama :: Editando Aventura</title>
@@ -23,8 +26,7 @@ td {
 </style>
 </head>
 <body>
-
-<div py:def="display_thing(container)">
+<div py:def="display_thing(container, id)">
     <table>
         <tr>
             <th>Nome:</th>
@@ -35,11 +37,10 @@ td {
             <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
         </tr>
     </table>
-    <a href="item${0}" style="margin-left: 88px">editar</a>
-    <div py:for="item in container.get('conteudo', [])" py:replace="display_thing(item)" />
+    <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
+    <div py:for="index, item in enumerate(container.get('conteudo', []))"
+         py:replace="display_thing(item, '%s.%s' % (id, index))" />
 </div>
-
-<div py:replace="display_thing(mundo)" />
-
+<div py:replace="display_thing(mundo, '0')" />
 </body>
 </html>
