@@ -23,7 +23,7 @@
             </select>
             <input type="button" id="btn_editar" value="Editar" />
             <input type="button" id="btn_editar_yaml" value="Editar YAML" />
-            <input type="submit" value="Jogar!" />
+            <input type="submit" id="btn_iniciar" value="Jogar!" />
         </form>
     </div>
 </body>

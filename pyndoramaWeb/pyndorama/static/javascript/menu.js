@@ -20,4 +20,9 @@ addLoadEvent(function () {
     if (field) {
         set_onclick(field, '/edityaml');
     }
+    
+    field = document.getElementById('btn_iniciar');
+    if (field) {
+        set_onclick(field, '/iniciar');
+    }
 });
