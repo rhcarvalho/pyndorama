@@ -39,7 +39,9 @@ class Editor(controllers.Controller):
         indexes.next()
         for i in indexes:
             element = element['conteudo'][i]
-        return str(element)
+            
+        from pprint import pformat
+        return '<pre>%s</pre>' % pformat(element)
     
     def salvar(self):
         pass
