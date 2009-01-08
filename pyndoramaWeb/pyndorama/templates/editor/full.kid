@@ -23,66 +23,23 @@ td {
 </style>
 </head>
 <body>
-<div py:if="mundo">
+
+<div py:def="display_thing(container)">
     <table>
         <tr>
             <th>Nome:</th>
-            <td py:content="mundo.get('nome')">Sem Nome</td>
+            <td py:content="container.get('nome')">Sem Nome</td>
         </tr>
         <tr>
             <th>Descri&ccedil;&atilde;o:</th>
-            <td py:content="mundo.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
+            <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
         </tr>
     </table>
-    <a href="#" style="margin-left: 88px">+local</a>
-    <div py:for="local in mundo.get('conteudo', [])">
-        <table>
-            <tr>
-                <th>Nome:</th>
-                <td py:content="local.get('nome')">Sem Nome</td>
-            </tr>
-            <tr>
-                <th>Descri&ccedil;&atilde;o:</th>
-                <td py:content="local.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-            </tr>
-        </table>
-        <div py:for="objeto in local.get('conteudo', [])">
-            <table>
-                <tr>
-                    <th>Nome:</th>
-                    <td py:content="objeto.get('nome')">Sem Nome</td>
-                </tr>
-                <tr>
-                    <th>Descri&ccedil;&atilde;o:</th>
-                    <td py:content="objeto.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                </tr>
-            </table>
-            <div py:for="verbo in objeto.get('conteudo', [])">
-                <table>
-                    <tr>
-                        <th>Nome:</th>
-                        <td py:content="verbo.get('nome')">Sem Nome</td>
-                    </tr>
-                    <tr>
-                        <th>Descri&ccedil;&atilde;o:</th>
-                        <td py:content="verbo.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                    </tr>
-                </table>
-                <div py:for="acao in verbo.get('conteudo', [])">
-                    <table>
-                        <tr>
-                            <th>Nome:</th>
-                            <td py:content="acao.get('nome')">Sem Nome</td>
-                        </tr>
-                        <tr>
-                            <th>Descri&ccedil;&atilde;o:</th>
-                            <td py:content="acao.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <a href="item${0}" style="margin-left: 88px">editar</a>
+    <div py:for="item in container.get('conteudo', [])" py:replace="display_thing(item)" />
 </div>
+
+<div py:replace="display_thing(mundo)" />
+
 </body>
 </html>
