@@ -3,86 +3,51 @@
 <head>
 <title>Pyndorama :: Editando Aventura</title>
 <style>
-div {
+form {
     border: 1px dashed #F4F4F4;
-    border-top: 0;
-    border-right: 0;
-    margin: 4px 0 16px 88px;
+    margin: auto;
     padding: 0.2em;
+    width: 50%;
 }
 
 th {
     text-align: right;
     color: #AAAAAA;
     font-size: smaller;
+    width: 6em;
 }
 
 td {
     padding-left: 1em;
 }
+
+table, input[type="text"], textarea {
+    width: 100%;
+}
+
+textarea {
+    height: 8em;
+}
+
+input[type="submit"] {
+    margin-left: 7em;
+}
 </style>
 </head>
 <body>
-<div py:if="mundo">
+<form action="./" method="post">
+    <input type="hidden" name="b64id" value="${b64id}" />
     <table>
         <tr>
             <th>Nome:</th>
-            <td py:content="mundo.get('nome')">Sem Nome</td>
+            <td><input type="text" name="nome" value="${item.get('nome')}" /></td>
         </tr>
         <tr>
             <th>Descri&ccedil;&atilde;o:</th>
-            <td py:content="mundo.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
+            <td><textarea name="descricao" py:content="item.get('descricao')" /></td>
         </tr>
     </table>
-    <a href="#" style="margin-left: 88px">+local</a>
-    <div py:for="local in mundo.get('conteudo', [])">
-        <table>
-            <tr>
-                <th>Nome:</th>
-                <td py:content="local.get('nome')">Sem Nome</td>
-            </tr>
-            <tr>
-                <th>Descri&ccedil;&atilde;o:</th>
-                <td py:content="local.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-            </tr>
-        </table>
-        <div py:for="objeto in local.get('conteudo', [])">
-            <table>
-                <tr>
-                    <th>Nome:</th>
-                    <td py:content="objeto.get('nome')">Sem Nome</td>
-                </tr>
-                <tr>
-                    <th>Descri&ccedil;&atilde;o:</th>
-                    <td py:content="objeto.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                </tr>
-            </table>
-            <div py:for="verbo in objeto.get('conteudo', [])">
-                <table>
-                    <tr>
-                        <th>Nome:</th>
-                        <td py:content="verbo.get('nome')">Sem Nome</td>
-                    </tr>
-                    <tr>
-                        <th>Descri&ccedil;&atilde;o:</th>
-                        <td py:content="verbo.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                    </tr>
-                </table>
-                <div py:for="acao in verbo.get('conteudo', [])">
-                    <table>
-                        <tr>
-                            <th>Nome:</th>
-                            <td py:content="acao.get('nome')">Sem Nome</td>
-                        </tr>
-                        <tr>
-                            <th>Descri&ccedil;&atilde;o:</th>
-                            <td py:content="acao.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <input type="submit" value="Salvar" />
+</form>
 </body>
 </html>
