@@ -21,6 +21,15 @@ class Editor(controllers.Controller):
             raise redirect('/')
         return mundo
 
+    def get_element(self, b64id):
+        mundo = self.get_mundo()
+        indexes = (int(i) for i in b64decode(b64id.encode()).split('.'))
+        element = mundo
+        indexes.next()
+        for i in indexes:
+            element = element['conteudo'][i]
+        return element
+
     @expose(template="pyndorama.templates.editor.full")
     def index(self, adventure=None):
         if adventure is not None:
@@ -31,13 +40,7 @@ class Editor(controllers.Controller):
 
     @expose(template="pyndorama.templates.editor.item")
     def item(self, b64id, **kwargs):
-        mundo = self.get_mundo()
-        indexes = (int(i) for i in b64decode(b64id.encode()).split('.'))
-        element = mundo
-        indexes.next()
-        for i in indexes:
-            element = element['conteudo'][i]
-
+        element = self.get_element(b64id)
         if kwargs:
             for key in ('nome', 'descricao'):
                 try:
@@ -45,8 +48,15 @@ class Editor(controllers.Controller):
                 except KeyError:
                     pass
             raise redirect('../')
-
         return dict(b64id=b64id, item=element)
+
+    @expose()
+    def adicionar(self, b64id):
+        element = self.get_element(b64id)
+        element.setdefault('conteudo', [])
+        child = {'nome': 'sem_nome%s' % len(element['conteudo'])}
+        element['conteudo'].append(child)
+        raise redirect('../')
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):

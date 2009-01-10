@@ -38,6 +38,11 @@ td {
         </tr>
     </table>
     <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
+    <?python
+    show_add = id.count('.') < 5
+    ?>
+    <span py:if="show_add" py:strip=""> |
+    <a href="adicionar/${b64encode(id)}">adicionar</a></span>
     <div py:for="index, item in enumerate(container.get('conteudo', []))"
          py:replace="display_thing(item, '%s.%s' % (id, index))" />
 </div>
