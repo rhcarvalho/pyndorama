@@ -22,13 +22,15 @@ class Editor(controllers.Controller):
             raise redirect('/')
         return mundo
 
-    def get_element(self, b64id):
+    def get_element(self, b64id, with_parent=False):
         mundo = self.get_mundo()
         indexes = (int(i) for i in b64decode(b64id.encode()).split('.'))
-        element = mundo
+        parent, element = None, mundo
         indexes.next()
         for i in indexes:
-            element = element['conteudo'][i]
+            parent, element = element, element['conteudo'][i]
+        if with_parent:
+            return parent, element
         return element
 
     @expose(template="pyndorama.templates.editor.full")
@@ -62,6 +64,12 @@ class Editor(controllers.Controller):
         index = element['conteudo'].index(child)
         child_b64id = b64encode('%s.%s' % (id, index))
         return dict(b64id=child_b64id, item=child)
+
+    @expose()
+    def remover(self, b64id):
+        parent, element = self.get_element(b64id, with_parent=True)
+        parent['conteudo'].remove(element)
+        raise redirect('../')
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):

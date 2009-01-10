@@ -37,12 +37,16 @@ td {
             <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
         </tr>
     </table>
-    <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
     <?python
-    show_add = id.count('.') < 5
+    level = id.count('.')
+    show_add = level < 5
+    show_remove = level > 0
     ?>
+    <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
+    <span py:if="show_remove" py:strip=""> |
+    <a href="remover/${b64encode(id)}">remover</a></span>
     <span py:if="show_add" py:strip=""> |
-    <a href="adicionar/${b64encode(id)}">adicionar</a></span>
+    <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
     <div py:for="index, item in enumerate(container.get('conteudo', []))"
          py:replace="display_thing(item, '%s.%s' % (id, index))" />
 </div>
