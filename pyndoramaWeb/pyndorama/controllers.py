@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from codecs import open
+from base64 import urlsafe_b64encode as b64encode
 from base64 import urlsafe_b64decode as b64decode
 import aventura
 from cherrypy import session, request
@@ -47,16 +48,20 @@ class Editor(controllers.Controller):
                     element[key] = kwargs[key]
                 except KeyError:
                     pass
-            raise redirect('../')
+            raise redirect('./')
         return dict(b64id=b64id, item=element)
 
-    @expose()
+    @expose(template="pyndorama.templates.editor.item")
     def adicionar(self, b64id):
         element = self.get_element(b64id)
         element.setdefault('conteudo', [])
         child = {'nome': 'sem_nome%s' % len(element['conteudo'])}
         element['conteudo'].append(child)
-        raise redirect('../')
+
+        id = b64decode(b64id.encode())
+        index = element['conteudo'].index(child)
+        child_b64id = b64encode('%s.%s' % (id, index))
+        return dict(b64id=child_b64id, item=child)
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):

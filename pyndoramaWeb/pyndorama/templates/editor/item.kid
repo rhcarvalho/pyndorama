@@ -33,9 +33,17 @@ input[type="submit"] {
     margin-left: 7em;
 }
 </style>
+<script>
+window.onload = function () {
+    if (location.href.match(/.*\/adicionar\//))
+    {
+        document.forms[0].elements[1].select();
+    }
+};
+</script>
 </head>
 <body>
-<form action="./" method="post">
+<form action="../item" method="post">
     <input type="hidden" name="b64id" value="${b64id}" />
     <table>
         <tr>
