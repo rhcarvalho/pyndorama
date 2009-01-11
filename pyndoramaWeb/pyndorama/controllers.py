@@ -71,6 +71,12 @@ class Editor(controllers.Controller):
         parent['conteudo'].remove(element)
         raise redirect('../')
 
+    @expose()
+    def remover_tudo(self, b64id):
+        element = self.get_element(b64id)
+        del element['conteudo'][:]
+        raise redirect('../')
+
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
         return dict(title="Untitled")

@@ -39,7 +39,7 @@ td {
     </table>
     <?python
     level = id.count('.')
-    show_add = level < 5
+    show_add = show_remove_content = level < 5
     show_remove = level > 0
     ?>
     <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
@@ -47,6 +47,8 @@ td {
     <a href="remover/${b64encode(id)}">remover</a></span>
     <span py:if="show_add" py:strip=""> |
     <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
+    <span py:if="show_remove_content" py:strip=""> |
+    <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
     <div py:for="index, item in enumerate(container.get('conteudo', []))"
          py:replace="display_thing(item, '%s.%s' % (id, index))" />
 </div>
