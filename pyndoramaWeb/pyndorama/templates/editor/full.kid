@@ -1,11 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?python
 from base64 import urlsafe_b64encode as b64encode
+classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
 <head>
 <title>Pyndorama :: Editando Aventura</title>
 <style>
+body {
+    background: #a05b30;
+}
+
 div {
     border: 1px dashed #F4F4F4;
     border-top: 0;
@@ -23,11 +28,40 @@ th {
 td {
     padding-left: 1em;
 }
+
+.mundo {
+    background: #cb6530;
+}
+
+.local {
+    background: #ec7a3c;
+}
+
+.objeto {
+    background: #f39e5b;
+}
+
+.verbo {
+    background: #f4bf81;
+}
+
+.acao {
+    background: #f2d39f;
+}
+
+.alvo_acao {
+    background: #fff;
+}
 </style>
 </head>
 <body>
 <div py:def="display_thing(container, id)">
-    <table>
+    <?python
+    level = id.count('.')
+    show_add = show_remove_content = level < 5
+    show_remove = level > 0
+    ?>
+    <table class="${classes[level]}">
         <tr>
             <th>Nome:</th>
             <td py:content="container.get('nome')">Sem Nome</td>
@@ -37,11 +71,6 @@ td {
             <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
         </tr>
     </table>
-    <?python
-    level = id.count('.')
-    show_add = show_remove_content = level < 5
-    show_remove = level > 0
-    ?>
     <a href="item/${b64encode(id)}" style="margin-left: 88px">editar</a>
     <span py:if="show_remove" py:strip=""> |
     <a href="remover/${b64encode(id)}">remover</a></span>
