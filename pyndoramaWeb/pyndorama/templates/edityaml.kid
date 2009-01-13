@@ -13,7 +13,7 @@
 
 <body>
     <div id="place_description">
-        <form action="" method="post">
+        <form action="/iniciar" method="post">
             <input type="hidden" id="adventure" name="adventure" value="${adventure}" />
             <textarea id="aventurayaml" name="aventurayaml" py:content="text" />
             <input type="reset" value="Reverter" />

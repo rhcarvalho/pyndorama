@@ -77,6 +77,10 @@ class Editor(controllers.Controller):
         del element['conteudo'][:]
         raise redirect('../')
 
+    @expose()
+    def salvar(self):
+        pass
+
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
         return dict(title="Untitled")
@@ -91,14 +95,16 @@ class Root(controllers.RootController):
         return dict(aventuras=aventuras)
 
     @expose(template="pyndorama.templates.principal")
-    def iniciar(self, adventure):
-        # Session variable initialization
-        path = adventure
-        pyndorama = aventura.Adventure(path).load()
+    def iniciar(self, adventure, aventurayaml=None):
+        if aventurayaml is not None:
+            pyndorama = aventura.Adventure(content=aventurayaml).load()
+            flash(u"Você editou a aventura, agora é hora de jogar! ")
+        else:
+            path = adventure
+            pyndorama = aventura.Adventure(path).load()
         session['pyndorama'] = pyndorama
         pyndorama.finalizer = lambda self=self: self.finalizer()
         pyndorama.editor = lambda self=self: self.editor()
-        # Variable assignment
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
@@ -198,14 +204,7 @@ class Root(controllers.RootController):
                     place=place)
 
     @expose(template="pyndorama.templates.edityaml")
-    def edityaml(self, adventure, aventurayaml=None):
-        if aventurayaml is not None:
-            pyndorama = aventura.Adventure(content=aventurayaml).load()
-            session['pyndorama'] = pyndorama
-            flash(u"Você editou a aventura, agora é hora de jogar! ")
-            raise redirect('/acao')
-
-        # Session variable initialization
+    def edityaml(self, adventure):
         path = adventure
         pyndorama = aventura.Adventure(path).load()
         yamlfile = open(path, 'rb', aventura.ENCODING, 'ignore')
@@ -213,12 +212,6 @@ class Root(controllers.RootController):
         yamlfile.close()
 
         return dict(adventure=adventure, text=text, title=pyndorama.key)
-
-##    def finalizer(self):
-##        pass
-##
-##    def editor(self):
-##        pass
 
     def get_actions(self, Z):
         global_actions = Z.actions.keys() # Todas as ações de "Z"
