@@ -81,6 +81,9 @@ td {
     <div py:for="index, item in enumerate(container.get('conteudo', []))"
          py:replace="display_thing(item, '%s.%s' % (id, index))" />
 </div>
-<div py:replace="display_thing(mundo, '0')" />
+<form action="salvar" method="post">
+	<div py:replace="display_thing(mundo, '0')" />
+    <input type="submit" value="Salvar" />
+</form>
 </body>
 </html>
