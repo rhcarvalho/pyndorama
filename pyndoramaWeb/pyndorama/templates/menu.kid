@@ -16,7 +16,7 @@
     <div id="place_description">
         <h2>Pyndorama</h2>
         <p>Bem vindo ao Pyndorama!</p>
-        <a href="/editor">Criar Nova Aventura</a>
+        <a href="/editor/nova">Criar Nova Aventura</a>
         <p>Selecione uma aventura abaixo.</p>
         <form action="${tg.url('/iniciar')}" id="form_adv" method="post">
             <label for="adventure">Aventura:</label>

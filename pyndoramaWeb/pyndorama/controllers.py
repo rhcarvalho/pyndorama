@@ -37,13 +37,20 @@ class Editor(controllers.Controller):
 
     @expose(template="pyndorama.templates.editor.full")
     def index(self, adventure=None):
-        if adventure is None:
-            mapping = {}
-        else:
+        if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
-        session['pyndo_editor'] = mapping
+            if not isinstance(mapping, dict):
+                flash(u"Aventura incompatível com o editor.")
+                raise redirect('/')
+            session['pyndo_editor'] = mapping
         mundo = self.get_mundo()
         return dict(mundo=mundo)
+
+    @expose()
+    def nova(self):
+        mapping = {}
+        session['pyndo_editor'] = mapping
+        raise redirect('./')
 
     @expose(template="pyndorama.templates.editor.item")
     def item(self, b64id, **kwargs):
