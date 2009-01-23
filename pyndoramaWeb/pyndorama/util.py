@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-import os, sys
+import os, sys, re
 import yaml
 
 LATIN1_TO_ASCII = {u'¡': '!', u'¢': ''  , u'£': '' , u'¤': ''  , u'¥': '' , u'¦': '|',
@@ -83,8 +83,8 @@ def encode_to_xml_entities(text):
 
 
 def cria_lista_arquivos(path='./pyndorama/static/aventura/'):
-    """Lê a pasta aventura e popula uma lista com os arquivos de aventuras e 
-    seus respectivos nomes. Utiliza a classe ListaDeAventuras para filtrar as 
+    """Lê a pasta aventura e popula uma lista com os arquivos de aventuras e
+    seus respectivos nomes. Utiliza a classe ListaDeAventuras para filtrar as
     aventuras que contenham nome"""
     arquivos = os.listdir(path)
     lista = []
@@ -100,18 +100,20 @@ def cria_lista_arquivos(path='./pyndorama/static/aventura/'):
 
 
 class ListaDeAventuras:
+    nome_pattern = re.compile(r"/([^/]+).yaml")
+
     def _le_nome(self, dic):
         return dic['nome']
 
     def __call__(self, arquivos):
         lista = []
-        
+
         for a in arquivos:
             caminho = a.name
             try:
                 nome = self._le_nome(yaml.load(a.read()))
-            except TypeError:
-                continue
+            except (TypeError, KeyError):
+                nome = ListaDeAventuras.nome_pattern.search(caminho).group(1)
             finally:
                 a.close()
             lista.append((caminho, nome))
