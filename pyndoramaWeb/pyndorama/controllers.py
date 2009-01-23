@@ -3,6 +3,7 @@ from codecs import open
 from base64 import urlsafe_b64encode as b64encode
 from base64 import urlsafe_b64decode as b64decode
 from yaml import dump
+from datetime import datetime
 import aventura
 from cherrypy import session, request
 from turbogears import controllers, expose, flash, redirect
@@ -81,7 +82,11 @@ class Editor(controllers.Controller):
     @expose()
     def salvar(self):
         mundo = self.get_mundo()
-        raise redirect('/iniciar', adventure='', aventurayaml=dump(mundo))
+        aventurayaml = dump(mundo)
+        filename = "pyndorama/static/aventura/%s.yaml" % \
+                   datetime.now().strftime("%Y%m%d%H%M%S")
+        aventura.Adventure(content=aventurayaml).save(filename)
+        raise redirect('/iniciar', adventure='', aventurayaml=aventurayaml)
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):

@@ -583,10 +583,10 @@ class Adventure(object):
         else:
             return Adventure.g[thing_name](thing_value)
 
-    def save(self):
-        pass
-
-
+    def save(self, filename):
+        adventure_file = open(filename, 'wb', ENCODING, 'ignore')
+        adventure_file.write(yaml.dump(self.world_mapping))
+        adventure_file.close()
 
 
 class World(ThingTmp):
