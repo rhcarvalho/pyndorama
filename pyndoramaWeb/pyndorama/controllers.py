@@ -17,6 +17,8 @@ from util import cria_lista_arquivos
 
 class Editor(controllers.Controller):
     def get_mundo(self):
+        u"""Retorna o mundo (dict) armazenado na session ou redireciona para
+            a raiz da aplicação exibindo uma mensagem"""
         mundo = session.get('pyndo_editor')
         if mundo is None:
             flash(u"Para jogar o Pyndorama você deve habilitar os cookies de "
@@ -25,6 +27,9 @@ class Editor(controllers.Controller):
         return mundo
 
     def get_element(self, b64id, with_parent=False):
+        u"""Retorna o elemento do mundo com o id codificado por b64id.
+            Caso with_parent seja True, retorna uma tupla com o pai do
+            elemento e o próprio"""
         mundo = self.get_mundo()
         indexes = (int(i) for i in b64decode(b64id.encode()).split('.'))
         parent, element = None, mundo
@@ -39,6 +44,7 @@ class Editor(controllers.Controller):
     def index(self, adventure=None):
         if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
+            # Protege contra aventuras no formato antigo
             if not isinstance(mapping, dict):
                 flash(u"Aventura incompatível com o editor.")
                 raise redirect('/')
@@ -54,7 +60,10 @@ class Editor(controllers.Controller):
 
     @expose(template="pyndorama.templates.editor.item")
     def item(self, b64id, **kwargs):
+        u"""GET  (sem kwargs) - Exibe um elemento (Mundo, Lugar, Objeto, ...)
+            POST (com kwargs) - Edita um elemento alterando seus atributos"""
         element = self.get_element(b64id)
+        # altera o item
         if kwargs:
             for key in ('nome', 'descricao'):
                 try:
@@ -66,6 +75,8 @@ class Editor(controllers.Controller):
 
     @expose(template="pyndorama.templates.editor.item")
     def adicionar(self, b64id):
+        u"""Adiciona um novo elemento ao conteúdo do elemento identificado
+            por b64id"""
         element = self.get_element(b64id)
         element.setdefault('conteudo', [])
         child = {'nome': 'sem_nome%s' % len(element['conteudo'])}
@@ -78,12 +89,14 @@ class Editor(controllers.Controller):
 
     @expose()
     def remover(self, b64id):
+        u"""Remove o elemento identificado por b64id e todo seu conteúdo"""
         parent, element = self.get_element(b64id, with_parent=True)
         parent['conteudo'].remove(element)
         raise redirect('../')
 
     @expose()
     def remover_tudo(self, b64id):
+        u"""Remove o conteúdo do elemento identificado por b64id"""
         element = self.get_element(b64id)
         del element['conteudo'][:]
         raise redirect('../')
@@ -99,6 +112,7 @@ class Editor(controllers.Controller):
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
+        u"""Exibe o conceito antigo de editor de aventuras"""
         return dict(title="Untitled")
 
 
