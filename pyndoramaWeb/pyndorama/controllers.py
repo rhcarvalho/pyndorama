@@ -65,35 +65,40 @@ class Editor(controllers.Controller):
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor.item")
-    @keep_backup
     def item(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Exibe um elemento (Mundo, Lugar, Objeto, ...)
+                                para edição
             POST (com kwargs) - Edita um elemento alterando seus atributos"""
         element = self.get_element(b64id)
-        # altera o item
         if kwargs:
-            for key in ('nome', 'descricao'):
-                try:
-                    element[key] = kwargs[key]
-                except KeyError:
-                    pass
+            self.salvar_item(element, **kwargs)
             raise redirect('./')
-        return dict(b64id=b64id, item=element)
+        return dict(action="../item", b64id=b64id, item=element)
 
     @expose(template="pyndorama.templates.editor.item")
-    @keep_backup
-    def adicionar(self, b64id):
-        u"""Adiciona um novo elemento ao conteúdo do elemento identificado
-            por b64id"""
-        element = self.get_element(b64id)
-        element.setdefault('conteudo', [])
-        child = {'nome': 'sem_nome%s' % len(element['conteudo'])}
-        element['conteudo'].append(child)
+    def adicionar(self, b64id, **kwargs):
+        u"""GET  (sem kwargs) - Cria um novo elemento e vai para sua tela
+                                de edição
+            POST (com kwargs) - Adiciona um novo elemento ao conteúdo do pai
+                                do elemento identificado por b64id"""
+        parent = self.get_element(b64id)
+        parent.setdefault('conteudo', [])
+        element = {'nome': 'sem_nome%s' % len(parent['conteudo'])}
+        if kwargs:
+            self.salvar_item(element, parent, **kwargs)
+            raise redirect('./')
+        return dict(action="../adicionar", b64id=b64id, item=element)
 
-        id = b64decode(b64id.encode())
-        index = element['conteudo'].index(child)
-        child_b64id = b64encode('%s.%s' % (id, index))
-        return dict(b64id=child_b64id, item=child)
+    @keep_backup
+    def salvar_item(self, element, parent=None, **kwargs):
+        for key in ('nome', 'descricao'):
+            try:
+                element[key] = kwargs[key]
+            except KeyError:
+                pass
+        # adicionando conteúdo
+        if parent is not None:
+            parent['conteudo'].append(element)
 
     @expose()
     @keep_backup

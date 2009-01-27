@@ -43,7 +43,7 @@ window.onload = function () {
 </script>
 </head>
 <body>
-<form action="../item" method="post">
+<form action="${action}" method="post">
     <input type="hidden" name="b64id" value="${b64id}" />
     <table>
         <tr>
