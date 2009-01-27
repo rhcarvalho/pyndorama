@@ -55,6 +55,7 @@ td {
 </style>
 </head>
 <body>
+<div id="status_block"><a href="desfazer">Desfazer</a></div>
 <div py:def="display_thing(container, id)">
     <?python
     level = id.count('.')

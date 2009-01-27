@@ -2,7 +2,7 @@
 from codecs import open
 from base64 import urlsafe_b64encode as b64encode
 from base64 import urlsafe_b64decode as b64decode
-from yaml import dump
+import yaml
 from datetime import datetime
 import aventura
 from cherrypy import session, request
@@ -11,8 +11,14 @@ from turbogears import controllers, expose, flash, redirect
 import logging
 log = logging.getLogger("pyndorama.controllers")
 
-from util import getFullPath
-from util import cria_lista_arquivos
+from util import getFullPath, cria_lista_arquivos
+
+
+def keep_backup(func):
+    def new_func(*args, **kwargs):
+        session['pyndo_editor_backup'] = yaml.dump(session.get('pyndo_editor', {}))
+        return func(*args, **kwargs)
+    return new_func
 
 
 class Editor(controllers.Controller):
@@ -59,6 +65,7 @@ class Editor(controllers.Controller):
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor.item")
+    @keep_backup
     def item(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Exibe um elemento (Mundo, Lugar, Objeto, ...)
             POST (com kwargs) - Edita um elemento alterando seus atributos"""
@@ -74,6 +81,7 @@ class Editor(controllers.Controller):
         return dict(b64id=b64id, item=element)
 
     @expose(template="pyndorama.templates.editor.item")
+    @keep_backup
     def adicionar(self, b64id):
         u"""Adiciona um novo elemento ao conteúdo do elemento identificado
             por b64id"""
@@ -88,6 +96,7 @@ class Editor(controllers.Controller):
         return dict(b64id=child_b64id, item=child)
 
     @expose()
+    @keep_backup
     def remover(self, b64id):
         u"""Remove o elemento identificado por b64id e todo seu conteúdo"""
         parent, element = self.get_element(b64id, with_parent=True)
@@ -95,6 +104,7 @@ class Editor(controllers.Controller):
         raise redirect('../')
 
     @expose()
+    @keep_backup
     def remover_tudo(self, b64id):
         u"""Remove o conteúdo do elemento identificado por b64id"""
         element = self.get_element(b64id)
@@ -104,11 +114,18 @@ class Editor(controllers.Controller):
     @expose()
     def salvar(self):
         mundo = self.get_mundo()
-        aventurayaml = dump(mundo)
+        aventurayaml = yaml.dump(mundo)
         filename = "pyndorama/static/aventura/%s.yaml" % \
                    datetime.now().strftime("%Y%m%d%H%M%S")
         aventura.Adventure(content=aventurayaml).save(filename)
         raise redirect('/iniciar', adventure='', aventurayaml=aventurayaml)
+
+    @expose()
+    def desfazer(self):
+        backup = session.get('pyndo_editor_backup')
+        if backup is not None:
+            session['pyndo_editor'] = yaml.load(backup)
+        raise redirect('./')
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
