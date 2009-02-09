@@ -1,0 +1,111 @@
+conteudo:
+- conteudo:
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'cesta'}
+        descricao: !!python/unicode 'peguei a cesta'
+        nome: !!python/unicode 'P'
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'cesta'}
+        descricao: !!python/unicode 'ativei a cesta'
+        nome: !!python/unicode 'A'
+      descricao: "Voc\xEA pega a cesta de frutas."
+      nome: !!python/unicode 'pegar'
+    descricao: !!python/unicode 'uma cesta de frutas fresquinhas'
+    nome: !!python/unicode 'cesta'
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'encruzilhada'}
+        descricao: "Voc\xEA foi para a encruzilhada..."
+        nome: !!python/unicode 'M'
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'cesta'}
+        descricao: "N\xE3o vai levar a cesta?"
+        nome: !!python/unicode 'S'
+      descricao: !!python/unicode ''
+      nome: !!python/unicode 'ir'
+    descricao: "a encruzilhada que liga a casa da mam\xE3e aos caminhos pra casa da\
+      \ vov\xF3"
+    nome: !!python/unicode 'encruzilhada'
+  descricao: "Voc\xEA est\xE1 na casa de sua m\xE3e."
+  nome: !!python/unicode 'casa'
+- conteudo:
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'rio'}
+        descricao: !!python/unicode ''
+        nome: !!python/unicode 'M'
+      descricao: "Voc\xEA segue pelo caminho do rio..."
+      nome: !!python/unicode 'seguir'
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'rio'}
+        descricao: !!python/unicode ''
+        nome: !!python/unicode 'M'
+      descricao: "Voc\xEA pega o caminho do rio..."
+      nome: !!python/unicode 'pegar'
+    descricao: !!python/unicode 'caminho que segue pelo rio'
+    nome: !!python/unicode 'rio'
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'floresta'}
+        descricao: !!python/unicode ''
+        nome: !!python/unicode 'M'
+      descricao: "Voc\xEA segue o caminho da floresta"
+      nome: !!python/unicode 'seguir'
+    descricao: !!python/unicode 'caminho que segue pela floresta'
+    nome: !!python/unicode 'floresta'
+  descricao: "Voc\xEA est\xE1 na encruzilhada que liga a casa da mam\xE3e aos caminhos\
+    \ pra casa da vov\xF3."
+  nome: !!python/unicode 'encruzilhada'
+- conteudo:
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: "vov\xF3"}
+        descricao: !!python/unicode ''
+        nome: !!python/unicode 'M'
+      descricao: "Voc\xEA segue o atalho e..."
+      nome: !!python/unicode 'seguir'
+    descricao: !!python/unicode 'um atalho'
+    nome: !!python/unicode 'atalho'
+  descricao: "Voc\xEA est\xE1 no caminho que vai pelo rio"
+  nome: !!python/unicode 'rio'
+- conteudo:
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'vovo'}
+        descricao: !!python/unicode ''
+        nome: !!python/unicode 'M'
+      descricao: !!python/unicode ''
+      nome: !!python/unicode 'pegar'
+    descricao: !!python/unicode 'um atalho muito suspeito'
+    nome: !!python/unicode 'atalho'
+  - conteudo:
+    - conteudo:
+      - conteudo:
+        - {descricao: !!python/unicode '', nome: !!python/unicode 'casa'}
+        descricao: "N\xE3o deveria ter comido, ele era venenoso. Agora voc\xEA vai\
+          \ voltar pra casa da mam\xE3e, para curar sua dor de barriga antes de seguir\
+          \ seu caminho."
+        nome: !!python/unicode 'M'
+      descricao: "Voc\xEA comeu o morango!!! "
+      nome: !!python/unicode 'comer'
+    descricao: !!python/unicode 'um moranguinho muito vermelho'
+    nome: !!python/unicode 'moranguinho'
+  descricao: "Voc\xEA est\xE1 no caminho que passa pela floresta para chegar \xE0\
+    \ casa da vov\xF3."
+  nome: !!python/unicode 'floresta'
+- conteudo:
+  - {descricao: "sua vov\xF3 est\xE1 um tanto esquisita!", nome: "v\xF3"}
+  descricao: "Voc\xEA chegou \xE0 casa da vov\xF3."
+  nome: !!python/unicode 'vovo'
+descricao: "Voc\xEA \xE9 uma pequena menina. Sua vov\xF3 est\xE1 adoentada e sua m\xE3\
+  e pediu para que voc\xEA leve umas frutas para ela. Mas ela mora longe... e o caminho\
+  \ \xE9 deserto."
+nome: !!python/unicode 'Chapeuzinho Vermelho'
