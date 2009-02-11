@@ -8,7 +8,7 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
 <title>Pyndorama :: Editando Aventura</title>
 <style>
 body {
-    background: #a05b30;
+    background: #e9e9e9;
 }
 
 div {
@@ -30,27 +30,27 @@ td {
 }
 
 .mundo {
-    background: #cb6530;
+    background: #ccccff;
 }
 
 .local {
-    background: #ec7a3c;
+    background: #ccffff;
 }
 
 .objeto {
-    background: #f39e5b;
+    background: #99ffcc;
 }
 
 .verbo {
-    background: #f4bf81;
+    background: #ffffaa;
 }
 
 .acao {
-    background: #f2d39f;
+    background: #ffcc99;
 }
 
 .alvo_acao {
-    background: #fff;
+    background: #ffcccc;
 }
 </style>
 </head>
