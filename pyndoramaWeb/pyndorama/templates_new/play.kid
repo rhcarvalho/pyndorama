@@ -21,34 +21,39 @@
             Texto relativo à aventura
         </div>
     </pre>
-
-    <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
-    <div id="place_description">
-        <span py:content="place.value">Descrição do local</span>
-        <?python
-            objects = [obj for obj in place.contents.values() if obj.value]
-        ?>
-        <div py:if="(not defined('show') or show) and objects or defined('inve') and inve" py:strip="">
-            <br />Você pode ver:
-            <ul>
-                <li py:for="obj in objects" py:content="obj.value">Lista de itens no local atual</li>
-                <li py:if="not objects">nada aqui</li>
-            </ul>
+    
+    <div class="right_column box rounded">
+        <div id="place_img" py:if="image">
+            <img src="${image}" alt="Lugar atual" />
         </div>
     </div>
-    <div id="place_img" py:if="image">
-        <img src="${image}" alt="Lugar atual" />
-    </div>
-    <div id="command_prompt">
-        <form action='${action}' method="post">
-            <span py:if="not defined('show') or show" py:strip="">
-            <input type="text" name="query" id="query" value="" />
-            </span>
-            <input type="submit" value="Ação!!!" />
-        </form>
-        <div id="all_actions" py:if="global_actions or local_actions">
-            <span>Comandos disponíveis:</span>
-            <span py:content="', '.join(global_actions + local_actions)">globais, locais.</span>
+
+    <div class="left_column box rounded justified">
+        <div class="notice" py:if="defined('notice') and notice" py:content="value_of('notice', '')">Mensagem ao jogador</div>
+        <div id="place_description">
+            <span py:content="place.value">Descrição do local</span>
+            <?python
+                objects = [obj for obj in place.contents.values() if obj.value]
+            ?>
+            <div py:if="(not defined('show') or show) and objects or defined('inve') and inve" py:strip="">
+                <br />Você pode ver:
+                <ul>
+                    <li py:for="obj in objects" py:content="obj.value">Lista de itens no local atual</li>
+                    <li py:if="not objects">nada aqui</li>
+                </ul>
+            </div>
+        </div>
+        <div id="command_prompt">
+            <form action='${action}' method="post">
+                <span py:if="not defined('show') or show" py:strip="">
+                <input type="text" name="query" id="query" value="" />
+                </span>
+                <input type="submit" value="Ação!!!" />
+            </form>
+            <div id="all_actions" py:if="global_actions or local_actions">
+                <span>Comandos disponíveis:</span>
+                <span py:content="', '.join(global_actions + local_actions)">globais, locais.</span>
+            </div>
         </div>
     </div>
 </body>

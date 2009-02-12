@@ -30,9 +30,9 @@ __date__    = "2006/04/24 $Date: 30/06/2006 16:18:46 $"
 ENCODING = 'utf-8'
 FIRST_PLACE = 0
 MAPA_MUNDI = {}
-CANNOT_FIND_OBJECT = u'Você não pode fazer nada com %s!'
-CANNOT_PERFORM_ACTION = u'Não deu certo essa de %s!'
-ACTION_IS_USELESS = u'Nada acontece caso você %s.'
+CANNOT_FIND_OBJECT = u'Você não pode fazer nada com "%s"!'
+CANNOT_PERFORM_ACTION = u'Não deu certo essa de "%s"!'
+ACTION_IS_USELESS = u'Nada acontece caso você "%s".'
 YOU_CAN_SEE = u'Você pode ver:'
 YOU_CHECK_YOUR_INVENTORY = u'Você examina o seu inventário.'
 

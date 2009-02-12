@@ -1,9 +1,6 @@
 /* CSS Document for KID template principal.kid */
 
-body {
-    /*background: #000000;*/
-}
-
+/*
 #place_description {
     position: absolute;
     top: 94px;
@@ -17,32 +14,32 @@ body {
 
 #place_description h2 {
     font: bold medium Verdana, Arial, Helvetica, sans-serif;
-}
+}*/
 
 .notice {
     margin: 0 auto 0.5em auto;
     padding: 10px;
-    width: 450px;
+    width: 80%;
     background: #eef;
     border: 1px solid #cce;
 }
 
-#place_img {
+/*#place_img {
     position: absolute;
     top: 94px;
     left: 424px;
     width: 218px;
     height: 250px;
-}
+}*/
 
-#command_prompt {
+/*#command_prompt {
     position: absolute;
     top: 350px;
     left: 151px;
     width: 218px;
     height: 68px;
     overflow: auto;
-}
+}*/
 
 #all_actions {
     color: #999999;
@@ -50,14 +47,6 @@ body {
     font: x-small Verdana, Arial, Helvetica, sans-serif;
 }
 
-#book {
-    background: url('../images/book.jpg');
-    padding: 20px 2% 20px 2%;
-    margin: 10px 150px 10px 10px;
-    /*border: 3px solid #eee;*/
-    width: 750px;
-    height: 400px;
-}
 #fabletext {
     float: left;
             /* top right bottom left */

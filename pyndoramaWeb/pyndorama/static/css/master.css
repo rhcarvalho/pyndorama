@@ -10,7 +10,7 @@ body {
     width: 1000px;
     background: none;
     margin: 0 auto;
-    border: 1px solid #000000;
+    /*border: 1px solid #000000;*/
     text-align: left;
 }
 #header {
@@ -59,11 +59,16 @@ body {
 }
 .left_column {
 	float: left;
-    width: 50%;
+    width: 368px;
 	margin: 0 10px 0 0;
 }
 .left_column > p:first-child {
 	margin-top: 0;
+}
+.right_column {
+    float: right;
+    width: 300px;
+    overflow: auto;
 }
 fieldset {
     border: 1px solid #CECECE;
@@ -100,5 +105,8 @@ a.rounded, .button {
 }
 .button:hover {
     background-color: #cee;
+}
+.justified {
+    text-align: justify;
 }
 
