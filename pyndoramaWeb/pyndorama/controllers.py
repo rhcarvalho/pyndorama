@@ -146,7 +146,7 @@ class Root(controllers.RootController):
         log.debug("Happy TurboGears Controller Responding For Duty")
         return dict(aventuras=aventuras)
 
-    @expose(template="pyndorama.templates.principal")
+    @expose(template="pyndorama.templates_new.principal")
     def iniciar(self, adventure, aventurayaml=None):
         if aventurayaml is not None:
             pyndorama = aventura.Adventure(content=aventurayaml).load()
@@ -170,7 +170,7 @@ class Root(controllers.RootController):
                     place=place,
                     show=False)
 
-    @expose(template="pyndorama.templates.principal")
+    @expose(template="pyndorama.templates_new.principal")
     def acao(self, query=''):
         if query.lower() == 'xyzz':
             raise redirect('/edit')
@@ -226,7 +226,7 @@ class Root(controllers.RootController):
                     notice=notice,
                     inve=inve)
 
-    @expose(template="pyndorama.templates.edit")
+    @expose(template="pyndorama.templates_new.edit")
     def edit(self, placedesc=None, **kwargs):
         pyndorama = session.get('pyndorama')
         if not pyndorama:
@@ -253,7 +253,7 @@ class Root(controllers.RootController):
                     title=pyndorama.key,
                     place=place)
 
-    @expose(template="pyndorama.templates.edityaml")
+    @expose(template="pyndorama.templates_new.edityaml")
     def edityaml(self, adventure):
         path = adventure
         pyndorama = aventura.Adventure(path).load()
