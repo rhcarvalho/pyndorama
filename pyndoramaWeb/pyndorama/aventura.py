@@ -316,7 +316,7 @@ class Z(Things):
     def get_image(self, place=None):
         if place is None:
             place = self.current_place
-        return '/static/images/' + place.key + '.gif'
+        return '/static/aventura/images/' + place.key + '.gif'
 
     def dismiss(self):
         """finaliza aventura"""
