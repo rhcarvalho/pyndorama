@@ -24,15 +24,13 @@
                 <fieldset>
                 <legend>Aventuras</legend>
                     
-                    <p><a href="/editor/nova">Criar Nova Aventura</a></p>
-                    
-                    <label for="adventure">Aventura:</label>
-                    <select id="adventure" name="adventure">
+                    <p><a href="/editor/nova" class="rounded {transparent} button">Criar Nova Aventura</a></p>
+                    <select id="adventure" name="adventure" class="rounded button">
                         <option py:for="caminho, nome in aventuras" value="${caminho}" py:content="nome">Nome da Aventura</option>
                     </select>
-                    <input type="button" id="btn_editar" value="Editar" />
-                    <input type="button" id="btn_editar_yaml" value="Editar YAML" />
-                    <input type="submit" id="btn_iniciar" value="Jogar!" />
+                    <input type="button" id="btn_editar" value="Editar" class="rounded {transparent} button" />
+                    <input type="button" id="btn_editar_yaml" value="Editar YAML" class="rounded {transparent} button" />
+                    <input type="submit" id="btn_iniciar" value="Jogar!" class="rounded {transparent} button" />
                 </fieldset>
             </form>
         </div>

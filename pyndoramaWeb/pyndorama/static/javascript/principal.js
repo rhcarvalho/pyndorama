@@ -7,7 +7,7 @@ addLoadEvent(function () {
     for (var i = 0; i <= fields.length; i++)
     {
         var field = fields[i];
-        if (field.type == 'text')
+        if (field && field.type == 'text')
         {
             field.focus();
             break;

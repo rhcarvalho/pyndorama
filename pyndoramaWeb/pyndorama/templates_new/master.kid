@@ -11,11 +11,6 @@
     <script type="text/javascript" src="${tg.url('/static/javascript/jquery-1.3.1.min.js')}"></script>
     <script type="text/javascript" src="${tg.url('/static/javascript/jquery.corners.min.js')}"></script>
     <script type="text/javascript" src="${tg.url('/static/javascript/master.js')}"></script>
-    <script type="text/javascript">
-	$(function(){
-		$(".rounded").corners("10px");
-	});
-	</script>
     <meta py:replace="item[:]" />
 </head>
 
