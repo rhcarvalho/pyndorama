@@ -82,7 +82,7 @@ conteudo:
                     - nome: dica2
     - nome: dica2
       descricao: Com a luz da lanterna você consegue ver as paredes de pedra.
-                 Parece há algo brilhando. Você se aproxima e vê um diamante
+                 Parece que há algo brilhando. Você se aproxima e vê um diamante
                  encrustado na pedra.
       conteudo:
         - nome: diamante

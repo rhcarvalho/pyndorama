@@ -86,5 +86,16 @@ td {
 	<div py:replace="display_thing(mundo, '0')" />
     <input type="submit" value="Salvar" />
 </form>
+<div>
+<p>Nomes das a&ccedil;&otilde;es:</p>
+<p>M - Move para o lugar informado</p>
+<p>P - P&otilde;e o objeto no invent&aacute;rio do jogador</p>
+<p>T - Retira o objeto do invent&aacute;rio do jogador</p>
+<p>A - Ativa o objeto</p>
+<p>B - Bloqueia o objeto</p>
+<p>S - Testa se o objeto est&aacute; ativo</p>
+<p>R - Testa se o objeto est&aacute; bloqueado</p>
+<p>F - Finaliza a aventura</p>
+</div>
 </body>
 </html>
