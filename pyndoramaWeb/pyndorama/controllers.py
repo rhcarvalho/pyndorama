@@ -140,7 +140,7 @@ class Editor(controllers.Controller):
 
 class Root(controllers.RootController):
     editor = Editor()
-    @expose(template="pyndorama.templates.menu")
+    @expose(template="pyndorama.templates_new.home")
     def index(self, *args, **kwargs):
         aventuras = cria_lista_arquivos()
         log.debug("Happy TurboGears Controller Responding For Duty")

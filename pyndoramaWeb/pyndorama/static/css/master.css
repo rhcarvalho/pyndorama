@@ -1,0 +1,73 @@
+body {
+    font: 100% Verdana, Arial, Helvetica, sans-serif;
+    background: #C0E2CA;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #000000;
+}
+#container {
+    width: 1000px;
+    background: none;
+    margin: 0 auto;
+    border: 1px solid #000000;
+    text-align: left;
+}
+#header {
+    padding: 0 10px 0 20px;
+    margin: 8px auto;
+    text-align: center;
+}
+#header img {
+    margin: 0;
+    padding: 10px 0;
+}
+#main_menu {
+    float: right;
+    width: 174px;
+    margin: 8px auto;
+    font-size: 0.8em;
+    line-height: 2.0em;
+}
+#main_menu  ul {
+    margin: 0;
+}
+#content {
+    float: left;
+    width: 768px;
+    margin: 8px auto;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+#status_block {
+    margin: 0 auto 0.5em auto;
+    padding: 15px 10px 15px 55px;
+    background: #cec url(../images/ok.png) left center no-repeat;
+    border: 1px solid #9c9;
+    width: 600px;
+    font-size: 120%;
+    font-weight: bolder;
+}
+.box {
+    background: #FFFFFF;
+    padding: 20px;
+}
+.left_column {
+	float: left;
+    width: 50%;
+	margin: 0 10px 0 0;
+}
+.left_column > p:first-child {
+	margin-top: 0;
+}
+select {
+	display: block;
+	width: 99%;
+	margin: 0.2em 0 0.8em 0;
+	font-size: 1.6em;
+}
