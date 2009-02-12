@@ -155,8 +155,6 @@ class Root(controllers.RootController):
             path = adventure
             pyndorama = aventura.Adventure(path).load()
         session['pyndorama'] = pyndorama
-        pyndorama.finalizer = lambda self=self: self.finalizer()
-        pyndorama.editor = lambda self=self: self.editor()
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
