@@ -3,7 +3,6 @@
     py:extends="'master.kid'">
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
     <title>Bem-vindo ao Pyndorama!</title>
     <script type="text/javascript" src="${tg.url('/static/javascript/menu.js')}"></script>
 </head>

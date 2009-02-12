@@ -46,7 +46,7 @@ class Editor(controllers.Controller):
             return parent, element
         return element
 
-    @expose(template="pyndorama.templates.editor.full")
+    @expose(template="pyndorama.templates_new.editor.full")
     def index(self, adventure=None):
         if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
@@ -64,7 +64,7 @@ class Editor(controllers.Controller):
         session['pyndo_editor'] = mapping
         raise redirect('./')
 
-    @expose(template="pyndorama.templates.editor.item")
+    @expose(template="pyndorama.templates_new.editor.item")
     def item(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Exibe um elemento (Mundo, Lugar, Objeto, ...)
                                 para edição
@@ -75,7 +75,7 @@ class Editor(controllers.Controller):
             raise redirect('./')
         return dict(action="../item", b64id=b64id, item=element)
 
-    @expose(template="pyndorama.templates.editor.item")
+    @expose(template="pyndorama.templates_new.editor.item")
     def adicionar(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Cria um novo elemento e vai para sua tela
                                 de edição
