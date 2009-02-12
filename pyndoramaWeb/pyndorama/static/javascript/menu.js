@@ -10,7 +10,7 @@ var set_onclick = function (element, action) {
     }
 };
 
-addLoadEvent(function () {
+$(function () {
     var field = document.getElementById('btn_editar');
     if (field) {
         set_onclick(field, '/editor/');
@@ -26,3 +26,22 @@ addLoadEvent(function () {
         set_onclick(field, '/iniciar');
     }
 });
+
+/* jQuery version
+
+$(function(){
+    $("btn_editar").click(function(){
+        alert("god");
+        $("form_adv").action = '/editor/';
+    });
+    
+    $("btn_editar_yaml").click(function(){
+        $("form_adv").action = '/edityaml';
+    });
+    
+    $("btn_iniciar").click(function(){
+        $("form_adv").action = '/iniciar';
+    });
+});
+
+*/
