@@ -538,7 +538,8 @@ class Adventure(object):
             raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
-        global FIRST_PLACE, playadventure
+        global FIRST_PLACE, playadventure, inventario
+        inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
         playadventure = True
         try:
             FIRST_PLACE = -1
