@@ -58,6 +58,14 @@ td {
     background: #ffcccc;
 }
 </style>
+<script>
+$(function () {
+    $("input[type=file]").css({display: 'none'});
+    $(".img_upload").click(function () {
+        $("input[type=file]").css({display: 'block'});
+    });
+});
+</script>
 </head>
 <body>
 <div class="box rounded">
@@ -67,6 +75,7 @@ td {
         level = id.count('.')
         show_add = show_remove_content = level < 5
         show_remove = level > 0
+        show_add_image = level in (0, 1)
         ?>
         <table class="${classes[level]}">
             <tr>
@@ -83,8 +92,12 @@ td {
         <a href="remover/${b64encode(id)}">remover</a></span>
         <span py:if="show_add" py:strip=""> |
         <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
+        <span py:if="show_add_image" py:strip=""> |
+        <a href="#" class="img_upload">adicionar imagem</a></span>
         <span py:if="show_remove_content" py:strip=""> |
         <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
+        <input type="file" id="img_upload_${b64encode(id)}"
+               name="img_upload_${b64encode(id)}" />
         <div py:for="index, item in enumerate(container.get('conteudo', []))"
              py:replace="display_thing(item, '%s.%s' % (id, index))" />
     </div>
