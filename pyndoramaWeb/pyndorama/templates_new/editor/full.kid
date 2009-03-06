@@ -60,9 +60,14 @@ td {
 </style>
 <script>
 $(function () {
-    $("input[type=file]").css({display: 'none'});
+    $("input[type=file]").hide().change(function () {
+        alert('Fazendo upload de "' + this.value + '"');
+        $(this).hide();
+        return false;
+    });
     $(".img_upload").click(function () {
-        $("input[type=file]").css({display: 'block'});
+        $(this).parent('div').find("input[type=file]:first").show();
+        return false;
     });
 });
 </script>
