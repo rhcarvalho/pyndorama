@@ -132,6 +132,11 @@ class Editor(controllers.Controller):
             session['pyndo_editor'] = yaml.load(backup)
         raise redirect('./')
 
+    @expose()
+    def upload_imagem(self, b64id, imagem):
+        # http://docs.turbogears.org/1.0/FileUploadTutorial
+        pass
+
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
         u"""Exibe o conceito antigo de editor de aventuras"""
