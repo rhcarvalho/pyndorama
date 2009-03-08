@@ -46,7 +46,7 @@ class Editor(controllers.Controller):
             return parent, element
         return element
 
-    @expose(template="pyndorama.templates_new.editor.full")
+    @expose(template="pyndorama.templates.editor.full")
     def index(self, adventure=None):
         if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
@@ -64,7 +64,7 @@ class Editor(controllers.Controller):
         session['pyndo_editor'] = mapping
         raise redirect('./')
 
-    @expose(template="pyndorama.templates_new.editor.item")
+    @expose(template="pyndorama.templates.editor.item")
     def item(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Exibe um elemento (Mundo, Lugar, Objeto, ...)
                                 para edição
@@ -75,7 +75,7 @@ class Editor(controllers.Controller):
             raise redirect('./')
         return dict(action="../item", b64id=b64id, item=element)
 
-    @expose(template="pyndorama.templates_new.editor.item")
+    @expose(template="pyndorama.templates.editor.item")
     def adicionar(self, b64id, **kwargs):
         u"""GET  (sem kwargs) - Cria um novo elemento e vai para sua tela
                                 de edição
@@ -161,13 +161,13 @@ class Editor(controllers.Controller):
 
 class Root(controllers.RootController):
     editor = Editor()
-    @expose(template="pyndorama.templates_new.home")
+    @expose(template="pyndorama.templates.home")
     def index(self, *args, **kwargs):
         aventuras = cria_lista_arquivos()
         log.debug("Happy TurboGears Controller Responding For Duty")
         return dict(aventuras=aventuras)
 
-    @expose(template="pyndorama.templates_new.play")
+    @expose(template="pyndorama.templates.play")
     def iniciar(self, adventure, aventurayaml=None):
         if aventurayaml is not None:
             pyndorama = aventura.Adventure(content=aventurayaml).load()
@@ -191,7 +191,7 @@ class Root(controllers.RootController):
                     place=place,
                     show=False)
 
-    @expose(template="pyndorama.templates_new.play")
+    @expose(template="pyndorama.templates.play")
     def acao(self, query=''):
         if query.lower() == 'xyzz':
             raise redirect('/edit')
@@ -247,7 +247,7 @@ class Root(controllers.RootController):
                     notice=notice,
                     inve=inve)
 
-    @expose(template="pyndorama.templates_new.edit")
+    @expose(template="pyndorama.templates.edit")
     def edit(self, placedesc=None, **kwargs):
         pyndorama = session.get('pyndorama')
         if not pyndorama:
@@ -274,7 +274,7 @@ class Root(controllers.RootController):
                     title=pyndorama.key,
                     place=place)
 
-    @expose(template="pyndorama.templates_new.edityaml")
+    @expose(template="pyndorama.templates.edityaml")
     def edityaml(self, adventure):
         path = adventure
         pyndorama = aventura.Adventure(path).load()
