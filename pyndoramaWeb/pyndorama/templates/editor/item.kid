@@ -7,28 +7,21 @@
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/editor/item.css')}";
     </style>
-    <script>
-    window.onload = function () {
-        if (location.href.match(/.*\/adicionar\//))
-        {
-            document.forms[0].elements[1].select();
-        }
-    };
-    </script>
+    <script type="text/javascript" src="${tg.url('/static/javascript/editor/item.js')}"></script>
 </head>
 
 <body>
     <div class="box rounded">
         <form action="${action}" method="post">
-            <input type="hidden" name="b64id" value="${b64id}" />
+            <input type="hidden" id="b64id" name="b64id" value="${b64id}" />
             <table>
                 <tr>
                     <th>Nome:</th>
-                    <td><input type="text" name="nome" value="${item.get('nome')}" /></td>
+                    <td><input type="text" id="nome" name="nome" value="${item.get('nome')}" /></td>
                 </tr>
                 <tr>
                     <th>Descri&ccedil;&atilde;o:</th>
-                    <td><textarea name="descricao" py:content="item.get('descricao')" /></td>
+                    <td><textarea id="descricao" name="descricao" py:content="item.get('descricao')" /></td>
                 </tr>
             </table>
             <input type="submit" value="Salvar" />

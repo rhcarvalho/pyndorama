@@ -11,20 +11,7 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/editor/full.css')}";
     </style>
-    <script>
-    $(function () {
-        $(".form_salvar_imagem").hide()
-                                .find("input[type=submit]").hide().end()
-                                .find("input[type=file]").change(function () {
-            $(this).parent(".form_salvar_imagem").hide().submit();
-            return false;
-        });
-        $(".img_upload").click(function () {
-            $(this).parent().find(".form_salvar_imagem:first").show();
-            return false;
-        });
-    });
-    </script>
+    <script type="text/javascript" src="${tg.url('/static/javascript/editor/full.js')}"></script>
 </head>
 
 <body>
