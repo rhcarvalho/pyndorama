@@ -5,86 +5,28 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
     py:extends="'../master.kid'">
+
 <head>
-<title>Pyndorama :: Editando Aventura</title>
-<style>
-body {
-    background: #e9e9e9;
-}
-
-div.editor-box {
-    border: 1px dotted #F4F4F4;
-    border-top: 0;
-    border-right: 0;
-    margin: 0.5em 0 0.4em 3em;
-    padding: 0.2em 0 0.2em 0;
-}
-
-div.box > div.editor-box {
-    margin-left: 0;
-    border: 0;
-}
-
-div.editor-menu {
-    padding: 0 1em 0.4em 1em;
-    font-size: smaller;
-    background: #CCCCCC;
-}
-
-table {
-    width: 100%;
-}
-
-th {
-    text-align: right;
-    color: #AAAAAA;
-    font-size: smaller;
-    width: 7em;
-}
-
-td {
-    padding: 0.2em 0.2em 0.2em 1em;
-}
-
-.mundo {
-    background: #ccccff;
-}
-
-.local {
-    background: #ccffff;
-}
-
-.objeto {
-    background: #99ffcc;
-}
-
-.verbo {
-    background: #ffffaa;
-}
-
-.acao {
-    background: #ffcc99;
-}
-
-.alvo_acao {
-    background: #ffcccc;
-}
-</style>
-<script>
-$(function () {
-    $(".form_salvar_imagem").hide()
-                            .find("input[type=submit]").hide().end()
-                            .find("input[type=file]").change(function () {
-        $(this).parent(".form_salvar_imagem").hide().submit();
-        return false;
+    <title>Pyndorama :: Editando Aventura</title>
+    <style type="text/css" media="screen">
+    @import "${tg.url('/static/css/editor/full.css')}";
+    </style>
+    <script>
+    $(function () {
+        $(".form_salvar_imagem").hide()
+                                .find("input[type=submit]").hide().end()
+                                .find("input[type=file]").change(function () {
+            $(this).parent(".form_salvar_imagem").hide().submit();
+            return false;
+        });
+        $(".img_upload").click(function () {
+            $(this).parent().find(".form_salvar_imagem:first").show();
+            return false;
+        });
     });
-    $(".img_upload").click(function () {
-        $(this).parent().find(".form_salvar_imagem:first").show();
-        return false;
-    });
-});
-</script>
+    </script>
 </head>
+
 <body>
 <div class="box rounded">
     <div><a href="desfazer">Desfazer</a></div>
@@ -96,7 +38,7 @@ $(function () {
         show_add_image = level in (0, 1)
         ?>
         <div class="editor-box ${classes[level]} rounded">
-            <div class="editor-menu rounded">
+            <div class="editor-menu rounded {top}">
                 <a href="item/${b64encode(id)}">editar</a>
                 <span py:if="show_remove" py:strip=""> |
                 <a href="remover/${b64encode(id)}">remover</a></span>

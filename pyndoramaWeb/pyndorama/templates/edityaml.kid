@@ -3,12 +3,14 @@
     py:extends="'master.kid'">
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
     <title>Pyndorama :: Editando aventura '${title}'</title>
+    <style type="text/css" media="screen">
+    @import "${tg.url('/static/css/edityaml.css')}";
+    </style>
 </head>
 
 <body>
-    <div class="clearfix box rounded">
+    <div class="box rounded">
         <form action="/iniciar" method="post">
             <input type="hidden" id="adventure" name="adventure" value="${adventure}" />
             <textarea id="aventurayaml" name="aventurayaml" py:content="text" />
@@ -17,4 +19,5 @@
         </form>
     </div>
 </body>
+
 </html>

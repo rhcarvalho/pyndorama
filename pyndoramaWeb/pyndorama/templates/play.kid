@@ -5,21 +5,21 @@
 <head>
     <title>Pyndorama :: Aventura '${title}'</title>
     <style type="text/css" media="screen">
-    @import "${tg.url('/static/css/principal.css')}";
+    @import "${tg.url('/static/css/play.css')}";
     </style>
     <script type="text/javascript" src="${tg.url('/static/javascript/principal.js')}"></script>
 </head>
 
 <body>
-    <pre style="position: absolute; top: -15px; right: 10px; width: 400px; background: #EEEEEE;" py:if="defined('debug') and debug">
+    <div class="box rounded" style="background: #000000; color: #4E9A06; overflow: auto;" py:if="defined('debug') and debug">
         <!-- DEBUG INFO -->
-        <div py:content="XML(debug)">
+        <pre py:content="XML(debug)">
             Informações sobre métodos e propriedades de 'place'
-        </div>
-        <div py:content="text">
+        </pre>
+        <pre py:content="text">
             Texto relativo à aventura
-        </div>
-    </pre>
+        </pre>
+    </div>
     
     <div class="right_column box rounded">
         <div id="place_img" py:if="image">

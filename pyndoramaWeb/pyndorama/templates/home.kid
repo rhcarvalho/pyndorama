@@ -5,6 +5,9 @@
 <head>
     <title>Bem-vindo ao Pyndorama!</title>
     <script type="text/javascript" src="${tg.url('/static/javascript/menu.js')}"></script>
+    <style type="text/css" media="screen">
+    @import "${tg.url('/static/css/home.css')}";
+    </style>
 </head>
 
 <body>

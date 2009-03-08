@@ -1,0 +1,13 @@
+.notice {
+    margin: 0 auto 0.5em auto;
+    padding: 10px;
+    width: 80%;
+    background: #eef;
+    border: 1px solid #cce;
+}
+
+#all_actions {
+    color: #999999;
+    padding-top: 3px;
+    font: x-small Verdana, Arial, Helvetica, sans-serif;
+}

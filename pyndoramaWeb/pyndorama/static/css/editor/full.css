@@ -1,0 +1,57 @@
+div.editor-box {
+    margin: 0.5em 1em 0.4em;
+    padding: 0 0 0.2em 0;
+}
+
+div.box > div.editor-box {
+    margin: 0.5em 0 0.4em;
+}
+
+div.editor-menu {
+    padding: 0 1em 0.4em 1em;
+    font-size: smaller;
+    background: #CCCCCC;
+}
+
+div.editor-box a, div.editor-box a:link, div.editor-box a:visited {
+    color: #000080;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: right;
+    color: #AAAAAA;
+    font-size: smaller;
+    width: 7em;
+}
+
+td {
+    padding: 0.2em 0.2em 0.2em 1em;
+}
+
+.mundo {
+    background: #ccccff;
+}
+
+.local {
+    background: #ccffff;
+}
+
+.objeto {
+    background: #99ffcc;
+}
+
+.verbo {
+    background: #ffffaa;
+}
+
+.acao {
+    background: #ffcc99;
+}
+
+.alvo_acao {
+    background: #ffcccc;
+}

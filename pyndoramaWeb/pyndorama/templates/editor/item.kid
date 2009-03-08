@@ -1,46 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
     py:extends="'../master.kid'">
+
 <head>
-<title>Pyndorama :: Editando Aventura</title>
-<style>
-form {
-    margin: auto;
-    padding: 0.2em;
-    width: 50%;
-}
-
-th {
-    text-align: right;
-    color: #AAAAAA;
-    font-size: smaller;
-    width: 6em;
-}
-
-td {
-    padding-left: 1em;
-}
-
-table, input[type="text"], textarea {
-    width: 100%;
-}
-
-textarea {
-    height: 8em;
-}
-
-input[type="submit"] {
-    margin-left: 7em;
-}
-</style>
-<script>
-window.onload = function () {
-    if (location.href.match(/.*\/adicionar\//))
-    {
-        document.forms[0].elements[1].select();
-    }
-};
-</script>
+    <title>Pyndorama :: Editando Aventura</title>
+    <style type="text/css" media="screen">
+    @import "${tg.url('/static/css/editor/item.css')}";
+    </style>
+    <script>
+    window.onload = function () {
+        if (location.href.match(/.*\/adicionar\//))
+        {
+            document.forms[0].elements[1].select();
+        }
+    };
+    </script>
 </head>
 <body>
 <div class="box rounded">
