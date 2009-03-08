@@ -28,64 +28,65 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
 </head>
 
 <body>
-<div class="box rounded">
-    <div><a href="desfazer">Desfazer</a></div>
-    <div py:def="display_thing(container, id)" py:strip="">
-        <?python
-        level = id.count('.')
-        show_add = show_remove_content = level < 5
-        show_remove = level > 0
-        show_add_image = level in (0, 1)
-        ?>
-        <div class="editor-box ${classes[level]} rounded">
-            <div class="editor-menu rounded {top}">
-                <a href="item/${b64encode(id)}">editar</a>
-                <span py:if="show_remove" py:strip=""> |
-                <a href="remover/${b64encode(id)}">remover</a></span>
-                <span py:if="show_add" py:strip=""> |
-                <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
-                <span py:if="show_add_image" py:strip=""> |
-                <a href="#" class="img_upload">adicionar imagem</a></span>
-                <span py:if="show_remove_content" py:strip=""> |
-                <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
-                <form class="form_salvar_imagem"
-                      action="upload_imagem" method="post"
-                      enctype="multipart/form-data"
-                      py:if="show_add_image">
-                    <input type="hidden" id="b64id" name="b64id" value="${b64encode(id)}" />
-                    <input type="file" id="imagem" name="imagem" />
-                    <input type="submit" value="salvar" />
-                </form>
+    <div class="box rounded">
+        <div><a href="desfazer">Desfazer</a></div>
+        <div py:def="display_thing(container, id)" py:strip="">
+            <?python
+            level = id.count('.')
+            show_add = show_remove_content = level < 5
+            show_remove = level > 0
+            show_add_image = level in (0, 1)
+            ?>
+            <div class="editor-box ${classes[level]} rounded">
+                <div class="editor-menu rounded {top}">
+                    <a href="item/${b64encode(id)}">editar</a>
+                    <span py:if="show_remove" py:strip=""> |
+                    <a href="remover/${b64encode(id)}">remover</a></span>
+                    <span py:if="show_add" py:strip=""> |
+                    <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
+                    <span py:if="show_add_image" py:strip=""> |
+                    <a href="#" class="img_upload">adicionar imagem</a></span>
+                    <span py:if="show_remove_content" py:strip=""> |
+                    <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
+                    <form class="form_salvar_imagem"
+                          action="upload_imagem" method="post"
+                          enctype="multipart/form-data"
+                          py:if="show_add_image">
+                        <input type="hidden" id="b64id" name="b64id" value="${b64encode(id)}" />
+                        <input type="file" id="imagem" name="imagem" />
+                        <input type="submit" value="salvar" />
+                    </form>
+                </div>
+                <table>
+                    <tr>
+                        <th>Nome:</th>
+                        <td py:content="container.get('nome')">Sem Nome</td>
+                    </tr>
+                    <tr>
+                        <th>Descri&ccedil;&atilde;o:</th>
+                        <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
+                    </tr>
+                </table>
+                <div py:for="index, item in enumerate(container.get('conteudo', []))"
+                     py:replace="display_thing(item, '%s.%s' % (id, index))" />
             </div>
-            <table>
-                <tr>
-                    <th>Nome:</th>
-                    <td py:content="container.get('nome')">Sem Nome</td>
-                </tr>
-                <tr>
-                    <th>Descri&ccedil;&atilde;o:</th>
-                    <td py:content="container.get('descricao')">Sem Descri&ccedil;&atilde;o</td>
-                </tr>
-            </table>
-            <div py:for="index, item in enumerate(container.get('conteudo', []))"
-                 py:replace="display_thing(item, '%s.%s' % (id, index))" />
         </div>
+        <div py:replace="display_thing(mundo, '0')" />
+        <form action="salvar" method="post">
+            <input type="submit" value="Salvar" />
+        </form>
+        <table id="actionlist">
+            <tr><th colspan="2">Nomes das a&ccedil;&otilde;es:</th></tr>
+            <tr><td>M</td><td>Move para o lugar informado</td></tr>
+            <tr><td>P</td><td>P&otilde;e o objeto no invent&aacute;rio do jogador</td></tr>
+            <tr><td>T</td><td>Retira o objeto do invent&aacute;rio do jogador</td></tr>
+            <tr><td>A</td><td>Ativa o objeto</td></tr>
+            <tr><td>B</td><td>Bloqueia o objeto</td></tr>
+            <tr><td>S</td><td>Testa se o objeto est&aacute; ativo</td></tr>
+            <tr><td>R</td><td>Testa se o objeto est&aacute; bloqueado</td></tr>
+            <tr><td>F</td><td>Finaliza a aventura</td></tr>
+        </table>
     </div>
-    <div py:replace="display_thing(mundo, '0')" />
-    <form action="salvar" method="post">
-        <input type="submit" value="Salvar" />
-    </form>
-    <div>
-        <p>Nomes das a&ccedil;&otilde;es:</p>
-        <p>M - Move para o lugar informado</p>
-        <p>P - P&otilde;e o objeto no invent&aacute;rio do jogador</p>
-        <p>T - Retira o objeto do invent&aacute;rio do jogador</p>
-        <p>A - Ativa o objeto</p>
-        <p>B - Bloqueia o objeto</p>
-        <p>S - Testa se o objeto est&aacute; ativo</p>
-        <p>R - Testa se o objeto est&aacute; bloqueado</p>
-        <p>F - Finaliza a aventura</p>
-    </div>
-</div>
 </body>
+
 </html>

@@ -17,18 +17,18 @@ div.editor-box a, div.editor-box a:link, div.editor-box a:visited {
     color: #000080;
 }
 
-table {
+div.editor-box table {
     width: 100%;
 }
 
-th {
+div.editor-box th {
     text-align: right;
     color: #AAAAAA;
     font-size: smaller;
     width: 7em;
 }
 
-td {
+div.editor-box td {
     padding: 0.2em 0.2em 0.2em 1em;
 }
 
@@ -54,4 +54,14 @@ td {
 
 .alvo_acao {
     background: #ffcccc;
+}
+
+table#actionlist {
+    font-size: smaller;
+    margin: 0 auto;
+}
+
+table#actionlist td {
+    border: 1px dotted #CCCCCC;
+    padding: 0.4em;
 }

@@ -16,22 +16,24 @@
     };
     </script>
 </head>
+
 <body>
-<div class="box rounded">
-    <form action="${action}" method="post">
-        <input type="hidden" name="b64id" value="${b64id}" />
-        <table>
-            <tr>
-                <th>Nome:</th>
-                <td><input type="text" name="nome" value="${item.get('nome')}" /></td>
-            </tr>
-            <tr>
-                <th>Descri&ccedil;&atilde;o:</th>
-                <td><textarea name="descricao" py:content="item.get('descricao')" /></td>
-            </tr>
-        </table>
-        <input type="submit" value="Salvar" />
-    </form>
-</div>
+    <div class="box rounded">
+        <form action="${action}" method="post">
+            <input type="hidden" name="b64id" value="${b64id}" />
+            <table>
+                <tr>
+                    <th>Nome:</th>
+                    <td><input type="text" name="nome" value="${item.get('nome')}" /></td>
+                </tr>
+                <tr>
+                    <th>Descri&ccedil;&atilde;o:</th>
+                    <td><textarea name="descricao" py:content="item.get('descricao')" /></td>
+                </tr>
+            </table>
+            <input type="submit" value="Salvar" />
+        </form>
+    </div>
 </body>
+
 </html>
