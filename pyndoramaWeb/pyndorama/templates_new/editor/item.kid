@@ -5,7 +5,6 @@
 <title>Pyndorama :: Editando Aventura</title>
 <style>
 form {
-    border: 1px dashed #F4F4F4;
     margin: auto;
     padding: 0.2em;
     width: 50%;

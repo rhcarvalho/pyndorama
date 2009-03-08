@@ -135,7 +135,23 @@ class Editor(controllers.Controller):
     @expose()
     def upload_imagem(self, b64id, imagem):
         # http://docs.turbogears.org/1.0/FileUploadTutorial
-        pass
+        filesize, method = 'unknown', 'none'
+        try:
+            import os
+            filesize = os.fstat(imagem.file.fileno())[6]/1024.
+            method = 'os.fstat'
+        except:
+            try:
+                imagem.file.seek(0, 2)
+                filesize = imagem.file.tell()/1024.
+                method = 'file.tell'
+            except:
+                pass
+        flash("'%s' (%.2f kb / %s, %s)" % (imagem.filename,
+                                           filesize,
+                                           method,
+                                           imagem.type))
+        raise redirect('./')
 
     @expose(template="pyndorama.templates.editor")
     def concept(self, *args, **kwargs):
