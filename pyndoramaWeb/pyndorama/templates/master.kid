@@ -26,7 +26,7 @@
     </div>
 <div id="container" class="clearfix">
     <div id="header" class="box rounded">
-    	<img src="${tg.url('/static/images/header.png')}" />
+    	<a href="/"><img src="${tg.url('/static/images/header.png')}" /></a>
     </div>
     <div id="status_block" class="rounded" py:if="value_of('tg_flash', None)" py:content="tg_flash"></div>
     <div id="main_menu" class="box rounded">
