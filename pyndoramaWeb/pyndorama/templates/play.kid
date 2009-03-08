@@ -7,7 +7,7 @@
     <style type="text/css" media="screen">
     @import "${tg.url('/static/css/play.css')}";
     </style>
-    <script type="text/javascript" src="${tg.url('/static/javascript/principal.js')}"></script>
+    <script type="text/javascript" src="${tg.url('/static/javascript/play.js')}"></script>
 </head>
 
 <body>
