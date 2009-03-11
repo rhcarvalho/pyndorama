@@ -86,15 +86,20 @@ def cria_lista_arquivos(path='./pyndorama/static/aventura/'):
     """Lê a pasta aventura e popula uma lista com os arquivos de aventuras e
     seus respectivos nomes. Utiliza a classe ListaDeAventuras para filtrar as
     aventuras que contenham nome"""
-    arquivos = os.listdir(path)
+    
+    arquivos = []
+    for d in os.listdir(path):
+        aventura = os.path.join(path, d, '%s.yaml' % d)
+        if os.path.isfile(aventura):
+            arquivos.append(aventura)
+
     lista = []
     for arquivo in arquivos:
-        if arquivo.endswith('.yaml'):
-            try:
-                arquivo_aberto = open(path + arquivo, 'r')
-            except IOError:
-                continue
-            lista.append(arquivo_aberto)
+        try:
+            arquivo_aberto = open(arquivo, 'r')
+        except IOError:
+            continue
+        lista.append(arquivo_aberto)
     lista_aventuras = ListaDeAventuras()
     return lista_aventuras(lista)
 
