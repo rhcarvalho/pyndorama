@@ -16,6 +16,7 @@ This software is licensed as described in the file LICENSE.txt,
 which you should have received as part of this distribution.
 """
 
+import os
 import sys
 from codecs import open
 
@@ -313,9 +314,13 @@ class Z(Things):
             pass
         return raw_input(query).split(' ')
 
-    def get_image(self, place=None):
+    def get_image(self, place=None, basepath=None):
         if place is None:
-            place = self.current_place
+            place = self.current_place    
+        if basepath is not None:
+            path = os.path.join(basepath, '%s.gif' % place.key)
+            if os.path.isfile(path):
+                return path
         return '/static/aventura/images/' + place.key + '.gif'
 
     def dismiss(self):

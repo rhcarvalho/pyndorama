@@ -2,6 +2,7 @@
 from codecs import open
 from base64 import urlsafe_b64encode as b64encode
 from base64 import urlsafe_b64decode as b64decode
+import os
 import yaml
 from datetime import datetime
 import aventura
@@ -175,15 +176,18 @@ class Root(controllers.RootController):
         else:
             path = adventure
             pyndorama = aventura.Adventure(path).load()
+            pyndorama._path = path
         session['pyndorama'] = pyndorama
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
 
         actions = self.get_actions(pyndorama)
         place = pyndorama
+        
+        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(pyndorama),
+                    image=pyndorama.get_image(basepath=imagepath),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],
@@ -235,9 +239,11 @@ class Root(controllers.RootController):
             action = '/acao'
         else:
             action = '/'
+            
+        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
 
         return dict(text=text,
-                    image=pyndorama.get_image(),
+                    image=pyndorama.get_image(basepath=imagepath),
                     action=action,
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -266,8 +272,10 @@ class Root(controllers.RootController):
                 except KeyError:
                     pass
             raise redirect('/acao')
+            
+        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
 
-        return dict(image=pyndorama.get_image(),
+        return dict(image=pyndorama.get_image(basepath=imagepath),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
