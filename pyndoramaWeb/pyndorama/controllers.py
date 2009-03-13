@@ -51,6 +51,7 @@ class Editor(controllers.Controller):
     def index(self, adventure=None):
         if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
+            session['_path'] = os.path.abspath(adventure)
             # Protege contra aventuras no formato antigo
             if not isinstance(mapping, dict):
                 flash(u"Aventura incompatível com o editor.")
@@ -135,10 +136,10 @@ class Editor(controllers.Controller):
 
     @expose()
     def upload_imagem(self, b64id, imagem):
-        # http://docs.turbogears.org/1.0/FileUploadTutorial
+        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
+        
         filesize, method = 'unknown', 'none'
         try:
-            import os
             filesize = os.fstat(imagem.file.fileno())[6]/1024.
             method = 'os.fstat'
         except:
@@ -148,10 +149,14 @@ class Editor(controllers.Controller):
                 method = 'file.tell'
             except:
                 pass
-        flash("'%s' (%.2f kb / %s, %s)" % (imagem.filename,
-                                           filesize,
-                                           method,
-                                           imagem.type))
+        flash("Imagem salva '%s' (%.2f kb / %s, %s)" % (imagem.filename,
+                                                        filesize,
+                                                        method,
+                                                        imagem.type))
+                                           
+        savedimage = open(os.path.join(images_path, imagem.filename), 'wb')
+        savedimage.write(imagem.file.read())
+        savedimage.close()
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor")
@@ -176,7 +181,7 @@ class Root(controllers.RootController):
         else:
             path = adventure
             pyndorama = aventura.Adventure(path).load()
-            pyndorama._path = path
+            session['_path'] = os.path.abspath(path)
         session['pyndorama'] = pyndorama
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
@@ -184,10 +189,10 @@ class Root(controllers.RootController):
         actions = self.get_actions(pyndorama)
         place = pyndorama
         
-        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
+        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(basepath=imagepath),
+                    image=pyndorama.get_image(basepath=images_path),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],
@@ -240,10 +245,10 @@ class Root(controllers.RootController):
         else:
             action = '/'
             
-        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
+        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
 
         return dict(text=text,
-                    image=pyndorama.get_image(basepath=imagepath),
+                    image=pyndorama.get_image(basepath=images_path),
                     action=action,
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -273,9 +278,9 @@ class Root(controllers.RootController):
                     pass
             raise redirect('/acao')
             
-        imagepath = os.path.join(os.path.dirname(pyndorama._path), 'images')
+        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
 
-        return dict(image=pyndorama.get_image(basepath=imagepath),
+        return dict(image=pyndorama.get_image(basepath=images_path),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),

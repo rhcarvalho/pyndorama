@@ -65,3 +65,8 @@ table#actionlist td {
     border: 1px dotted #CCCCCC;
     padding: 0.4em;
 }
+
+.image_status {
+    color: #800080;
+    font-size: smaller;
+}

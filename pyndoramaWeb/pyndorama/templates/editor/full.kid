@@ -2,6 +2,16 @@
 <?python
 from base64 import urlsafe_b64encode as b64encode
 classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
+
+import os
+from cherrypy import session
+def exists(imagename):
+    path = session.get('_path')
+    if path is not None and imagename is not None:
+        path = os.path.dirname(path)
+        if os.path.isfile(os.path.join(path, 'images', '%s.gif' % imagename)):
+            return '[já possui imagem]'
+    return ''
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
     py:extends="'../master.kid'">
@@ -31,7 +41,8 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
                     <a href="remover/${b64encode(id)}">remover</a></span>
                     <span py:if="show_add" py:strip=""> |
                     <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
-                    <span py:if="show_add_image" py:strip=""> |
+                    <span py:if="show_add_image" py:strip=""> | 
+                    <span class="image_status" py:content="exists(container.get('nome'))">Tem imagem?</span>
                     <a href="#" class="img_upload">adicionar imagem</a></span>
                     <span py:if="show_remove_content" py:strip=""> |
                     <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
