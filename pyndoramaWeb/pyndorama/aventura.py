@@ -314,14 +314,11 @@ class Z(Things):
             pass
         return raw_input(query).split(' ')
 
-    def get_image(self, place=None, basepath=None):
+    def get_image(self, basepath, place=None):
         if place is None:
-            place = self.current_place    
-        if basepath is not None:
-            path = os.path.join(basepath, '%s.gif' % place.key)
-            if os.path.isfile(path):
-                return path[path.index('/static'):]
-        return '/static/aventura/images/' + place.key + '.gif'
+            place = self.current_place
+        path = os.path.join(basepath, '%s.gif' % place.key)
+        return path[path.index('/static'):]
 
     def dismiss(self):
         """finaliza aventura"""

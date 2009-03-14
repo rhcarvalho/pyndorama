@@ -211,7 +211,7 @@ class Root(controllers.RootController):
         images_path = os.path.join(os.path.dirname(session['_path']), 'images')
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(place, basepath=images_path),
+                    image=pyndorama.get_image(basepath=images_path, place=place),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],
