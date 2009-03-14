@@ -152,30 +152,26 @@ class Editor(controllers.Controller):
 
     @expose()
     def upload_imagem(self, b64id, imagem):
-        basedir = os.path.dirname(session['_path'])
-        images_path = os.path.join(basedir, 'images')
-        if os.path.isdir(basedir) and not os.path.isdir(images_path):
-            os.mkdir(images_path)
-        
-        filesize, method = 'unknown', 'none'
-        try:
-            filesize = os.fstat(imagem.file.fileno())[6]/1024.
-            method = 'os.fstat'
-        except:
+        if imagem.type != 'image/gif':
+            flash("Você só pode carregar imagens no formato GIF")
+        else:
+            basedir = os.path.dirname(session['_path'])
+            images_path = os.path.join(basedir, 'images')
+            if os.path.isdir(basedir) and not os.path.isdir(images_path):
+                os.mkdir(images_path)
+            filesize, method = 'unknown', 'none'
             try:
-                imagem.file.seek(0, 2)
-                filesize = imagem.file.tell()/1024.
-                method = 'file.tell'
+                filesize = os.fstat(imagem.file.fileno())[6]/1024.
             except:
-                pass
-        flash("Imagem salva '%s' (%.2f kb / %s, %s)" % (imagem.filename,
-                                                        filesize,
-                                                        method,
-                                                        imagem.type))
-                                           
-        savedimage = open(os.path.join(images_path, imagem.filename), 'wb')
-        savedimage.write(imagem.file.read())
-        savedimage.close()
+                try:
+                    imagem.file.seek(0, 2)
+                    filesize = imagem.file.tell()/1024.
+                except:
+                    pass
+            savedimage = open(os.path.join(images_path, imagem.filename), 'wb')
+            savedimage.write(imagem.file.read())
+            savedimage.close()
+            flash("Imagem salva '%s' (%.2f KB)" % (imagem.filename, filesize))
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor")
