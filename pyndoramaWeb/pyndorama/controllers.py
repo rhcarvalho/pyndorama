@@ -152,7 +152,10 @@ class Editor(controllers.Controller):
 
     @expose()
     def upload_imagem(self, b64id, imagem):
-        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
+        basedir = os.path.dirname(session['_path'])
+        images_path = os.path.join(basedir, 'images')
+        if os.path.isdir(basedir) and not os.path.isdir(images_path):
+            os.mkdir(images_path)
         
         filesize, method = 'unknown', 'none'
         try:
@@ -208,7 +211,7 @@ class Root(controllers.RootController):
         images_path = os.path.join(os.path.dirname(session['_path']), 'images')
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(basepath=images_path),
+                    image=pyndorama.get_image(place, basepath=images_path),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],

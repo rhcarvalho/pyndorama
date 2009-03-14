@@ -320,7 +320,7 @@ class Z(Things):
         if basepath is not None:
             path = os.path.join(basepath, '%s.gif' % place.key)
             if os.path.isfile(path):
-                return path
+                return path[path.index('/static'):]
         return '/static/aventura/images/' + place.key + '.gif'
 
     def dismiss(self):
