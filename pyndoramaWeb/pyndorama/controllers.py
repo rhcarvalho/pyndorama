@@ -3,6 +3,7 @@ from codecs import open
 from base64 import urlsafe_b64encode as b64encode
 from base64 import urlsafe_b64decode as b64decode
 import os
+import shutil
 import yaml
 from datetime import datetime
 import aventura
@@ -51,19 +52,35 @@ class Editor(controllers.Controller):
     def index(self, adventure=None):
         if adventure is not None:
             mapping = aventura.Adventure(adventure).world_mapping
-            session['_path'] = os.path.abspath(adventure)
             # Protege contra aventuras no formato antigo
             if not isinstance(mapping, dict):
                 flash(u"Aventura incompatível com o editor.")
                 raise redirect('/')
             session['pyndo_editor'] = mapping
+            
+            # copia a aventura atual e edita a recem-criada
+            name = datetime.now().strftime("%Y%m%d%H%M%S")
+            
+            old_filename = os.path.abspath(adventure)
+            new_filename = os.path.abspath("pyndorama/static/aventura/%s/%s.yaml" % ((name,)*2))
+            old_basedir, new_basedir = map(os.path.dirname, (old_filename, new_filename))
+            shutil.copytree(old_basedir, new_basedir)
+            os.rename(os.path.join(new_basedir, os.path.basename(old_filename)), new_filename)
+            
+            session['_path'] = new_filename
         mundo = self.get_mundo()
         return dict(mundo=mundo)
 
     @expose()
     def nova(self):
         mapping = {}
+        name = datetime.now().strftime("%Y%m%d%H%M%S")
+        basedir = "pyndorama/static/aventura/%s" % (name,)
+        os.mkdir(basedir)
+        filename = os.path.join(basedir, "%s.yaml" % (name,))
+        
         session['pyndo_editor'] = mapping
+        session['_path'] = os.path.abspath(filename)
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor.item")
@@ -122,8 +139,7 @@ class Editor(controllers.Controller):
     def salvar(self):
         mundo = self.get_mundo()
         aventurayaml = yaml.dump(mundo)
-        filename = "pyndorama/static/aventura/%s.yaml" % \
-                   datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = session['_path']
         aventura.Adventure(content=aventurayaml).save(filename)
         raise redirect('/iniciar', adventure='', aventurayaml=aventurayaml)
 
