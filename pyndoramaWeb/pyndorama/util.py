@@ -1,6 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
-import os, sys, re
+import os, sys
 import yaml
+from turbogears import config
+
+ADVENTURES_HOME = os.path.join(config.get('static_filter.dir', path='/static'), 'aventura')
 
 LATIN1_TO_ASCII = {u'¡': '!', u'¢': ''  , u'£': '' , u'¤': ''  , u'¥': '' , u'¦': '|',
                    u'§': '' , u'¨': ''  , u'©': '' , u'ª': ''  , u'«': '' , u'¬': '-',
@@ -82,47 +85,32 @@ def encode_to_xml_entities(text):
     return text.encode('ascii', 'xmlcharrefreplace')
 
 
-def cria_lista_arquivos(path='./pyndorama/static/aventura/'):
-    """Lê a pasta aventura e popula uma lista com os arquivos de aventuras e
-    seus respectivos nomes. Utiliza a classe ListaDeAventuras para filtrar as
-    aventuras que contenham nome"""
-    
-    arquivos = []
-    for d in os.listdir(path):
-        aventura = os.path.join(path, d, '%s.yaml' % d)
-        if os.path.isfile(aventura):
-            arquivos.append(aventura)
-
-    lista = []
-    for arquivo in arquivos:
-        try:
-            arquivo_aberto = open(arquivo, 'r')
-        except IOError:
-            continue
-        lista.append(arquivo_aberto)
-    lista_aventuras = ListaDeAventuras()
-    return lista_aventuras(lista)
-
-
-class ListaDeAventuras:
-    nome_pattern = re.compile(r"/([^/]+).yaml")
-
-    def _le_nome(self, dic):
-        return dic['nome']
-
-    def __call__(self, arquivos):
-        lista = []
-
-        for a in arquivos:
-            caminho = a.name
+def list_adventures():
+    adventures = []
+    for item in os.listdir(ADVENTURES_HOME):
+        adventure_path = path_to_adventure_yaml(item)
+        if os.path.isfile(adventure_path):
             try:
-                nome = self._le_nome(yaml.load(a.read()))
-            except (TypeError, KeyError):
-                nome = ListaDeAventuras.nome_pattern.search(caminho).group(1)
+                adventure = open(adventure_path, 'r')
+            except IOError:
+                continue
+            else:
+                try:
+                    adventure_name = yaml.load(adventure.read())['nome']
+                except (TypeError, KeyError):
+                    adventure_name = item
             finally:
-                a.close()
-            lista.append((caminho, nome))
-        return lista
+                adventure.close()
+            adventures.append((item, adventure_name)) 
+    return adventures
+
+
+def path_to_adventure(adventure, *path):
+    return os.path.join(ADVENTURES_HOME, adventure, *path)
+
+
+def path_to_adventure_yaml(adventure):
+    return path_to_adventure(adventure, '%s.yaml' % adventure)
 
 
 if __name__ == '__main__':

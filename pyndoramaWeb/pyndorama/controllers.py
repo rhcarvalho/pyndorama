@@ -13,7 +13,7 @@ from turbogears import controllers, expose, flash, redirect
 import logging
 log = logging.getLogger("pyndorama.controllers")
 
-from util import getFullPath, cria_lista_arquivos
+from util import list_adventures, path_to_adventure, path_to_adventure_yaml
 
 
 def keep_backup(func):
@@ -51,7 +51,8 @@ class Editor(controllers.Controller):
     @expose(template="pyndorama.templates.editor.full")
     def index(self, adventure=None):
         if adventure is not None:
-            mapping = aventura.Adventure(adventure).world_mapping
+            path = path_to_adventure_yaml(adventure)
+            mapping = aventura.Adventure(path).world_mapping
             # Protege contra aventuras no formato antigo
             if not isinstance(mapping, dict):
                 flash(u"Aventura incompatível com o editor.")
@@ -59,28 +60,27 @@ class Editor(controllers.Controller):
             session['pyndo_editor'] = mapping
             
             # copia a aventura atual e edita a recem-criada
-            name = datetime.now().strftime("%Y%m%d%H%M%S")
+            new_name = datetime.now().strftime("%Y%m%d%H%M%S")
             
-            old_filename = os.path.abspath(adventure)
-            new_filename = os.path.abspath("pyndorama/static/aventura/%s/%s.yaml" % ((name,)*2))
-            old_basedir, new_basedir = map(os.path.dirname, (old_filename, new_filename))
+            old_filename, new_filename = map(path_to_adventure_yaml, (adventure, new_name))
+            old_basedir, new_basedir = map(path_to_adventure, (adventure, new_name))
             shutil.copytree(old_basedir, new_basedir)
             os.rename(os.path.join(new_basedir, os.path.basename(old_filename)), new_filename)
             
-            session['_path'] = new_filename
+            session['_adventure'] = new_name
         mundo = self.get_mundo()
         return dict(mundo=mundo)
 
     @expose()
     def nova(self):
         mapping = {}
-        name = datetime.now().strftime("%Y%m%d%H%M%S")
-        basedir = "pyndorama/static/aventura/%s" % (name,)
+        new_name = datetime.now().strftime("%Y%m%d%H%M%S")
+        basedir = path_to_adventure(new_name)
         os.mkdir(basedir)
-        filename = os.path.join(basedir, "%s.yaml" % (name,))
+        filename = path_to_adventure_yaml(new_name)
         
         session['pyndo_editor'] = mapping
-        session['_path'] = os.path.abspath(filename)
+        session['_adventure'] = new_name
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor.item")
@@ -139,7 +139,7 @@ class Editor(controllers.Controller):
     def salvar(self):
         mundo = self.get_mundo()
         aventurayaml = yaml.dump(mundo)
-        filename = session['_path']
+        filename = path_to_adventure_yaml(session['_adventure'])
         aventura.Adventure(content=aventurayaml).save(filename)
         raise redirect('/iniciar', adventure='', aventurayaml=aventurayaml)
 
@@ -155,8 +155,8 @@ class Editor(controllers.Controller):
         if imagem.type != 'image/gif':
             flash("Você só pode carregar imagens no formato GIF")
         else:
-            basedir = os.path.dirname(session['_path'])
-            images_path = os.path.join(basedir, 'images')
+            basedir = path_to_adventure(session['_adventure'])
+            images_path = path_to_adventure(session['_adventure'], 'images')
             if os.path.isdir(basedir) and not os.path.isdir(images_path):
                 os.mkdir(images_path)
             filesize, method = 'unknown', 'none'
@@ -184,7 +184,7 @@ class Root(controllers.RootController):
     editor = Editor()
     @expose(template="pyndorama.templates.home")
     def index(self, *args, **kwargs):
-        aventuras = cria_lista_arquivos()
+        aventuras = list_adventures()
         log.debug("Happy TurboGears Controller Responding For Duty")
         return dict(aventuras=aventuras)
 
@@ -194,9 +194,9 @@ class Root(controllers.RootController):
             pyndorama = aventura.Adventure(content=aventurayaml).load()
             flash(u"Você editou a aventura, agora é hora de jogar! ")
         else:
-            path = adventure
+            path = path_to_adventure_yaml(adventure)
             pyndorama = aventura.Adventure(path).load()
-            session['_path'] = os.path.abspath(path)
+            session['_adventure'] = adventure
         session['pyndorama'] = pyndorama
 
         log.info(u"Nova sessão iniciada com a aventura '%s'" % adventure)
@@ -204,7 +204,7 @@ class Root(controllers.RootController):
         actions = self.get_actions(pyndorama)
         place = pyndorama
         
-        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
+        images_path = path_to_adventure(session['_adventure'], 'images')
 
         return dict(text=pyndorama.perform(''),
                     image=pyndorama.get_image(basepath=images_path, place=place),
@@ -260,7 +260,7 @@ class Root(controllers.RootController):
         else:
             action = '/'
             
-        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
+        images_path = path_to_adventure(session['_adventure'], 'images')
 
         return dict(text=text,
                     image=pyndorama.get_image(basepath=images_path),
@@ -293,7 +293,7 @@ class Root(controllers.RootController):
                     pass
             raise redirect('/acao')
             
-        images_path = os.path.join(os.path.dirname(session['_path']), 'images')
+        images_path = path_to_adventure(session['_adventure'], 'images')
 
         return dict(image=pyndorama.get_image(basepath=images_path),
                     action='/acao',
@@ -304,7 +304,7 @@ class Root(controllers.RootController):
 
     @expose(template="pyndorama.templates.edityaml")
     def edityaml(self, adventure):
-        path = adventure
+        path = path_to_adventure_yaml(adventure)
         pyndorama = aventura.Adventure(path).load()
         yamlfile = open(path, 'rb', aventura.ENCODING, 'ignore')
         text = yamlfile.read()
