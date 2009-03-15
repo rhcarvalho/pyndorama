@@ -14,19 +14,19 @@
     <div class="clearfix box rounded">
 		<div class="left_column">
             <p>Bem vindo ao Pyndorama!</p>
-            <p>O Pyndorama é um conjunto de jogos de aventuras textuais... Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Proin sodales. Nunc fermentum. Proin convallis vestibulum dui.
-            Phasellus feugiat fringilla nibh. Nulla volutpat augue accumsan leo. Fusce sem lectus,
-            facilisis et, elementum sit amet, dignissim eu, diam. Vestibulum leo sapien, lobortis vitae,
-            blandit sit amet, elementum pulvinar, erat. Cras pulvinar rutrum erat. Ut at est et orci
-            fringilla tempus.</p>
+            <p>O Pyndorama é um ambiente para a construção de aventuras textuais.
+            Ele foi criado para permitir que qualquer pessoa na Internet possa
+            produzir um jogo.
+            Se você quer produzir uma aventura, basta clicar no botão "Criar nova aventura" ou
+            se quer jogar, selecione uma aventura e jogue!
+            Você também pode usar as aventuras já prontas para criar novos desafios.</p>
         </div>
         <div>
             <form action="${tg.url('/iniciar')}" id="form_adv" method="post">
                 <fieldset>
                 <legend>Aventuras</legend>
                     
-                    <p><a href="/editor/nova" class="rounded {transparent} button">Criar Nova Aventura</a></p>
+                    <p><a href="/editor/nova" class="rounded {transparent} button">Criar nova aventura</a></p>
                     <select id="adventure" name="adventure" class="rounded button">
                         <option py:for="caminho, nome in aventuras" value="${caminho}" py:content="nome">Nome da Aventura</option>
                     </select>
