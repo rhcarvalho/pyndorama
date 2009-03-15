@@ -27,7 +27,7 @@
                 <legend>Aventuras</legend>
                     
                     <p><a href="/editor/nova" class="rounded {transparent} button">Criar nova aventura</a></p>
-                    <select id="adventure" name="adventure" class="rounded button">
+                    <select id="adventure" name="adventure" size="5" class="rounded button">
                         <option py:for="caminho, nome in aventuras" value="${caminho}" py:content="nome">Nome da Aventura</option>
                     </select>
                     <input type="button" id="btn_editar" value="Editar" class="rounded {transparent} button" />
