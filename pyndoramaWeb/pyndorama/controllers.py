@@ -203,11 +203,9 @@ class Root(controllers.RootController):
 
         actions = self.get_actions(pyndorama)
         place = pyndorama
-        
-        images_path = path_to_adventure(session['_adventure'], 'images')
 
         return dict(text=pyndorama.perform(''),
-                    image=pyndorama.get_image(basepath=images_path, place=place),
+                    image=pyndorama.get_image(adventure=session['_adventure'], place=place),
                     action='/acao',
                     global_actions=[],
                     local_actions=[],
@@ -259,11 +257,9 @@ class Root(controllers.RootController):
             action = '/acao'
         else:
             action = '/'
-            
-        images_path = path_to_adventure(session['_adventure'], 'images')
 
         return dict(text=text,
-                    image=pyndorama.get_image(basepath=images_path),
+                    image=pyndorama.get_image(adventure=session['_adventure']),
                     action=action,
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
@@ -292,10 +288,8 @@ class Root(controllers.RootController):
                 except KeyError:
                     pass
             raise redirect('/acao')
-            
-        images_path = path_to_adventure(session['_adventure'], 'images')
 
-        return dict(image=pyndorama.get_image(basepath=images_path),
+        return dict(image=pyndorama.get_image(adventure=session['_adventure']),
                     action='/acao',
                     global_actions=actions.get('global_actions'),
                     local_actions=actions.get('local_actions'),
