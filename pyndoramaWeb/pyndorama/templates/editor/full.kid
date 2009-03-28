@@ -6,11 +6,12 @@ classes = ('mundo', 'local', 'objeto', 'verbo', 'acao', 'alvo_acao')
 import os
 from cherrypy import session
 from pyndorama.util import path_to_adventure
+
 def exists(imagename):
     adventure = session.get('_adventure')
-    if adventure is not None and imagename is not None:
-        path = path_to_adventure(adventure, 'images', '%s.gif' % imagename)
-        if os.path.isfile(path):
+    for ext in 'gif jpg png'.split():
+        filename = '%s.%s' % (imagename, ext)
+        if os.path.isfile(path_to_adventure(adventure, 'images', filename)):
             return '[já possui imagem]'
     return ''
 ?>
