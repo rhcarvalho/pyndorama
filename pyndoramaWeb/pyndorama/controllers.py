@@ -152,8 +152,11 @@ class Editor(controllers.Controller):
 
     @expose()
     def upload_imagem(self, b64id, imagem):
-        if imagem.type != 'image/gif':
-            flash("Você só pode carregar imagens no formato GIF")
+        acceptable_image_types = {'image/gif': 'gif',
+                                  'image/jpeg': 'jpg',
+                                  'image/png': 'png'}
+        if imagem.type not in acceptable_image_types:
+            flash(u"Você só pode carregar imagens no formato GIF, JPEG ou PNG")
         else:
             basedir = path_to_adventure(session['_adventure'])
             images_path = path_to_adventure(session['_adventure'], 'images')
@@ -168,10 +171,16 @@ class Editor(controllers.Controller):
                     filesize = imagem.file.tell()/1024.
                 except:
                     pass
-            savedimage = open(os.path.join(images_path, imagem.filename), 'wb')
-            savedimage.write(imagem.file.read())
-            savedimage.close()
-            flash("Imagem salva '%s' (%.2f KB)" % (imagem.filename, filesize))
+            try:
+                filename = u"%s.%s" % (self.get_element(b64id)['nome'],
+                                       acceptable_image_types[imagem.type])
+            except KeyError:
+                flash(u"Não foi possível salvar a imagem: elemento sem nome")
+            else:
+                savedimage = open(os.path.join(images_path, filename), 'wb')
+                savedimage.write(imagem.file.read())
+                savedimage.close()
+                flash(u"Imagem salva '%s' (%.2f KB)" % (filename, filesize))
         raise redirect('./')
 
     @expose(template="pyndorama.templates.editor")

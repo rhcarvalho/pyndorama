@@ -317,7 +317,11 @@ class Z(Things):
     def get_image(self, adventure, place=None):
         if place is None:
             place = self.current_place
-        return '/static/aventura/%s/images/%s.gif' % (adventure, place.key)
+        for ext in 'gif jpg png'.split():
+            filename = '%s.%s' % (place.key, ext)
+            if os.path.isfile(util.path_to_adventure(adventure, 'images', filename)):
+                return '/static/aventura/%s/images/%s' % (adventure, filename)
+        return '/static/images/info.png'
 
     def dismiss(self):
         """finaliza aventura"""
