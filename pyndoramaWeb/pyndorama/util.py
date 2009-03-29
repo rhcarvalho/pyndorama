@@ -101,8 +101,8 @@ def list_adventures():
                     adventure_name = item
             finally:
                 adventure.close()
-            adventures.append((item, adventure_name)) 
-    return adventures
+            adventures.append((adventure_name, item)) 
+    return sorted(adventures)
 
 
 def path_to_adventure(adventure, *path):
