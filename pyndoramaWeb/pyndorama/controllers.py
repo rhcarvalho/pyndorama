@@ -13,7 +13,8 @@ from turbogears import controllers, expose, flash, redirect
 import logging
 log = logging.getLogger("pyndorama.controllers")
 
-from util import list_adventures, path_to_adventure, path_to_adventure_yaml
+from util import (latin1_to_ascii, list_adventures,
+                  path_to_adventure, path_to_adventure_yaml)
 
 
 def keep_backup(func):
@@ -172,8 +173,9 @@ class Editor(controllers.Controller):
                 except:
                     pass
             try:
-                filename = u"%s.%s" % (self.get_element(b64id)['nome'],
-                                       acceptable_image_types[imagem.type])
+                name = self.get_element(b64id)['nome']
+                filename = "%s.%s" % (latin1_to_ascii(name),
+                                      acceptable_image_types[imagem.type])
             except KeyError:
                 flash(u"Não foi possível salvar a imagem: elemento sem nome")
             else:
