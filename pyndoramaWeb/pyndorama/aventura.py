@@ -327,7 +327,7 @@ class Z(Things):
         """finaliza aventura"""
         global playadventure
         playadventure = False
-        self.response = 'XXX --- ACABOU A SUA AVENTURA !!! --- XXX'
+        self.response = ''
         self.invoke_finalizer_hook_from_outer_application()
         return self.response
 
