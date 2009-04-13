@@ -264,7 +264,7 @@ class Root(controllers.RootController):
         else:
             notice = text[:pos]
 
-        if aventura.playadventure:
+        if pyndorama.playadventure:
             action = '/acao'
         else:
             action = '/'

@@ -270,7 +270,6 @@ class L(Local):
 
 
 inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
-playadventure = True
 
 
 class Z(Things):
@@ -286,11 +285,11 @@ class Z(Things):
                         'INVE': lambda self=self: self.report(),
                         'OLHE': lambda self=self: self.show(),
                         'XYZZ': lambda self=self: self.edit_adventure()}
+        self.playadventure = True
 
     def edit_adventure(self):
         """finaliza aventura"""
-        global playadventure
-        playadventure = False
+        self.playadventure = False
         self.response = 'XXX --- A AVENTURA SERA EDITADA!!! --- XXX'
         self.editor()
         return self.response
@@ -298,7 +297,7 @@ class Z(Things):
     def play(self):
         """Continua a aventura enquanto pode."""
         #print 'Aventura'
-        while playadventure:
+        while self.playadventure:
             self.perform(self.question(self.for_situation()))
         print self.response
 
@@ -325,8 +324,7 @@ class Z(Things):
 
     def dismiss(self):
         """finaliza aventura"""
-        global playadventure
-        playadventure = False
+        self.playadventure = False
         self.response = ''
         self.invoke_finalizer_hook_from_outer_application()
         return self.response
@@ -543,9 +541,8 @@ class Adventure(object):
             raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
-        global FIRST_PLACE, playadventure, inventario
+        global FIRST_PLACE, inventario
         inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
-        playadventure = True
         try:
             FIRST_PLACE = -1
             return self.load_letters_and_lists(self.world_mapping[0])
@@ -593,29 +590,6 @@ class Adventure(object):
         adventure_file = open(filename, 'wb', ENCODING, 'ignore')
         adventure_file.write(yaml.dump(self.world_mapping))
         adventure_file.close()
-
-
-class World(ThingTmp):
-    pass
-
-
-class Place(ThingTmp):
-    pass
-
-
-class Object(ThingTmp):
-    pass
-
-
-class Verb(ThingTmp):
-    def __init__(self, name, description=None, contents=None):
-        super(Verb, self).__init__(name, description, contents)
-
-
-class Action(ThingTmp):
-    def __init__(self, name, description=None, target=None):
-        super(Action, self).__init__(name, description)
-        self.target = target
 
 
 if __name__ == '__main__':
