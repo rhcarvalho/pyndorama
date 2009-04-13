@@ -241,7 +241,7 @@ class Root(controllers.RootController):
         place = pyndorama.current_place
 
         if aventura.YOU_CHECK_YOUR_INVENTORY in text:
-            place = aventura.inventario
+            place = pyndorama.inventario
             inve = True
         else:
             inve = False

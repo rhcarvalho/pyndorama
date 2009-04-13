@@ -248,7 +248,7 @@ class L(Local):
     def perform(self, statement, place):
         question = statement[:]
         try:
-            found = inventario.perform(statement, place)
+            found = self.inventario.perform(statement, place)
             if found:
                 return found
             found = self.parse(statement, place)
@@ -264,12 +264,9 @@ class L(Local):
 
     def find(self, key):
         """procura na colecao"""
-        if inventario.has(key):
-            return inventario.find(key)
+        if self.inventario.has(key):
+            return self.inventario.find(key)
         return self.contents[self.normalize(key)]
-
-
-inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
 
 
 class Z(Things):
@@ -286,6 +283,9 @@ class Z(Things):
                         'OLHE': lambda self=self: self.show(),
                         'XYZZ': lambda self=self: self.edit_adventure()}
         self.playadventure = True
+        self.inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
+        for place in args:
+            place.inventario = self.inventario
 
     def edit_adventure(self):
         """finaliza aventura"""
@@ -330,7 +330,7 @@ class Z(Things):
         return self.response
 
     def report(self):
-        return inventario.show()
+        return self.inventario.show()
 
     def show(self):
         self.response = self.current_place.show()
@@ -357,17 +357,17 @@ class Z(Things):
 
     def pop(self, athing):
         """remove da colecao"""
-        if not inventario.has(athing.key):
+        if not self.inventario.has(athing.key):
             return
         self.current_place.append(athing)
-        inventario.pop(athing)
+        self.inventario.pop(athing)
 
     def push(self, athing):
         """remove da colecao"""
         if not self.current_place.has(athing.key):
             return
         self.current_place.pop(athing)
-        inventario.append(athing)
+        self.inventario.append(athing)
 
     def finish(self):
         """finaliza aventura"""
@@ -381,8 +381,8 @@ class Z(Things):
 
     def find(self, key):
         """procura na colecao"""
-        if inventario.has(key):
-            return inventario.find(key)
+        if self.inventario.has(key):
+            return self.inventario.find(key)
         return self.current_place.find(key)
 
 
@@ -541,8 +541,7 @@ class Adventure(object):
             raise TypeError, '__init__() takes at least 2 arguments (1 given)'
 
     def load(self):
-        global FIRST_PLACE, inventario
-        inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
+        global FIRST_PLACE
         try:
             FIRST_PLACE = -1
             return self.load_letters_and_lists(self.world_mapping[0])
