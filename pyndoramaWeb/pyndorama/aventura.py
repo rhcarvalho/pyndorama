@@ -284,7 +284,7 @@ class Z(Things):
                         'XYZZ': lambda self=self: self.edit_adventure()}
         self.playadventure = True
         self.inventario = Local(['inventario', YOU_CHECK_YOUR_INVENTORY])
-        for place in args:
+        for place in args[0]:
             place.inventario = self.inventario
 
     def edit_adventure(self):
