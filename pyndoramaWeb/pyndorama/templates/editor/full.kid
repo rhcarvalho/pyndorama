@@ -44,7 +44,7 @@ def exists(imagename):
                     <span py:if="show_add" py:strip=""> |
                     <a href="adicionar/${b64encode(id)}">adicionar conte&uacute;do</a></span>
                     <span py:if="show_add_image" py:strip=""> | 
-                    <span class="image_status" py:content="exists(container.get('nome'))">Tem imagem?</span>
+                    <span class="image_status" py:content="exists(container.get('nome', ''))">Tem imagem?</span>
                     <a href="#" class="img_upload">adicionar imagem</a></span>
                     <span py:if="show_remove_content" py:strip=""> |
                     <a href="remover_tudo/${b64encode(id)}">remover conte&uacute;do</a></span>
